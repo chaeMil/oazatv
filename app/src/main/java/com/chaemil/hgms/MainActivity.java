@@ -1,17 +1,13 @@
 package com.chaemil.hgms;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
-import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -20,8 +16,6 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.chaemil.hgms.Adapters.ArchiveDataAdapter;
-import com.chaemil.hgms.Adapters.ArchiveDataRecord;
 import com.chaemil.hgms.Adapters.ArchiveMenuAdapter;
 import com.chaemil.hgms.Adapters.ArchiveMenuRecord;
 import com.chaemil.hgms.Utils.VolleyApplication;

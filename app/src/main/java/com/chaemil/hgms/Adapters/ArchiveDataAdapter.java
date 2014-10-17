@@ -1,7 +1,6 @@
 package com.chaemil.hgms.Adapters;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,11 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
 import com.chaemil.hgms.R;
-import com.chaemil.hgms.Utils.BitmapLruCache;
-import com.chaemil.hgms.Utils.VolleyApplication;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -22,12 +18,12 @@ import java.util.List;
  * Created by chaemil on 17.9.14.
  */
 public class ArchiveDataAdapter extends ArrayAdapter<ArchiveDataRecord> {
-    private ImageLoader mImageLoader;
+    //private ImageLoader mImageLoader;
 
     public ArchiveDataAdapter(Context context) {
         super(context, R.layout.archive_block);
 
-        mImageLoader = new ImageLoader(VolleyApplication.getInstance().getRequestQueue(), new BitmapLruCache());
+        //mImageLoader = new ImageLoader(VolleyApplication.getInstance().getRequestQueue(), new BitmapLruCache());
     }
 
     public void swapImageRecords(List<ArchiveDataRecord> objects) {
@@ -47,7 +43,8 @@ public class ArchiveDataAdapter extends ArrayAdapter<ArchiveDataRecord> {
         }
 
         // NOTE: You would normally use the ViewHolder pattern here
-        NetworkImageView imageView = (NetworkImageView) convertView.findViewById(R.id.thumb);
+        //NetworkImageView imageView = (NetworkImageView) convertView.findViewById(R.id.thumb);
+        ImageView videoThumb = (ImageView) convertView.findViewById(R.id.thumb);
         TextView videoName = (TextView) convertView.findViewById(R.id.videoName);
         TextView videoDate = (TextView) convertView.findViewById(R.id.videoDate);
         TextView videoURL = (TextView) convertView.findViewById(R.id.videoURL);
@@ -57,7 +54,8 @@ public class ArchiveDataAdapter extends ArrayAdapter<ArchiveDataRecord> {
 
         ArchiveDataRecord archiveDataRecord = getItem(position);
 
-        imageView.setImageUrl(archiveDataRecord.getThumb(), mImageLoader);
+        //videoThumb.setImageUrl(archiveDataRecord.getThumb(), mImageLoader);
+        Picasso.with(getContext()).load(archiveDataRecord.getThumb()).into(videoThumb);
         videoName.setText(archiveDataRecord.getTitle());
         videoDate.setText(archiveDataRecord.getVideoDate());
         videoURL.setText(archiveDataRecord.getVideoUrl());
