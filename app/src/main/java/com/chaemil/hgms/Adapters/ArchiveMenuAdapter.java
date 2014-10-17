@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.chaemil.hgms.R;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 /**
@@ -51,5 +53,10 @@ public class ArchiveMenuAdapter extends ArrayAdapter<ArchiveMenuRecord> {
         titleToShow.setText(archiveMenuRecord.getTitleToShow());
 
         return convertView;
+    }
+
+    @Override
+    public int getPosition(ArchiveMenuRecord item) {
+        return super.getPosition(item);
     }
 }
