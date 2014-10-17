@@ -90,12 +90,20 @@ public class ArchiveFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_archive, container, false);
 
+        Bundle bundle = this.getArguments();
+        String link = "";
+        if (bundle != null) {
+            link = bundle.getString("link");
+        }
+
         mArchiveDataAdapter = new ArchiveDataAdapter(getActivity());
 
         archiveGrid = (GridView) rootView.findViewById(R.id.archiveGrid);
 
         archiveGrid.setAdapter(mArchiveDataAdapter);
-        fetchArchiveData(getResources().getString(R.string.mainServerJson)+"?page=archive&lang="+ Utils.lang);
+
+
+        fetchArchiveData(getResources().getString(R.string.mainServerJson)+"?page=archive&lang="+ Utils.lang+link);
 
 
         return rootView;
