@@ -2,6 +2,7 @@ package com.chaemil.hgms.Adapters;
 
 
 import android.content.Context;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +20,11 @@ import java.util.List;
  */
 public class ArchiveDataAdapter extends ArrayAdapter<ArchiveDataRecord> {
     //private ImageLoader mImageLoader;
+    private int layout;
 
-    public ArchiveDataAdapter(Context context) {
-        super(context, R.layout.archive_block);
-
+    public ArchiveDataAdapter(Context context, int layout) {
+        super(context, layout);
+        this.layout = layout;
         //mImageLoader = new ImageLoader(VolleyApplication.getInstance().getRequestQueue(), new BitmapLruCache());
     }
 
@@ -37,9 +39,9 @@ public class ArchiveDataAdapter extends ArrayAdapter<ArchiveDataRecord> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent){
         if(convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.archive_block, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(layout, parent, false);
         }
 
         // NOTE: You would normally use the ViewHolder pattern here

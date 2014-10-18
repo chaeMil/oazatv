@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_width="160dp"
+        android:layout_height="90dp"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/ic_launcher"
+        android:id="@+id/thumb"
+        android:background="#ffe5e5e5" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="4dp">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            tools:text="videoName"
+            android:id="@+id/videoName"
+            android:fontFamily="sans-serif-light"
+            android:textSize="18sp"
+            android:ellipsize="none"
+            android:layout_gravity="left|top"
+            android:textIsSelectable="false" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="neděle 14.září 2014"
+            android:id="@+id/videoDate"
+            android:fontFamily="sans-serif-light"
+            android:textSize="12sp"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="240 zhlédnutí"
+            android:id="@+id/videoViews"
+            android:fontFamily="sans-serif-light"
+            android:textSize="12sp"
+            android:layout_above="@+id/videoDate"
+            android:gravity="right"
+            android:layout_weight="1"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="type"
+            android:visibility="gone"
+            android:id="@+id/type"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="albumId"
+            android:visibility="gone"
+            android:id="@+id/albumId"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="videoURL"
+            android:visibility="gone"
+            android:id="@+id/videoURL"/>
+
+    </LinearLayout>
+
+</LinearLayout>

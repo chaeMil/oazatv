@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/home_firstvideo_frame"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/background"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#ff959595"
+        android:scaleType="centerCrop" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="4.0dip">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@id/thumb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="false"
+                android:layout_centerInParent="true"
+                android:adjustViewBounds="true"
+                android:background="#ffe5e5e5"
+                android:maxWidth="450.0dip"
+                android:minHeight="250.0dip"
+                android:minWidth="150.0dip"
+                android:scaleType="centerCrop" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="10.0dip"
+                android:background="#2e000000"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@id/videoName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="28.0sp"
+                    android:layout_gravity="top|center"
+                    android:layout_marginTop="10.0dip"
+                    android:ellipsize="none"
+                    android:fontFamily="sans-serif-light"
+                    android:gravity="center_horizontal"
+                    android:text="videoName"
+                    android:textSize="20.0sp" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_margin="10.0dip"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@id/videoViews"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_above="@id/videoDate"
+                        android:layout_marginRight="5.0dip"
+                        android:layout_weight="1.0"
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="right"
+                        android:text="240 zhlédnutí"
+                        android:textSize="15.0sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:text="|"
+                        android:textSize="15.0sp" />
+
+                    <TextView
+                        android:id="@id/videoDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5.0dip"
+                        android:layout_weight="1.0"
+                        android:fontFamily="sans-serif-light"
+                        android:text="neděle 14.září 2014"
+                        android:textSize="15.0sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@id/type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="type"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@id/albumId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="albumId"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@id/videoURL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="videoURL"
+            android:visibility="gone" />
+    </LinearLayout>
+</FrameLayout>

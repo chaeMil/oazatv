@@ -7,6 +7,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,6 +42,7 @@ public class MainActivity extends Activity {
     private CharSequence mDrawerTitle;
     private TextView emptyText;
     private ListView menuList;
+    private Fragment fragment;
 
     private List<ArchiveMenuRecord> parseMenu(JSONObject json) throws JSONException {
         ArrayList<ArchiveMenuRecord> records = new ArrayList<ArchiveMenuRecord>();
@@ -95,11 +97,13 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
-                    .add(R.id.content_frame, new ArchiveFragment())
+                    .add(R.id.content_frame, new HomeFragment())
                     .commit();
         }
 
         mTitle = mDrawerTitle = getTitle();
+        getActionBar().setTitle(mDrawerTitle);
+
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         emptyText = (TextView) findViewById(android.R.id.empty);
@@ -186,25 +190,45 @@ public class MainActivity extends Activity {
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView parent, View view, int position, long id) {
+            TextView titleElement = (TextView) view.findViewById(R.id.titleToShow);
+            String title = titleElement.getText().toString();
             TextView typeElement = (TextView) view.findViewById(R.id.type);
             String type = typeElement.getText().toString();
             TextView linkElement = (TextView) view.findViewById(R.id.content);
             String link = linkElement.getText().toString();
-            selectItem(position, type, link);
+            selectItem(position, type, link, title);
         }
     }
 
     /** Swaps fragments in the main content view */
-    private void selectItem(int position, String type, String link) {
+    private void selectItem(int position, String type, String link, String title) {
         // Create a new fragment and specify the planet to show based on position
 
-        Fragment fragment = new ArchiveFragment();
+
         Bundle args = new Bundle();
         args.putString("link", link);
-        fragment.setArguments(args);
+        args.putString("title", title);
+
+        mTitle = title;
 
         // Insert the fragment by replacing any existing fragment
+
+
+        if(type.equals("homeLink")) {
+            fragment = new HomeFragment();
+        }
+        else if (type.equals("archiveLink")) {
+            fragment = new ArchiveFragment();
+
+        }
+        //Toast.makeText(getApplicationContext(),type,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(),getResources().getString(R.string.mainServerJson)+"?page=archive&lang="+ Utils.lang+link,Toast.LENGTH_LONG).show();
+        Log.i("link",getResources().getString(R.string.mainServerJson)+"?page=archive&lang="+ Utils.lang+link);
+
         FragmentManager fragmentManager = getFragmentManager();
+
+        fragment.setArguments(args);
+
         fragmentManager.beginTransaction()
                 .replace(R.id.content_frame, fragment)
                 .addToBackStack(null)
