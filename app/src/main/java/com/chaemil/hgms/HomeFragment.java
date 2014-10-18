@@ -12,7 +12,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.chaemil.hgms.Adapters.ArchiveDataAdapter;
-import com.chaemil.hgms.Adapters.ArchiveDataRecord;
+import com.chaemil.hgms.Adapters.FirstVideoRecord;
+import com.chaemil.hgms.Adapters.NewVideosAdapter;
+import com.chaemil.hgms.Adapters.NewVideosRecord;
+import com.chaemil.hgms.Adapters.PhotoAlbumsAdapter;
+import com.chaemil.hgms.Adapters.PhotoAlbumsRecord;
 import com.chaemil.hgms.Utils.Utils;
 import com.chaemil.hgms.Utils.VolleyApplication;
 import com.chaemil.hgms.View.ExpandableListView;
@@ -32,14 +36,16 @@ public class HomeFragment extends Fragment {
     public HomeFragment() {
     }
 
-    private ArchiveDataAdapter mNewVideosAdapter;
-    private ArchiveDataAdapter mPhotoalbumsAdapter;
+    private NewVideosAdapter mNewVideosAdapter;
+    private PhotoAlbumsAdapter mPhotoalbumsAdapter;
     private ArchiveDataAdapter mFirstVideoDataAdapter;
     private ListView homeFirstVideo;
-    private ListView homePhotoAlbums;
+    private ExpandableListView newVideos;
+    private ExpandableListView photoAlbums;
 
-    private List<ArchiveDataRecord> parseArchive(JSONObject json, String array) throws JSONException {
-        ArrayList<ArchiveDataRecord> records = new ArrayList<ArchiveDataRecord>();
+
+    private List<FirstVideoRecord> parseFirstVideo(JSONObject json, String array) throws JSONException {
+        ArrayList<FirstVideoRecord> records = new ArrayList<FirstVideoRecord>();
 
         JSONArray jsonImages = json.getJSONArray(array);
 
@@ -55,13 +61,13 @@ public class HomeFragment extends Fragment {
             String thumbBlur = jsonImage.getString("thumbBlur");
 
 
-            ArchiveDataRecord record = new ArchiveDataRecord(type, thumb, title, videoDate, videoURL, albumId, videoViews, thumbBlur);
+            FirstVideoRecord record = new FirstVideoRecord(type, thumb, title, videoDate, videoURL, albumId, videoViews, thumbBlur);
             records.add(record);
         }
 
         return records;
     }
-    private void fetchNewVideos(String link) {
+    private void fetchFirstVideoData(String link) {
         JsonObjectRequest request = new JsonObjectRequest(
                 link,
                 null,
@@ -69,9 +75,9 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         try {
-                            List<ArchiveDataRecord> archiveDataRecords = parseArchive(jsonObject,"newVideos");
+                            List<FirstVideoRecord> firstVideoRecords = parseFirstVideo(jsonObject, "mainVideo");
 
-                            mNewVideosAdapter.swapImageRecords(archiveDataRecords);
+                            mFirstVideoDataAdapter.swapImageRecords(firstVideoRecords);
                         }
                         catch(JSONException e) {
                             Toast.makeText(getActivity(), "Unable to parse data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -87,7 +93,31 @@ public class HomeFragment extends Fragment {
 
         VolleyApplication.getInstance().getRequestQueue().add(request);
     }
-    private void fetchFirstVideoData(String link) {
+
+    private List<NewVideosRecord> parseNewVideos(JSONObject json, String array) throws JSONException {
+        ArrayList<NewVideosRecord> records = new ArrayList<NewVideosRecord>();
+
+        JSONArray jsonImages = json.getJSONArray(array);
+
+        for(int i =0; i < jsonImages.length(); i++) {
+            JSONObject jsonImage = jsonImages.getJSONObject(i);
+            String type = jsonImage.getString("type");
+            String title = jsonImage.getString("title");
+            String thumb = jsonImage.getString("thumb");
+            String videoDate = jsonImage.getString("date");
+            String videoURL = jsonImage.getString("videoURL");
+            String videoViews = jsonImage.getString("playCount");
+            String albumId = jsonImage.getString("albumId");
+            String thumbBlur = jsonImage.getString("thumbBlur");
+
+
+            NewVideosRecord record = new NewVideosRecord(type, thumb, title, videoDate, videoURL, albumId, videoViews, thumbBlur);
+            records.add(record);
+        }
+
+        return records;
+    }
+    private void fetchNewVideos(String link) {
         JsonObjectRequest request = new JsonObjectRequest(
                 link,
                 null,
@@ -95,9 +125,60 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         try {
-                            List<ArchiveDataRecord> archiveDataRecords = parseArchive(jsonObject,"mainVideo");
+                            List<NewVideosRecord> newVideosRecords = parseNewVideos(jsonObject, "newVideos");
 
-                            mFirstVideoDataAdapter.swapImageRecords(archiveDataRecords);
+                            mNewVideosAdapter.swapImageRecords(newVideosRecords);
+                        }
+                        catch(JSONException e) {
+                            Toast.makeText(getActivity(), "Unable to parse data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        Toast.makeText(getActivity(), getResources().getString(R.string.connection_problem), Toast.LENGTH_LONG).show();
+                    }
+                });
+
+        VolleyApplication.getInstance().getRequestQueue().add(request);
+    }
+
+
+    private List<PhotoAlbumsRecord> parsePhotoAlbums(JSONObject json, String array) throws JSONException {
+        ArrayList<PhotoAlbumsRecord> records = new ArrayList<PhotoAlbumsRecord>();
+
+        JSONArray jsonImages = json.getJSONArray(array);
+
+        for(int i =0; i < jsonImages.length(); i++) {
+            JSONObject jsonImage = jsonImages.getJSONObject(i);
+            String type = jsonImage.getString("type");
+            String title = jsonImage.getString("title");
+            String thumb = jsonImage.getString("thumb");
+            String videoDate = jsonImage.getString("date");
+            String videoURL = jsonImage.getString("videoURL");
+            String videoViews = jsonImage.getString("playCount");
+            String albumId = jsonImage.getString("albumId");
+            String thumbBlur = jsonImage.getString("thumbBlur");
+
+
+            PhotoAlbumsRecord record = new PhotoAlbumsRecord(type, thumb, title, videoDate, videoURL, albumId, videoViews, thumbBlur);
+            records.add(record);
+        }
+
+        return records;
+    }
+    private void fetchPhotoalbums(String link) {
+        JsonObjectRequest request = new JsonObjectRequest(
+                link,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject jsonObject) {
+                        try {
+                            List<PhotoAlbumsRecord> photoAlbumsRecords = parsePhotoAlbums(jsonObject, "photoAlbums");
+
+                            mPhotoalbumsAdapter.swapImageRecords(photoAlbumsRecords);
                         }
                         catch(JSONException e) {
                             Toast.makeText(getActivity(), "Unable to parse data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -120,31 +201,25 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
-        Bundle bundle = this.getArguments();
-        String link = "";
-        if (bundle != null) {
-            link = bundle.getString("link");
-        }
-
-        mNewVideosAdapter = new ArchiveDataAdapter(getActivity(),R.layout.home_block);
-        mPhotoalbumsAdapter = new ArchiveDataAdapter(getActivity(),R.layout.home_block);
+        mNewVideosAdapter = new NewVideosAdapter(getActivity(),R.layout.home_block);
+        mPhotoalbumsAdapter = new PhotoAlbumsAdapter(getActivity(),R.layout.home_block);
         mFirstVideoDataAdapter = new ArchiveDataAdapter(getActivity(),R.layout.home_first_video);
 
         homeFirstVideo = (ListView) rootView.findViewById(R.id.firstVideo);
         homeFirstVideo.setAdapter(mFirstVideoDataAdapter);
+        fetchFirstVideoData(getResources().getString(R.string.mainServerJson) + "?page=home&lang=" + Utils.lang);
 
-        ExpandableListView newVideos = (ExpandableListView) rootView.findViewById(R.id.newVideos);
+        newVideos = (ExpandableListView) rootView.findViewById(R.id.newVideos);
         newVideos.setExpanded(true);
         newVideos.setAdapter(mNewVideosAdapter);
+        fetchNewVideos(getResources().getString(R.string.mainServerJson)+"?page=home&lang="+ Utils.lang);
 
-        ExpandableListView photoAlbums = (ExpandableListView) rootView.findViewById(R.id.photoAlbums);
+        photoAlbums = (ExpandableListView) rootView.findViewById(R.id.photoAlbums);
         photoAlbums.setExpanded(true);
         photoAlbums.setAdapter(mPhotoalbumsAdapter);
+        fetchPhotoalbums(getResources().getString(R.string.mainServerJson)+"?page=home&lang="+Utils.lang);
 
-        fetchFirstVideoData(getResources().getString(R.string.mainServerJson) + "?page=home&lang=" + Utils.lang + link);
-        fetchNewVideos(getResources().getString(R.string.mainServerJson)+"?page=home&lang="+ Utils.lang+link);
-
-        rootView.invalidate();
+        //rootView.invalidate();
 
         return rootView;
 

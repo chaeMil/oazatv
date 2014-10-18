@@ -8,4 +8,6 @@
     <string name="drawer_close">Close navigation drawer</string>
     <string name="mainPage">Hlavní strana</string>
     <string name="connection_problem">Problém s připojením k internetu nebo na serveru Oáza.tv</string>
+    <string name="newVideos">Nová videa</string>
+    <string name="photoalbums">Fotoalba</string>
 </resources>

@@ -17,20 +17,20 @@ import java.util.List;
 /**
  * Created by chaemil on 17.9.14.
  */
-public class ArchiveDataAdapter extends ArrayAdapter<FirstVideoRecord> {
+public class NewVideosAdapter extends ArrayAdapter<NewVideosRecord> {
     //private ImageLoader mImageLoader;
     private int layout;
 
-    public ArchiveDataAdapter(Context context, int layout) {
+    public NewVideosAdapter(Context context, int layout) {
         super(context, layout);
         this.layout = layout;
         //mImageLoader = new ImageLoader(VolleyApplication.getInstance().getRequestQueue(), new BitmapLruCache());
     }
 
-    public void swapImageRecords(List<FirstVideoRecord> objects) {
+    public void swapImageRecords(List<NewVideosRecord> objects) {
         clear();
 
-        for(FirstVideoRecord object : objects) {
+        for(NewVideosRecord object : objects) {
             add(object);
         }
 
@@ -53,7 +53,7 @@ public class ArchiveDataAdapter extends ArrayAdapter<FirstVideoRecord> {
         TextView albumId = (TextView) convertView.findViewById(R.id.albumId);
         TextView type = (TextView) convertView.findViewById(R.id.type);
 
-        FirstVideoRecord archiveDataRecord = getItem(position);
+        NewVideosRecord archiveDataRecord = getItem(position);
 
         //videoThumb.setImageUrl(archiveDataRecord.getThumb(), mImageLoader);
         Picasso.with(getContext()).load(archiveDataRecord.getThumb()).into(videoThumb);

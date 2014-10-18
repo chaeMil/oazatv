@@ -12,7 +12,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.chaemil.hgms.Adapters.ArchiveDataAdapter;
-import com.chaemil.hgms.Adapters.ArchiveDataRecord;
+import com.chaemil.hgms.Adapters.FirstVideoRecord;
 import com.chaemil.hgms.Utils.Utils;
 import com.chaemil.hgms.Utils.VolleyApplication;
 
@@ -34,8 +34,8 @@ public class ArchiveFragment extends Fragment {
     private ArchiveDataAdapter mArchiveDataAdapter;
     private GridView archiveGrid;
 
-    private List<ArchiveDataRecord> parseArchive(JSONObject json) throws JSONException {
-        ArrayList<ArchiveDataRecord> records = new ArrayList<ArchiveDataRecord>();
+    private List<FirstVideoRecord> parseArchive(JSONObject json) throws JSONException {
+        ArrayList<FirstVideoRecord> records = new ArrayList<FirstVideoRecord>();
 
         JSONArray jsonImages = json.getJSONArray("archive");
 
@@ -51,7 +51,7 @@ public class ArchiveFragment extends Fragment {
             String thumbBlur = jsonImage.getString("thumbBlur");
 
 
-            ArchiveDataRecord record = new ArchiveDataRecord(type, thumb, title, videoDate, videoURL, albumId, videoViews, thumbBlur);
+            FirstVideoRecord record = new FirstVideoRecord(type, thumb, title, videoDate, videoURL, albumId, videoViews, thumbBlur);
             records.add(record);
         }
 
@@ -65,7 +65,7 @@ public class ArchiveFragment extends Fragment {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         try {
-                            List<ArchiveDataRecord> archiveDataRecords = parseArchive(jsonObject);
+                            List<FirstVideoRecord> archiveDataRecords = parseArchive(jsonObject);
 
                             mArchiveDataAdapter.swapImageRecords(archiveDataRecords);
                         }
