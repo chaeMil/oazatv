@@ -14,22 +14,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.chaemil.hgms.Adapters.ArchiveMenuAdapter;
-import com.chaemil.hgms.Adapters.ArchiveMenuRecord;
-import com.chaemil.hgms.Utils.VolleyApplication;
 import com.chaemil.hgms.Utils.Utils;
+import com.chaemil.hgms.Adapters.ArchiveMenuAdapter;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class MainActivity extends Activity {
@@ -44,52 +33,6 @@ public class MainActivity extends Activity {
     private ListView menuList;
     private Fragment fragment;
 
-    private List<ArchiveMenuRecord> parseMenu(JSONObject json) throws JSONException {
-        ArrayList<ArchiveMenuRecord> records = new ArrayList<ArchiveMenuRecord>();
-
-        JSONArray jsonImages = json.getJSONArray("menu");
-
-        for(int i =0; i < jsonImages.length(); i++) {
-            JSONObject jsonImage = jsonImages.getJSONObject(i);
-            String label = jsonImage.getString("label");
-            String type = jsonImage.getString("type");
-            String content = jsonImage.getString("content");
-            String titleToShow = jsonImage.getString("titleToShow");
-
-            ArchiveMenuRecord record = new ArchiveMenuRecord(type, content, label, titleToShow);
-            records.add(record);
-        }
-
-        return records;
-    }
-    private void fetchMenuData() {
-        JsonObjectRequest request = new JsonObjectRequest(
-                getResources().getString(R.string.mainServerJson)+"?page=menu&lang="+Utils.lang,
-                null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject jsonObject) {
-                        try {
-                            List<ArchiveMenuRecord> archiveMenuRecords = parseMenu(jsonObject);
-
-                            mArchiveMenuAdapter.swapImageRecords(archiveMenuRecords);
-
-                        }
-                        catch(JSONException e) {
-                            Toast.makeText(getApplicationContext(), "Unable to parse data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        //Toast.makeText(getApplicationContext(), "Unable to fetch data: " + volleyError.getMessage(), Toast.LENGTH_SHORT).show();
-                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.connection_problem), Toast.LENGTH_LONG).show();
-                    }
-                });
-
-        VolleyApplication.getInstance().getRequestQueue().add(request);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,7 +80,7 @@ public class MainActivity extends Activity {
         menuList.setEmptyView(emptyText);
         menuList.setAdapter(mArchiveMenuAdapter);
 
-        fetchMenuData();
+        com.chaemil.hgms.Utils.Utils.fetchMenuData(getApplicationContext(), mArchiveMenuAdapter);
 
         if (savedInstanceState == null) {
             //selectItem(0);

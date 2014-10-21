@@ -3,7 +3,7 @@ package com.chaemil.hgms.Adapters;
 /**
  * Created by chaemil on 17.9.14.
  */
-public class NewVideosRecord {
+public class ArchiveRecord {
     public String thumb;
     public String title;
     public String videoDate;
@@ -13,7 +13,7 @@ public class NewVideosRecord {
     public String albumId;
     public String thumbBlur;
 
-    public NewVideosRecord(String type, String thumb, String title, String videoDate, String videoURL, String albumId, String videoViews, String thumbBlur) {
+    public ArchiveRecord(String type, String title, String videoDate, String videoViews, String thumb, String thumbBlur, String videoURL, String albumId) {
         this.thumb = thumb;
         this.title = title;
         this.videoDate = videoDate;

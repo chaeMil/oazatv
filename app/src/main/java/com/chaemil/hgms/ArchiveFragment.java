@@ -6,23 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
-import android.widget.Toast;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.chaemil.hgms.Adapters.ArchiveDataAdapter;
-import com.chaemil.hgms.Adapters.FirstVideoRecord;
+import com.chaemil.hgms.Adapters.ArchiveAdapter;
 import com.chaemil.hgms.Utils.Utils;
-import com.chaemil.hgms.Utils.VolleyApplication;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by chaemil on 17.10.14.
  */
@@ -31,58 +17,7 @@ public class ArchiveFragment extends Fragment {
     public ArchiveFragment() {
     }
 
-    private ArchiveDataAdapter mArchiveDataAdapter;
     private GridView archiveGrid;
-
-    private List<FirstVideoRecord> parseArchive(JSONObject json) throws JSONException {
-        ArrayList<FirstVideoRecord> records = new ArrayList<FirstVideoRecord>();
-
-        JSONArray jsonImages = json.getJSONArray("archive");
-
-        for(int i =0; i < jsonImages.length(); i++) {
-            JSONObject jsonImage = jsonImages.getJSONObject(i);
-            String type = jsonImage.getString("type");
-            String title = jsonImage.getString("title");
-            String thumb = jsonImage.getString("thumb");
-            String videoDate = jsonImage.getString("date");
-            String videoURL = jsonImage.getString("videoURL");
-            String videoViews = jsonImage.getString("playCount");
-            String albumId = jsonImage.getString("albumId");
-            String thumbBlur = jsonImage.getString("thumbBlur");
-
-
-            FirstVideoRecord record = new FirstVideoRecord(type, thumb, title, videoDate, videoURL, albumId, videoViews, thumbBlur);
-            records.add(record);
-        }
-
-        return records;
-    }
-    private void fetchArchiveData(String link) {
-        JsonObjectRequest request = new JsonObjectRequest(
-                link,
-                null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject jsonObject) {
-                        try {
-                            List<FirstVideoRecord> archiveDataRecords = parseArchive(jsonObject);
-
-                            mArchiveDataAdapter.swapImageRecords(archiveDataRecords);
-                        }
-                        catch(JSONException e) {
-                            Toast.makeText(getActivity(), "Unable to parse data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        Toast.makeText(getActivity(), getResources().getString(R.string.connection_problem), Toast.LENGTH_LONG).show();
-                    }
-                });
-
-        VolleyApplication.getInstance().getRequestQueue().add(request);
-    }
 
 
     @Override
@@ -96,14 +31,14 @@ public class ArchiveFragment extends Fragment {
             link = bundle.getString("link");
         }
 
-        mArchiveDataAdapter = new ArchiveDataAdapter(getActivity(),R.layout.archive_block);
+        ArchiveAdapter mArchiveAdapter = new ArchiveAdapter(getActivity(),R.layout.archive_block);
 
         archiveGrid = (GridView) rootView.findViewById(R.id.archiveGrid);
 
-        archiveGrid.setAdapter(mArchiveDataAdapter);
+        archiveGrid.setAdapter(mArchiveAdapter);
 
 
-        fetchArchiveData(getResources().getString(R.string.mainServerJson)+"?page=archive&lang="+ Utils.lang+link);
+        com.chaemil.hgms.Utils.Utils.fetchArchive(getActivity().getApplicationContext(),getResources().getString(R.string.mainServerJson)+"?page=archive&lang="+ Utils.lang+link,mArchiveAdapter,"archive");
 
 
         return rootView;
