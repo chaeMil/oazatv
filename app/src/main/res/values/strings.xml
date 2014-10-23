@@ -10,4 +10,5 @@
     <string name="connection_problem">Problém s připojením k internetu nebo na serveru Oáza.tv</string>
     <string name="newVideos">Nová videa</string>
     <string name="photoalbums">Fotoalba</string>
+    <string name="description">null</string>
 </resources>

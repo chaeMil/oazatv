@@ -6,14 +6,14 @@
     android:id="@+id/frags">
     <!-- "Fragment A" -->
     <fragment class="com.chaemil.hgms.VideoViewFragment"
-        android:id="@+id/list_frag"
-        android:layout_weight="0.8"
+        android:id="@+id/videoViewFrag"
+        android:layout_weight="4"
         android:layout_height="match_parent"
-        android:layout_width="wrap_content" />
+        android:layout_width="0dp" />
     <!-- "Fragment B" -->
     <fragment class="com.chaemil.hgms.SimilarVideosFragment"
-        android:id="@+id/details_frag"
-        android:layout_weight="0.2"
-        android:layout_width="wrap_content"
+        android:id="@+id/similarVideosFrag"
+        android:layout_weight="2"
+        android:layout_width="0dp"
         android:layout_height="match_parent" />
 </LinearLayout>
