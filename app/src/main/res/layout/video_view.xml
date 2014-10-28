@@ -44,10 +44,14 @@
 
         </FrameLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="#festus #nsoha #shromazdeni #nedele #praha #cesky #anglicky #meeting #sunday #prague #czech #english ♫O3 Otče náš nebeský ♫O14 Otče, chválím ♫D2 Čím víc Tě hledám ♫V6 Vše, co mohu dát #vule #will #boj #fight #bojiste #battlefield #utrpeni #suffering"/>
+        <GridView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:id="@+id/videoTags"
+            android:numColumns="auto_fit"
+            android:columnWidth="50dp"
+            android:gravity="center"
+            android:stretchMode="columnWidth"/>
 
     </LinearLayout>
 

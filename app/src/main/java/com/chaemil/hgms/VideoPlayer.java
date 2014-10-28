@@ -1,13 +1,20 @@
 package com.chaemil.hgms;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.widget.GridView;
 import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
 
+import com.chaemil.hgms.Adapters.TagsAdapter;
+
 import org.w3c.dom.Text;
+
+import static com.chaemil.hgms.Utils.Utils.fetchTags;
 
 
 /**
@@ -16,6 +23,8 @@ import org.w3c.dom.Text;
 public class VideoPlayer extends FragmentActivity {
 
     private VideoView mVideoView;
+    private TagsAdapter tagsAdapter;
+    private Fragment fragment;
 
     private String getVideoId(Bundle b) {
         String s = b.getString("videoLink");
@@ -47,6 +56,7 @@ public class VideoPlayer extends FragmentActivity {
         //if (!LibsChecker.checkVitamioLibs(this))
         //    return;
 
+
         Bundle extras = getIntent().getExtras();
         String videoID = getVideoId(extras);
         String videoName = getVideoName(extras);
@@ -58,10 +68,32 @@ public class VideoPlayer extends FragmentActivity {
             getActionBar().setTitle(videoName);
         }
 
+        if (findViewById(R.id.rightFrag) != null) {
+            FragmentManager fragmentManager = getFragmentManager();
+
+            fragment = new SimilarVideosFragment();
+
+            Bundle args = new Bundle();
+            args.putString("videoLink", getVideoUrl(extras));
+
+            fragment.setArguments(args);
+
+            fragmentManager.beginTransaction()
+                    .replace(R.id.rightFrag, fragment)
+                    .addToBackStack(null)
+                    .commit();
+        }
+
         TextView videoViewsElement = (TextView) findViewById(R.id.videoViews);
         videoViewsElement.setText(videoViews);
         TextView videoDateElement = (TextView) findViewById(R.id.videoDate);
         videoDateElement.setText(videoDate);
+
+        tagsAdapter = new TagsAdapter(this);
+
+        GridView videoTags = (GridView) findViewById(R.id.videoTags);
+        videoTags.setAdapter(tagsAdapter);
+        fetchTags(getApplicationContext(),tagsAdapter,videoID);
 
         mVideoView = (VideoView) findViewById(R.id.videoView);
         MediaController mediaController = new MediaController(this);

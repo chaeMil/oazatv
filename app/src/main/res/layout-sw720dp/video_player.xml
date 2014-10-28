@@ -11,8 +11,8 @@
         android:layout_height="match_parent"
         android:layout_width="0dp" />
     <!-- "Fragment B" -->
-    <fragment class="com.chaemil.hgms.SimilarVideosFragment"
-        android:id="@+id/similarVideosFrag"
+    <FrameLayout
+        android:id="@+id/rightFrag"
         android:layout_weight="2"
         android:layout_width="0dp"
         android:layout_height="match_parent" />

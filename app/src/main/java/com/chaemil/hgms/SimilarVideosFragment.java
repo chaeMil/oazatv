@@ -1,17 +1,20 @@
 package com.chaemil.hgms;
 
-import android.net.Uri;
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.chaemil.hgms.Adapters.ArchiveAdapter;
 import com.chaemil.hgms.Utils.Utils;
+
+import static com.chaemil.hgms.Utils.Basic.startVideoPlayer;
 
 /**
  * Created by chaemil on 23.10.14.
@@ -23,11 +26,14 @@ public class SimilarVideosFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_similar_videos, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_similar_videos, container, false);
 
-        Bundle extras = getActivity().getIntent().getExtras();
+        Bundle extras = getArguments();
         String videoURL = extras.getString("videoLink");
-        String videoID = videoURL.substring(videoURL.lastIndexOf("/")+1,videoURL.lastIndexOf("."));
+        if (extras != null) {
+            Log.i("videoURLFrag",extras.getString("videoLink"));
+        }
+        String videoID = videoURL.substring(videoURL.lastIndexOf("/") + 1, videoURL.lastIndexOf("."));
 
         similarVideosAdapter = new ArchiveAdapter(getActivity(),R.layout.archive_block);
         ListView similarVideos = (ListView) rootView.findViewById(R.id.similarVideos);
@@ -38,6 +44,20 @@ public class SimilarVideosFragment extends Fragment {
                 similarVideosJSON,
                 similarVideosAdapter,
                 "similarVideos");
+        similarVideos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View v, int i, long l) {
+                TextView videoUrlElement = (TextView) v.findViewById(R.id.videoURL);
+                String videoURL = videoUrlElement.getText().toString();
+                TextView videoNameElement = (TextView) v.findViewById(R.id.videoName);
+                String videoName = videoNameElement.getText().toString();
+                TextView videoDateElement = (TextView) v.findViewById(R.id.videoDate);
+                String videoDate = videoDateElement.getText().toString();
+                TextView videoViewsElement = (TextView) v.findViewById(R.id.videoViews);
+                String videoViews = videoViewsElement.getText().toString();
+                startVideoPlayer(rootView, videoURL, videoName, videoDate, videoViews);
+            }
+        });
 
         Log.i("similarVideos", similarVideosJSON);
 

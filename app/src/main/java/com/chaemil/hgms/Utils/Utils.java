@@ -13,6 +13,8 @@ import com.chaemil.hgms.Adapters.ArchiveMenuRecord;
 import com.chaemil.hgms.Adapters.ArchiveRecord;
 import com.chaemil.hgms.Adapters.PhotoalbumAdapter;
 import com.chaemil.hgms.Adapters.PhotoalbumRecord;
+import com.chaemil.hgms.Adapters.TagsAdapter;
+import com.chaemil.hgms.Adapters.TagsRecord;
 import com.chaemil.hgms.R;
 
 import org.json.JSONArray;
@@ -116,6 +118,35 @@ public class Utils extends Activity {
         VolleyApplication.getInstance().getRequestQueue().add(request);
     }
 
+    public static void fetchTags(final Context c, final TagsAdapter adapter,String videoId) {
+        JsonObjectRequest request = new JsonObjectRequest(
+                c.getResources().getString(R.string.mainServerJson)+"?page=videoTags&video="+videoId+"&lang="+Utils.lang,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject jsonObject) {
+                        try {
+                            List<TagsRecord> tagsRecord = parseTags(jsonObject);
+
+                            adapter.swapImageRecords(tagsRecord);
+
+                        }
+                        catch(JSONException e) {
+                            Toast.makeText(c.getApplicationContext(), "Unable to parse data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        //Toast.makeText(getApplicationContext(), "Unable to fetch data: " + volleyError.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(c.getApplicationContext(), c.getResources().getString(R.string.connection_problem), Toast.LENGTH_LONG).show();
+                    }
+                });
+
+        VolleyApplication.getInstance().getRequestQueue().add(request);
+    }
+
     static private List<ArchiveMenuRecord> parseMenu(JSONObject json) throws JSONException {
         ArrayList<ArchiveMenuRecord> records = new ArrayList<ArchiveMenuRecord>();
 
@@ -169,6 +200,23 @@ public class Utils extends Activity {
             String thumb = jsonImage.getString("thumb");
 
             PhotoalbumRecord record = new PhotoalbumRecord(thumb);
+            records.add(record);
+        }
+
+        return records;
+    }
+
+    static private List<TagsRecord> parseTags(JSONObject json) throws JSONException {
+        ArrayList<TagsRecord> records = new ArrayList<TagsRecord>();
+
+        JSONArray jsonImages = json.getJSONArray("videoTags");
+
+        for(int i =0; i < jsonImages.length(); i++) {
+            JSONObject jsonImage = jsonImages.getJSONObject(i);
+            String tag = jsonImage.getString("tag");
+            String tagText = jsonImage.getString("tagText");
+
+            TagsRecord record = new TagsRecord(tag, tagText);
             records.add(record);
         }
 
