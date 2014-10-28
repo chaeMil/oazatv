@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.chaemil.hgms.Utils.Utils;
 import com.chaemil.hgms.Adapters.ArchiveMenuAdapter;
 
-
+import static com.chaemil.hgms.Utils.Utils.fetchMenuData;
 
 
 public class MainActivity extends Activity {
@@ -45,7 +45,9 @@ public class MainActivity extends Activity {
         }
 
         mTitle = mDrawerTitle = getTitle();
-        getActionBar().setTitle(mDrawerTitle);
+        if (getActionBar() != null) {
+            getActionBar().setTitle(mDrawerTitle);
+        }
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -80,7 +82,7 @@ public class MainActivity extends Activity {
         menuList.setEmptyView(emptyText);
         menuList.setAdapter(mArchiveMenuAdapter);
 
-        com.chaemil.hgms.Utils.Utils.fetchMenuData(getApplicationContext(), mArchiveMenuAdapter);
+        fetchMenuData(getApplicationContext(), mArchiveMenuAdapter);
 
         if (savedInstanceState == null) {
             //selectItem(0);
@@ -186,6 +188,8 @@ public class MainActivity extends Activity {
     @Override
     public void setTitle(CharSequence title) {
         mTitle = title;
-        getActionBar().setTitle(mTitle);
+        if (getActionBar() != null) {
+            getActionBar().setTitle(mTitle);
+        }
     }
 }

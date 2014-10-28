@@ -5,10 +5,18 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import com.chaemil.hgms.Adapters.ArchiveAdapter;
 import com.chaemil.hgms.Utils.Utils;
+
+import org.w3c.dom.Text;
+
+import static com.chaemil.hgms.Utils.Basic.startPhotoalbumViewer;
+import static com.chaemil.hgms.Utils.Basic.startVideoPlayer;
+
 /**
  * Created by chaemil on 17.10.14.
  */
@@ -36,6 +44,29 @@ public class ArchiveFragment extends Fragment {
         archiveGrid = (GridView) rootView.findViewById(R.id.archiveGrid);
 
         archiveGrid.setAdapter(mArchiveAdapter);
+        archiveGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View v, int i, long l) {
+                TextView typeElement = (TextView) v.findViewById(R.id.type);
+                String type = typeElement.getText().toString();
+                if(type.equals("video")) {
+                    TextView videoUrlElement = (TextView) v.findViewById(R.id.videoURL);
+                    String videoURL = videoUrlElement.getText().toString();
+                    TextView videoNameElement = (TextView) v.findViewById(R.id.videoName);
+                    String videoName = videoNameElement.getText().toString();
+                    TextView videoDateElement = (TextView) v.findViewById(R.id.videoDate);
+                    String videoDate = videoDateElement.getText().toString();
+                    TextView videoViewsElement = (TextView) v.findViewById(R.id.videoViews);
+                    String videoViews = videoViewsElement.getText().toString();
+                    startVideoPlayer(getView(), videoURL, videoName, videoDate, videoViews);
+                }
+                else if(type.equals("photoAlbum")) {
+                    TextView albumIdElement = (TextView) v.findViewById(R.id.albumId);
+                    String albumId = albumIdElement.getText().toString();
+                    startPhotoalbumViewer(getView(),albumId);
+                }
+            }
+        });
 
 
         com.chaemil.hgms.Utils.Utils.fetchArchive(getActivity().getApplicationContext(),getResources().getString(R.string.mainServerJson)+"?page=archive&lang="+ Utils.lang+link,mArchiveAdapter,"archive");

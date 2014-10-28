@@ -11,4 +11,6 @@
     <string name="newVideos">Nová videa</string>
     <string name="photoalbums">Fotoalba</string>
     <string name="description">null</string>
+    <string name="title_activity_photoalbum">PhotoalbumActivity</string>
+
 </resources>

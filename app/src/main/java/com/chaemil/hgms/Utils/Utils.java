@@ -11,6 +11,8 @@ import com.chaemil.hgms.Adapters.ArchiveAdapter;
 import com.chaemil.hgms.Adapters.ArchiveMenuAdapter;
 import com.chaemil.hgms.Adapters.ArchiveMenuRecord;
 import com.chaemil.hgms.Adapters.ArchiveRecord;
+import com.chaemil.hgms.Adapters.PhotoalbumAdapter;
+import com.chaemil.hgms.Adapters.PhotoalbumRecord;
 import com.chaemil.hgms.R;
 
 import org.json.JSONArray;
@@ -85,6 +87,35 @@ public class Utils extends Activity {
         VolleyApplication.getInstance().getRequestQueue().add(request);
     }
 
+    public static void fetchPhotoalbum(final Context c, final PhotoalbumAdapter adapter,String albumId) {
+        JsonObjectRequest request = new JsonObjectRequest(
+                c.getResources().getString(R.string.mainServerJson)+"?page=photoalbum&albumId="+albumId+"&lang="+Utils.lang,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject jsonObject) {
+                        try {
+                            List<PhotoalbumRecord> photoalbumRecords = parsePhotoalbum(jsonObject);
+
+                            adapter.swapImageRecords(photoalbumRecords);
+
+                        }
+                        catch(JSONException e) {
+                            Toast.makeText(c.getApplicationContext(), "Unable to parse data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        //Toast.makeText(getApplicationContext(), "Unable to fetch data: " + volleyError.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(c.getApplicationContext(), c.getResources().getString(R.string.connection_problem), Toast.LENGTH_LONG).show();
+                    }
+                });
+
+        VolleyApplication.getInstance().getRequestQueue().add(request);
+    }
+
     static private List<ArchiveMenuRecord> parseMenu(JSONObject json) throws JSONException {
         ArrayList<ArchiveMenuRecord> records = new ArrayList<ArchiveMenuRecord>();
 
@@ -125,6 +156,22 @@ public class Utils extends Activity {
             records.add(record);
 
         }
+        return records;
+    }
+
+    static private List<PhotoalbumRecord> parsePhotoalbum(JSONObject json) throws JSONException {
+        ArrayList<PhotoalbumRecord> records = new ArrayList<PhotoalbumRecord>();
+
+        JSONArray jsonImages = json.getJSONArray("photoalbum");
+
+        for(int i =0; i < jsonImages.length(); i++) {
+            JSONObject jsonImage = jsonImages.getJSONObject(i);
+            String thumb = jsonImage.getString("thumb");
+
+            PhotoalbumRecord record = new PhotoalbumRecord(thumb);
+            records.add(record);
+        }
+
         return records;
     }
 

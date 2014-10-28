@@ -1,7 +1,6 @@
 package com.chaemil.hgms;
 
 import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +14,10 @@ import com.chaemil.hgms.Adapters.HomePageAdapters.NewVideosAdapter;
 import com.chaemil.hgms.Adapters.HomePageAdapters.PhotoalbumsAdapter;
 import com.chaemil.hgms.Utils.Utils;
 import com.chaemil.hgms.View.ExpandableListView;
+
+import static com.chaemil.hgms.Utils.Basic.startPhotoalbumViewer;
+import static com.chaemil.hgms.Utils.Basic.startVideoPlayer;
+import static com.chaemil.hgms.Utils.Utils.fetchArchive;
 
 /**
  * Created by chaemil on 17.10.14.
@@ -42,7 +45,7 @@ public class HomeFragment extends Fragment {
 
         homeFirstVideo = (ListView) rootView.findViewById(R.id.firstVideo);
         homeFirstVideo.setAdapter(mFirstVideoDataAdapter);
-        com.chaemil.hgms.Utils.Utils.fetchArchive(
+        fetchArchive(
                 getActivity().getApplicationContext(),
                 getResources().getString(R.string.mainServerJson) + "?page=home&lang=" + Utils.lang,
                 mFirstVideoDataAdapter,
@@ -52,9 +55,13 @@ public class HomeFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 TextView videoUrlElement = (TextView) v.findViewById(R.id.videoURL);
                 String videoURL = videoUrlElement.getText().toString();
-                Intent a = new Intent(v.getContext(), VideoPlayer.class);
-                a.putExtra("videoLink", videoURL.toString());
-                v.getContext().startActivity(a);
+                TextView videoNameElement = (TextView) v.findViewById(R.id.videoName);
+                String videoName = videoNameElement.getText().toString();
+                TextView videoDateElement = (TextView) v.findViewById(R.id.videoDate);
+                String videoDate = videoDateElement.getText().toString();
+                TextView videoViewsElement = (TextView) v.findViewById(R.id.videoViews);
+                String videoViews = videoViewsElement.getText().toString();
+                startVideoPlayer(getView(), videoURL, videoName, videoDate, videoViews);
             }
         });
 
@@ -62,23 +69,45 @@ public class HomeFragment extends Fragment {
         newVideos.setExpanded(true);
         mNewVideosAdapter = new NewVideosAdapter(getActivity().getApplicationContext(),R.layout.home_block);
         newVideos.setAdapter(mNewVideosAdapter);
-        com.chaemil.hgms.Utils.Utils.fetchArchive(
+        fetchArchive(
                 getActivity(),
                 getResources().getString(R.string.mainServerJson) + "?page=home&lang=" + Utils.lang,
                 mNewVideosAdapter,
                 "newVideos"
         );
+        newVideos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View v, int i, long l) {
+                TextView videoUrlElement = (TextView) v.findViewById(R.id.videoURL);
+                String videoURL = videoUrlElement.getText().toString();
+                TextView videoNameElement = (TextView) v.findViewById(R.id.videoName);
+                String videoName = videoNameElement.getText().toString();
+                TextView videoDateElement = (TextView) v.findViewById(R.id.videoDate);
+                String videoDate = videoDateElement.getText().toString();
+                TextView videoViewsElement = (TextView) v.findViewById(R.id.videoViews);
+                String videoViews = videoViewsElement.getText().toString();
+                startVideoPlayer(getView(), videoURL, videoName, videoDate, videoViews);
+            }
+        });
 
         photoAlbums = (ExpandableListView) rootView.findViewById(R.id.photoAlbums);
         photoAlbums.setExpanded(true);
         mPhotoalbumsAdapter = new PhotoalbumsAdapter(getActivity().getApplicationContext(),R.layout.home_block);
         photoAlbums.setAdapter(mPhotoalbumsAdapter);
-        com.chaemil.hgms.Utils.Utils.fetchArchive(
+        fetchArchive(
                 getActivity().getApplicationContext(),
                 getResources().getString(R.string.mainServerJson) + "?page=home&lang=" + Utils.lang,
                 mPhotoalbumsAdapter,
                 "photoAlbums"
         );
+        photoAlbums.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View v, int i, long l) {
+                TextView albumIdElement = (TextView) v.findViewById(R.id.albumId);
+                String albumId = albumIdElement.getText().toString();
+                startPhotoalbumViewer(getView(),albumId);
+            }
+        });
 
         //rootView.invalidate();
 
