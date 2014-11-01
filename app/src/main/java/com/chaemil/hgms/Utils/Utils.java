@@ -198,8 +198,11 @@ public class Utils extends Activity {
         for(int i =0; i < jsonImages.length(); i++) {
             JSONObject jsonImage = jsonImages.getJSONObject(i);
             String thumb = jsonImage.getString("thumb");
+            String photoLarge = jsonImage.getString("photoLarge");
+            String photoBig = jsonImage.getString("photoBig");
+            String label = jsonImage.getString("label");
 
-            PhotoalbumRecord record = new PhotoalbumRecord(thumb);
+            PhotoalbumRecord record = new PhotoalbumRecord(thumb, photoLarge, photoBig, label);
             records.add(record);
         }
 

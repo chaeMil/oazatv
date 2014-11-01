@@ -5,7 +5,11 @@ import android.app.FragmentManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
+import android.view.View;
 import android.widget.GridView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
@@ -91,9 +95,19 @@ public class VideoPlayer extends FragmentActivity {
 
         tagsAdapter = new TagsAdapter(this);
 
-        GridView videoTags = (GridView) findViewById(R.id.videoTags);
-        videoTags.setAdapter(tagsAdapter);
         fetchTags(getApplicationContext(),tagsAdapter,videoID);
+
+        LinearLayout videoTags = (LinearLayout) findViewById(R.id.videoTags);
+
+        int adapterCount = tagsAdapter.getCount();
+
+        for (int i = 0; i < adapterCount; i++) {
+            Log.d("test","test");
+            View item = tagsAdapter.getView(i, null, null);
+            videoTags.addView(item);
+        }
+
+        //videoTags.setAdapter(tagsAdapter);
 
         mVideoView = (VideoView) findViewById(R.id.videoView);
         MediaController mediaController = new MediaController(this);

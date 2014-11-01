@@ -1,10 +1,13 @@
 package com.chaemil.hgms;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.chaemil.hgms.Adapters.PhotoalbumAdapter;
@@ -31,12 +34,20 @@ public class PhotoalbumActivity extends Activity {
         String albumId = getAlbumId(extras);
 
         GridView photoThumbsGrid = (GridView) findViewById(R.id.photoThumbsGrid);
-        photoalbumAdapter = new PhotoalbumAdapter(this);
+        photoalbumAdapter = new PhotoalbumAdapter(this, R.layout.photo_thumb);
 
         photoThumbsGrid.setAdapter(photoalbumAdapter);
 
         Log.i("photoalbum", getApplicationContext().getResources().getString(R.string.mainServerJson) + "?page=photoalbum&albumId=" + albumId);
         fetchPhotoalbum(getApplicationContext(), photoalbumAdapter, albumId);
+
+        photoThumbsGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(getApplicationContext(),PhotoalbumGallery.class);
+                startActivity(intent);
+            }
+        });
 
     }
 

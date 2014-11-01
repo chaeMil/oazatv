@@ -31,6 +31,10 @@
             android:name="com.chaemil.hgms.PhotoalbumActivity"
             android:label="@string/title_activity_photoalbum" >
         </activity>
+
+        <activity android:name=".PhotoalbumGallery">
+        </activity>
+
     </application>
 
 </manifest>
