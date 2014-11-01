@@ -1,40 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <!--<com.chaemil.hgms.View.FixedAspectLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|center"
+        app:aspectRatio="0.5625">-->
 
-        <com.chaemil.hgms.View.FixedAspectLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|center"
-            app:aspectRatio="0.5625">
-
-            <VideoView
+        <VideoView
             android:id="@+id/videoView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"/>
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentTop="true"
+            android:maxHeight="150dp"/>
 
-        </com.chaemil.hgms.View.FixedAspectLayout>
+    <!--</com.chaemil.hgms.View.FixedAspectLayout>-->
+
+
+    <LinearLayout
+        android:id="@+id/videoInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_below="@+id/videoView"
+        android:orientation="vertical">
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:background="#DDDDDD">
-            
+
             <TextView
                 android:id="@+id/videoDate"
                 android:text="videoDate"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent" />
-            
+
             <TextView
                 android:id="@+id/videoViews"
                 android:text="videoViews"
@@ -44,12 +52,12 @@
 
         </FrameLayout>
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="horizontal"
+        <com.wefika.flowlayout.FlowLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start|top"
             android:id="@+id/videoTags"/>
 
     </LinearLayout>
 
-</FrameLayout>
+</RelativeLayout>

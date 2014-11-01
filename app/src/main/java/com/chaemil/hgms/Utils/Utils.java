@@ -2,6 +2,10 @@ package com.chaemil.hgms.Utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -13,9 +17,8 @@ import com.chaemil.hgms.Adapters.ArchiveMenuRecord;
 import com.chaemil.hgms.Adapters.ArchiveRecord;
 import com.chaemil.hgms.Adapters.PhotoalbumAdapter;
 import com.chaemil.hgms.Adapters.PhotoalbumRecord;
-import com.chaemil.hgms.Adapters.TagsAdapter;
-import com.chaemil.hgms.Adapters.TagsRecord;
 import com.chaemil.hgms.R;
+import com.wefika.flowlayout.FlowLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -118,35 +121,6 @@ public class Utils extends Activity {
         VolleyApplication.getInstance().getRequestQueue().add(request);
     }
 
-    public static void fetchTags(final Context c, final TagsAdapter adapter,String videoId) {
-        JsonObjectRequest request = new JsonObjectRequest(
-                c.getResources().getString(R.string.mainServerJson)+"?page=videoTags&video="+videoId+"&lang="+Utils.lang,
-                null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject jsonObject) {
-                        try {
-                            List<TagsRecord> tagsRecord = parseTags(jsonObject);
-
-                            adapter.swapImageRecords(tagsRecord);
-
-                        }
-                        catch(JSONException e) {
-                            Toast.makeText(c.getApplicationContext(), "Unable to parse data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        //Toast.makeText(getApplicationContext(), "Unable to fetch data: " + volleyError.getMessage(), Toast.LENGTH_SHORT).show();
-                        Toast.makeText(c.getApplicationContext(), c.getResources().getString(R.string.connection_problem), Toast.LENGTH_LONG).show();
-                    }
-                });
-
-        VolleyApplication.getInstance().getRequestQueue().add(request);
-    }
-
     static private List<ArchiveMenuRecord> parseMenu(JSONObject json) throws JSONException {
         ArrayList<ArchiveMenuRecord> records = new ArrayList<ArchiveMenuRecord>();
 
@@ -209,21 +183,46 @@ public class Utils extends Activity {
         return records;
     }
 
-    static private List<TagsRecord> parseTags(JSONObject json) throws JSONException {
-        ArrayList<TagsRecord> records = new ArrayList<TagsRecord>();
+    public static void displayVideoTags(final Context c, String videoId, final FlowLayout layout) {
+        JsonObjectRequest request = new JsonObjectRequest(
+                c.getResources().getString(R.string.mainServerJson)+"?page=videoTags&video="+videoId+"&lang="+ Utils.lang,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject jsonObject) {
+                        try {
+                            JSONArray jsonImages = jsonObject.getJSONArray("videoTags");
 
-        JSONArray jsonImages = json.getJSONArray("videoTags");
+                            for(int i =0; i < jsonImages.length(); i++) {
+                                JSONObject jsonImage = jsonImages.getJSONObject(i);
+                                String tag = jsonImage.getString("tag");
+                                String tagText = jsonImage.getString("tagText");
 
-        for(int i =0; i < jsonImages.length(); i++) {
-            JSONObject jsonImage = jsonImages.getJSONObject(i);
-            String tag = jsonImage.getString("tag");
-            String tagText = jsonImage.getString("tagText");
+                                LayoutInflater inflater = LayoutInflater.from(c);
+                                View view  = inflater.inflate(R.layout.tag, layout, false);
 
-            TagsRecord record = new TagsRecord(tag, tagText);
-            records.add(record);
-        }
+                                TextView tagElement = (TextView) view.findViewById(R.id.tag);
+                                tagElement.setText(tag);
 
-        return records;
+                                TextView tagTextElement = (TextView) view.findViewById(R.id.tagText);
+                                tagTextElement.setText(tagText);
+
+                                layout.addView(view);
+                            }
+                        }
+                        catch(JSONException e) {
+                            Toast.makeText(c.getApplicationContext(), "Unable to parse data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        //Toast.makeText(getApplicationContext(), "Unable to fetch data: " + volleyError.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(c.getApplicationContext(), c.getResources().getString(R.string.connection_problem), Toast.LENGTH_LONG).show();
+                    }
+                });
+
+        VolleyApplication.getInstance().getRequestQueue().add(request);
     }
-
 }

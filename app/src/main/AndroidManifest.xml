@@ -19,22 +19,28 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.chaemil.hgms.VideoPlayer" >
+        <activity
+            android:name="com.chaemil.hgms.VideoPlayer"
+            android:configChanges="orientation|keyboardHidden|screenSize" >
         </activity>
-        <!--<activity
+        <!--
+            <activity
             android:name="io.vov.vitamio.activity.InitActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:launchMode="singleTop"
             android:theme="@android:style/Theme.NoTitleBar"
-            android:windowSoftInputMode="stateAlwaysHidden" />-->
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        -->
         <activity
             android:name="com.chaemil.hgms.PhotoalbumActivity"
             android:label="@string/title_activity_photoalbum" >
         </activity>
-
-        <activity android:name=".PhotoalbumGallery">
+        <activity android:name="com.chaemil.hgms.PhotoalbumGallery" >
         </activity>
-
+        <activity
+            android:name="com.chaemil.hgms.AudioPlayerActivity"
+            android:label="@string/title_activity_audio_player" >
+        </activity>
     </application>
 
 </manifest>

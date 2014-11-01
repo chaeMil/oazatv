@@ -13,5 +13,6 @@
     <string name="description">null</string>
     <string name="title_activity_photoalbum">PhotoalbumActivity</string>
     <string name="action_search">Vyhledávání</string>
+    <string name="title_activity_audio_player">AudioPlayerActivity</string>
 
 </resources>

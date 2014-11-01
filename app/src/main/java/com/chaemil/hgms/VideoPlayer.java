@@ -2,23 +2,19 @@ package com.chaemil.hgms;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
-import android.view.View;
-import android.widget.GridView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
-import com.chaemil.hgms.Adapters.TagsAdapter;
+import com.wefika.flowlayout.FlowLayout;
 
-import org.w3c.dom.Text;
-
-import static com.chaemil.hgms.Utils.Utils.fetchTags;
+import static com.chaemil.hgms.Utils.Utils.displayVideoTags;
 
 
 /**
@@ -27,8 +23,8 @@ import static com.chaemil.hgms.Utils.Utils.fetchTags;
 public class VideoPlayer extends FragmentActivity {
 
     private VideoView mVideoView;
-    private TagsAdapter tagsAdapter;
     private Fragment fragment;
+
 
     private String getVideoId(Bundle b) {
         String s = b.getString("videoLink");
@@ -72,7 +68,11 @@ public class VideoPlayer extends FragmentActivity {
             getActionBar().setTitle(videoName);
         }
 
+
+        //tabletový rozhraní
         if (findViewById(R.id.rightFrag) != null) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
+
             FragmentManager fragmentManager = getFragmentManager();
 
             fragment = new SimilarVideosFragment();
@@ -93,21 +93,9 @@ public class VideoPlayer extends FragmentActivity {
         TextView videoDateElement = (TextView) findViewById(R.id.videoDate);
         videoDateElement.setText(videoDate);
 
-        tagsAdapter = new TagsAdapter(this);
+        FlowLayout videoTags = (FlowLayout) findViewById(R.id.videoTags);
 
-        fetchTags(getApplicationContext(),tagsAdapter,videoID);
-
-        LinearLayout videoTags = (LinearLayout) findViewById(R.id.videoTags);
-
-        int adapterCount = tagsAdapter.getCount();
-
-        for (int i = 0; i < adapterCount; i++) {
-            Log.d("test","test");
-            View item = tagsAdapter.getView(i, null, null);
-            videoTags.addView(item);
-        }
-
-        //videoTags.setAdapter(tagsAdapter);
+        displayVideoTags(getApplicationContext(), videoID, videoTags);
 
         mVideoView = (VideoView) findViewById(R.id.videoView);
         MediaController mediaController = new MediaController(this);

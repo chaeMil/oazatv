@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 /**
  * Created by chaemil on 30.10.14.
  */
-public class PhotoalbumSlider extends Fragment {
+public class PhotoalbumSliderItem extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(

@@ -3,6 +3,7 @@ package com.chaemil.hgms;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -14,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.chaemil.hgms.Utils.Utils;
@@ -159,26 +161,36 @@ public class MainActivity extends Activity {
 
         // Insert the fragment by replacing any existing fragment
 
+        boolean isFragment = false;
 
         if(type.equals("homeLink")) {
             fragment = new HomeFragment();
+            isFragment = true;
         }
         else if (type.equals("archiveLink")) {
             fragment = new ArchiveFragment();
+            isFragment = true;
 
         }
+        else if(type.equals("downloadedAudio")) {
+            Intent i = new Intent(this,AudioPlayerActivity.class);
+            startActivity(i);
+        }
+
         //Toast.makeText(getApplicationContext(),type,Toast.LENGTH_SHORT).show();
         //Toast.makeText(getApplicationContext(),getResources().getString(R.string.mainServerJson)+"?page=archive&lang="+ Utils.lang+link,Toast.LENGTH_LONG).show();
         Log.i("link",getResources().getString(R.string.mainServerJson)+"?page=archive&lang="+ Utils.lang+link);
 
-        FragmentManager fragmentManager = getFragmentManager();
+        if(isFragment) {
+            FragmentManager fragmentManager = getFragmentManager();
 
-        fragment.setArguments(args);
+            fragment.setArguments(args);
 
-        fragmentManager.beginTransaction()
-                .replace(R.id.content_frame, fragment)
-                .addToBackStack(null)
-                .commit();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, fragment)
+                    .addToBackStack(null)
+                    .commit();
+        }
 
         // Highlight the selected item, update the title, and close the drawer
         mDrawerList.setItemChecked(position, true);

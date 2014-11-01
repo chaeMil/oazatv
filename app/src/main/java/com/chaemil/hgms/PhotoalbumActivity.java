@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.chaemil.hgms.Adapters.PhotoalbumAdapter;
+import com.chaemil.hgms.Adapters.PhotoalbumRecord;
 
 import static com.chaemil.hgms.Utils.Utils.fetchPhotoalbum;
 
@@ -35,8 +36,6 @@ public class PhotoalbumActivity extends Activity {
 
         GridView photoThumbsGrid = (GridView) findViewById(R.id.photoThumbsGrid);
         photoalbumAdapter = new PhotoalbumAdapter(this, R.layout.photo_thumb);
-
-        photoThumbsGrid.setAdapter(photoalbumAdapter);
 
         Log.i("photoalbum", getApplicationContext().getResources().getString(R.string.mainServerJson) + "?page=photoalbum&albumId=" + albumId);
         fetchPhotoalbum(getApplicationContext(), photoalbumAdapter, albumId);
