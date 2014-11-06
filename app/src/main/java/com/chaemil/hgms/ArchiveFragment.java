@@ -16,6 +16,7 @@ import org.w3c.dom.Text;
 
 import static com.chaemil.hgms.Utils.Basic.startPhotoalbumViewer;
 import static com.chaemil.hgms.Utils.Basic.startVideoPlayer;
+import static com.chaemil.hgms.Utils.Utils.fetchArchive;
 
 /**
  * Created by chaemil on 17.10.14.
@@ -69,7 +70,7 @@ public class ArchiveFragment extends Fragment {
         });
 
 
-        com.chaemil.hgms.Utils.Utils.fetchArchive(getActivity().getApplicationContext(),getResources().getString(R.string.mainServerJson)+"?page=archive&lang="+ Utils.lang+link,mArchiveAdapter,"archive");
+        fetchArchive(getActivity().getApplicationContext(),getResources().getString(R.string.mainServerJson)+"?page=archive&lang="+ Utils.lang+link,mArchiveAdapter,"archive");
 
 
         return rootView;

@@ -3,6 +3,8 @@ package com.chaemil.hgms;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -114,6 +116,53 @@ public class MainActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_activity_actions, menu);
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+
+        final MenuItem searchMenuItem = menu.findItem(R.id.search);
+        final SearchView searchView = (SearchView) searchMenuItem.getActionView();
+
+        if (null != searchView) {
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+            searchView.setIconifiedByDefault(false);
+        }
+
+        SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+            public boolean onQueryTextChange(String newText) {
+                // this is your adapter that will be filtered
+                return true;
+            }
+
+            public boolean onQueryTextSubmit(String query) {
+
+
+                fragment = new ArchiveFragment();
+
+                Bundle args = new Bundle();
+
+                String link = getResources().getString(R.string.mainServerJson)+"?page=archive&lang="+ Utils.lang+"&nazev="+query;
+
+                args.putString("link", link);
+
+                FragmentManager fragmentManager = getFragmentManager();
+                fragment.setArguments(args);
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, fragment)
+                        .addToBackStack(null)
+                        .commit();
+
+
+
+                searchMenuItem.collapseActionView();
+
+                setTitle(getResources().getString(R.string.action_search)+": "+query);
+
+                return false;
+            }
+
+        };
+        searchView.setOnQueryTextListener(queryTextListener);
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -125,6 +174,7 @@ public class MainActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         // Pass the event to ActionBarDrawerToggle, if it returns
         // true, then it has handled the app icon touch event
         if (mDrawerToggle.onOptionsItemSelected(item)) {
