@@ -13,6 +13,8 @@ import android.widget.GridView;
 import com.chaemil.hgms.Adapters.PhotoalbumAdapter;
 import com.chaemil.hgms.Adapters.PhotoalbumRecord;
 
+import static com.chaemil.hgms.Utils.Utils.getDisplayWidth;
+
 import static com.chaemil.hgms.Utils.Utils.fetchPhotoalbum;
 
 
@@ -30,6 +32,10 @@ public class PhotoalbumActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.photoalbum);
 
+        int columnsNum = getDisplayWidth(getApplicationContext())/90;
+
+        Log.d("columnsNum",Integer.toString(columnsNum));
+
         Bundle extras = getIntent().getExtras();
 
         String albumId = getAlbumId(extras);
@@ -39,6 +45,10 @@ public class PhotoalbumActivity extends Activity {
 
         Log.i("photoalbum", getApplicationContext().getResources().getString(R.string.mainServerJson) + "?page=photoalbum&albumId=" + albumId);
         fetchPhotoalbum(getApplicationContext(), photoalbumAdapter, albumId);
+
+        photoThumbsGrid.setColumnWidth(columnsNum);
+
+        photoThumbsGrid.setAdapter(photoalbumAdapter);
 
         photoThumbsGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

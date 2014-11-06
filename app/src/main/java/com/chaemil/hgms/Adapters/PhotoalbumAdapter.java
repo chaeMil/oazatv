@@ -1,13 +1,17 @@
 package com.chaemil.hgms.Adapters;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.media.Image;
 import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chaemil.hgms.R;
@@ -16,6 +20,8 @@ import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
+import static com.chaemil.hgms.Utils.Utils.getDisplayWidth;
+
 import java.util.List;
 
 /**
@@ -23,6 +29,9 @@ import java.util.List;
  */
 public class PhotoalbumAdapter extends ArrayAdapter<PhotoalbumRecord> {
     private int layout;
+
+    private int thumbWidth = getDisplayWidth(getContext())/3;
+    private int thumbHeight = getDisplayWidth(getContext())/3;
 
     public PhotoalbumAdapter(Context context, int layout) {
         super(context, layout);
@@ -41,11 +50,23 @@ public class PhotoalbumAdapter extends ArrayAdapter<PhotoalbumRecord> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
+        ImageView thumb;
         if(convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(layout, parent, false);
+            thumb = new ImageView(getContext());
+            LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(thumbWidth,thumbHeight);
+            //thumb.setLayoutParams(new ViewGroup.LayoutParams(thumbWidth, thumbHeight));
+            thumb.setLayoutParams(parms);
+            thumb.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            //thumb.setPadding(8, 8, 8, 8);
+        } else {
+            thumb = (ImageView) convertView;
         }
 
-        ImageView thumb = (ImageView) convertView.findViewById(R.id.thumb);
+        Log.d("thumbWidth",Integer.toString(thumbWidth));
+
+
+
 
         ImageView photoLarge = null;
         if(convertView.findViewById(R.id.photoLarge) != null) {

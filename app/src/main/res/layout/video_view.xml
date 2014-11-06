@@ -5,11 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--<com.chaemil.hgms.View.FixedAspectLayout
+    <com.chaemil.hgms.View.FixedAspectLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center|center"
-        app:aspectRatio="0.5625">-->
+        android:id="@+id/videoViewWrapper"
+        app:aspectRatio="0.5625">
 
         <VideoView
             android:id="@+id/videoView"
@@ -21,7 +22,7 @@
             android:layout_alignParentTop="true"
             android:maxHeight="150dp"/>
 
-    <!--</com.chaemil.hgms.View.FixedAspectLayout>-->
+    </com.chaemil.hgms.View.FixedAspectLayout>
 
 
     <LinearLayout
@@ -29,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_below="@+id/videoView"
+        android:layout_below="@+id/videoViewWrapper"
         android:orientation="vertical">
 
         <FrameLayout
