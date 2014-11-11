@@ -157,6 +157,8 @@ public class MainActivity extends Activity {
 
                 setTitle(getResources().getString(R.string.action_search)+": "+query);
 
+                mDrawerLayout.closeDrawers();
+
                 return false;
             }
 
@@ -207,7 +209,7 @@ public class MainActivity extends Activity {
         args.putString("link", link);
         args.putString("title", title);
 
-        mTitle = title;
+
 
         // Insert the fragment by replacing any existing fragment
 
@@ -226,6 +228,14 @@ public class MainActivity extends Activity {
             Intent i = new Intent(this,AudioPlayerActivity.class);
             startActivity(i);
         }
+        else if (type.equals("exitApp")) {
+            finish();
+        }
+
+        if (!type.equals("downloadedAudio")) {
+            mTitle = title;
+        }
+
 
         //Toast.makeText(getApplicationContext(),type,Toast.LENGTH_SHORT).show();
         //Toast.makeText(getApplicationContext(),getResources().getString(R.string.mainServerJson)+"?page=archive&lang="+ Utils.lang+link,Toast.LENGTH_LONG).show();

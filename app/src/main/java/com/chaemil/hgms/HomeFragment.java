@@ -13,7 +13,7 @@ import com.chaemil.hgms.Adapters.ArchiveAdapter;
 import com.chaemil.hgms.Adapters.HomePageAdapters.NewVideosAdapter;
 import com.chaemil.hgms.Adapters.HomePageAdapters.PhotoalbumsAdapter;
 import com.chaemil.hgms.Utils.Utils;
-import com.chaemil.hgms.View.ExpandableListView;
+import com.chaemil.hgms.View.ExpandedListView;
 
 import static com.chaemil.hgms.Utils.Basic.startPhotoalbumViewer;
 import static com.chaemil.hgms.Utils.Basic.startVideoPlayer;
@@ -30,8 +30,8 @@ public class HomeFragment extends Fragment {
 
     private ArchiveAdapter mFirstVideoDataAdapter;
     private ListView homeFirstVideo;
-    private ExpandableListView newVideos;
-    private ExpandableListView photoAlbums;
+    private ExpandedListView newVideos;
+    private ExpandedListView photoAlbums;
     private NewVideosAdapter mNewVideosAdapter;
     private PhotoalbumsAdapter mPhotoalbumsAdapter;
 
@@ -65,7 +65,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        newVideos = (ExpandableListView) rootView.findViewById(R.id.newVideos);
+        newVideos = (ExpandedListView) rootView.findViewById(R.id.newVideos);
         newVideos.setExpanded(true);
         mNewVideosAdapter = new NewVideosAdapter(getActivity().getApplicationContext(),R.layout.home_block);
         newVideos.setAdapter(mNewVideosAdapter);
@@ -90,7 +90,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        photoAlbums = (ExpandableListView) rootView.findViewById(R.id.photoAlbums);
+        photoAlbums = (ExpandedListView) rootView.findViewById(R.id.photoAlbums);
         photoAlbums.setExpanded(true);
         mPhotoalbumsAdapter = new PhotoalbumsAdapter(getActivity().getApplicationContext(),R.layout.home_block);
         photoAlbums.setAdapter(mPhotoalbumsAdapter);

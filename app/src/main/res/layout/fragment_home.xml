@@ -27,28 +27,28 @@
                     android:layout_height="wrap_content"
                     android:text="@string/newVideos"/>
 
-                <com.chaemil.hgms.View.ExpandableListView
+                <com.chaemil.hgms.View.ExpandedListView
                     android:id="@+id/newVideos"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:stretchMode="columnWidth"
                     android:drawSelectorOnTop="true"
                     android:fastScrollAlwaysVisible="false">
-                </com.chaemil.hgms.View.ExpandableListView>
+                </com.chaemil.hgms.View.ExpandedListView>
 
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/photoalbums"/>
 
-                <com.chaemil.hgms.View.ExpandableListView
+                <com.chaemil.hgms.View.ExpandedListView
                     android:id="@+id/photoAlbums"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:stretchMode="columnWidth"
                     android:drawSelectorOnTop="true"
                     android:fastScrollAlwaysVisible="false">
-                </com.chaemil.hgms.View.ExpandableListView>
+                </com.chaemil.hgms.View.ExpandedListView>
             </LinearLayout>
         </LinearLayout>
 

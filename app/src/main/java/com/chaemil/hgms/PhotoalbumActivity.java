@@ -38,7 +38,7 @@ public class PhotoalbumActivity extends Activity {
 
         Bundle extras = getIntent().getExtras();
 
-        String albumId = getAlbumId(extras);
+        final String albumId = getAlbumId(extras);
 
         GridView photoThumbsGrid = (GridView) findViewById(R.id.photoThumbsGrid);
         photoalbumAdapter = new PhotoalbumAdapter(this, R.layout.photo_thumb);
@@ -54,6 +54,7 @@ public class PhotoalbumActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getApplicationContext(),PhotoalbumGallery.class);
+                intent.putExtra("albumId",albumId);
                 startActivity(intent);
             }
         });

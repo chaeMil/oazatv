@@ -8,20 +8,20 @@ import android.widget.ListView;
 /**
  * Created by chaemil on 18.10.14.
  */
-public class ExpandableListView extends ListView {
+public class ExpandedListView extends ListView {
 
     boolean expanded = false;
 
-    public ExpandableListView(Context context) {
+    public ExpandedListView(Context context) {
         super(context);
     }
 
-    public ExpandableListView(Context context, AttributeSet attrs) {
+    public ExpandedListView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public ExpandableListView(Context context, AttributeSet attrs,
-                                    int defStyle) {
+    public ExpandedListView(Context context, AttributeSet attrs,
+                            int defStyle) {
         super(context, attrs, defStyle);
     }
 

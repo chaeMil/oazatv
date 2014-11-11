@@ -8,20 +8,20 @@ import android.widget.GridView;
 /**
  * Created by chaemil on 21.9.14.
  */
-public class ExpandableHeightGridView extends GridView {
+public class ExpandedHeightGridView extends GridView {
 
     boolean expanded = false;
 
-    public ExpandableHeightGridView(Context context) {
+    public ExpandedHeightGridView(Context context) {
         super(context);
     }
 
-    public ExpandableHeightGridView(Context context, AttributeSet attrs) {
+    public ExpandedHeightGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public ExpandableHeightGridView(Context context, AttributeSet attrs,
-                                    int defStyle) {
+    public ExpandedHeightGridView(Context context, AttributeSet attrs,
+                                  int defStyle) {
         super(context, attrs, defStyle);
     }
 
