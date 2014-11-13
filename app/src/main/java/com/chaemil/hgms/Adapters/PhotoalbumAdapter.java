@@ -1,94 +1,91 @@
 package com.chaemil.hgms.Adapters;
 
-import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Context;
-import android.media.Image;
-import android.text.Layout;
-import android.util.Log;
-import android.view.LayoutInflater;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.chaemil.hgms.R;
-import com.chaemil.hgms.Utils.Utils;
+import com.chaemil.hgms.PhotoalbumGallery;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
-import static com.chaemil.hgms.Utils.Utils.getDisplayWidth;
-
-import java.util.List;
+import java.util.ArrayList;
 
 /**
- * Created by chaemil on 27.10.14.
+ * Created by chaemil on 13.11.14.
  */
-public class PhotoalbumAdapter extends ArrayAdapter<PhotoalbumRecord> {
-    private int layout;
+public class PhotoalbumAdapter extends BaseAdapter {
 
-    private int thumbWidth = getDisplayWidth(getContext())/3;
-    private int thumbHeight = getDisplayWidth(getContext())/3;
+    private final Context context;
+    private final int imageWidth;
+    private Activity activity;
+    private ArrayList<PhotoalbumRecord> photos = new ArrayList<PhotoalbumRecord>();
 
-    public PhotoalbumAdapter(Context context, int layout) {
-        super(context, layout);
-        this.layout = layout;
-    }
-
-    public void swapImageRecords(List<PhotoalbumRecord> objects) {
-        clear();
-
-        for(PhotoalbumRecord object : objects) {
-            add(object);
-        }
-
-        notifyDataSetChanged();
+    public PhotoalbumAdapter(Context context, Activity activity, ArrayList<PhotoalbumRecord> photos, int imageWidth) {
+        this.activity = activity;
+        this.photos = photos;
+        this.context = context;
+        this.imageWidth = imageWidth;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent){
-        ImageView thumb;
-        if(convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(layout, parent, false);
-            thumb = new ImageView(getContext());
-            LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(thumbWidth,thumbHeight);
-            //thumb.setLayoutParams(new ViewGroup.LayoutParams(thumbWidth, thumbHeight));
-            thumb.setLayoutParams(parms);
-            thumb.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            //thumb.setPadding(8, 8, 8, 8);
-        } else {
-            thumb = (ImageView) convertView;
+    public int getCount() {
+        return this.photos.size();
+    }
+
+    @Override
+    public Object getItem(int i) {
+        return this.photos.get(i);
+    }
+
+    @Override
+    public long getItemId(int i) {
+        return i;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup viewGroup) {
+        ImageView imageView;
+        if (convertView == null) {
+            imageView = new ImageView(activity);
+        }
+        else {
+            imageView = (ImageView) convertView;
         }
 
-        Log.d("thumbWidth",Integer.toString(thumbWidth));
+        PhotoalbumRecord rec = (PhotoalbumRecord) getItem(position);
 
+        Picasso.with(context).load(rec.getThumb()).into(imageView);
 
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        imageView.setLayoutParams(new GridView.LayoutParams(imageWidth, imageWidth));
 
+        // image view click listener
+        imageView.setOnClickListener(new OnImageClickListener(position));
 
-        ImageView photoLarge = null;
-        if(convertView.findViewById(R.id.photoLarge) != null) {
-            photoLarge = (ImageView) convertView.findViewById(R.id.photoLarge);
+        return imageView;
+    }
+
+    class OnImageClickListener implements View.OnClickListener {
+
+        int _postion;
+
+        // constructor
+        public OnImageClickListener(int position) {
+            this._postion = position;
         }
 
-        TextView label = null;
-        if(convertView.findViewById(R.id.label) != null) {
-            label = (TextView) convertView.findViewById(R.id.label);
+        @Override
+        public void onClick(View v) {
+            // on selecting grid view image
+            // launch full screen activity
+            Intent i = new Intent(activity, PhotoalbumGallery.class);
+            i.putExtra("position", _postion);
+            activity.startActivity(i);
         }
 
-        PhotoalbumRecord rec = getItem(position);
-
-        if(convertView.findViewById(R.id.photoLarge) != null) {
-            Picasso.with(getContext()).load(rec.getPhotoLarge()).into(photoLarge);
-        }
-        if(convertView.findViewById(R.id.label) != null) {
-            label.setText(rec.getLabel());
-        }
-        Picasso.with(getContext()).load(rec.getThumb()).into(thumb);
-
-
-        return convertView;
     }
 }

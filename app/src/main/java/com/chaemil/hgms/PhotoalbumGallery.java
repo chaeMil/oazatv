@@ -23,13 +23,13 @@ public class PhotoalbumGallery extends FragmentActivity {
         setContentView(R.layout.activity_screen_slide);
 
         mPager = (ViewPager) findViewById(R.id.pager);
-        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        //mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
 
 
     }
 
-    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+    /*private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
         public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
         }
@@ -55,5 +55,5 @@ public class PhotoalbumGallery extends FragmentActivity {
 
             return fragment;
         }
-    }
+    }*/
 }

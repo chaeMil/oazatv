@@ -3,6 +3,7 @@ package com.chaemil.hgms;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.GetChars;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,10 +11,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
+//import com.chaemil.hgms.Adapters.PhotoalbumAdapter_;
+
 import com.chaemil.hgms.Adapters.PhotoalbumAdapter;
 import com.chaemil.hgms.Adapters.PhotoalbumRecord;
-
-import static com.chaemil.hgms.Utils.Utils.getDisplayWidth;
 
 import static com.chaemil.hgms.Utils.Utils.fetchPhotoalbum;
 
@@ -32,21 +33,21 @@ public class PhotoalbumActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.photoalbum);
 
-        int columnsNum = getDisplayWidth(getApplicationContext())/90;
+        //int columnsNum = getDisplayWidth(getApplicationContext())/90;
 
-        Log.d("columnsNum",Integer.toString(columnsNum));
+        //Log.d("columnsNum",Integer.toString(columnsNum));
 
-        Bundle extras = getIntent().getExtras();
+        /*Bundle extras = getIntent().getExtras();
 
         final String albumId = getAlbumId(extras);
 
         GridView photoThumbsGrid = (GridView) findViewById(R.id.photoThumbsGrid);
-        photoalbumAdapter = new PhotoalbumAdapter(this, R.layout.photo_thumb);
+        photoalbumAdapter = new PhotoalbumAdapter(getApplicationContext(),this,PhotoalbumRecord,)
 
         Log.i("photoalbum", getApplicationContext().getResources().getString(R.string.mainServerJson) + "?page=photoalbum&albumId=" + albumId);
         fetchPhotoalbum(getApplicationContext(), photoalbumAdapter, albumId);
 
-        photoThumbsGrid.setColumnWidth(columnsNum);
+        //photoThumbsGrid.setColumnWidth(columnsNum);
 
         photoThumbsGrid.setAdapter(photoalbumAdapter);
 
@@ -57,7 +58,9 @@ public class PhotoalbumActivity extends Activity {
                 intent.putExtra("albumId",albumId);
                 startActivity(intent);
             }
-        });
+        });*/
+
+
 
     }
 

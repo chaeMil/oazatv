@@ -7,7 +7,6 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +17,7 @@ import com.chaemil.hgms.Adapters.ArchiveAdapter;
 import com.chaemil.hgms.Adapters.ArchiveMenuAdapter;
 import com.chaemil.hgms.Adapters.ArchiveMenuRecord;
 import com.chaemil.hgms.Adapters.ArchiveRecord;
+//import com.chaemil.hgms.Adapters.PhotoalbumAdapter_;
 import com.chaemil.hgms.Adapters.PhotoalbumAdapter;
 import com.chaemil.hgms.Adapters.PhotoalbumRecord;
 import com.chaemil.hgms.R;
@@ -105,7 +105,7 @@ public class Utils extends Activity {
                         try {
                             List<PhotoalbumRecord> photoalbumRecords = parsePhotoalbum(jsonObject);
 
-                            adapter.swapImageRecords(photoalbumRecords);
+                            //adapter.swapImageRecords(photoalbumRecords);
 
                         }
                         catch(JSONException e) {
@@ -229,12 +229,20 @@ public class Utils extends Activity {
         VolleyApplication.getInstance().getRequestQueue().add(request);
     }
 
-    public static int getDisplayWidth(Context context) {
-        int scale = (int) context.getResources().getDisplayMetrics().density;
-        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+    public int getScreenWidth(Context c) {
+        int columnWidth;
+        WindowManager wm = (WindowManager) c
+                .getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        return size.x  * (scale / 160);
+
+        final Point point = new Point();
+        try {
+            display.getSize(point);
+        } catch (java.lang.NoSuchMethodError ignore) { // Older device
+            point.x = display.getWidth();
+            point.y = display.getHeight();
+        }
+        columnWidth = point.x;
+        return columnWidth;
     }
 }
