@@ -1,91 +1,63 @@
 package com.chaemil.hgms.Adapters;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.GridView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
-import com.chaemil.hgms.PhotoalbumGallery;
+import com.chaemil.hgms.R;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
+import java.util.List;
+
+import static com.chaemil.hgms.Utils.Utils.getScreenWidth;
 
 /**
  * Created by chaemil on 13.11.14.
  */
-public class PhotoalbumAdapter extends BaseAdapter {
+public class PhotoalbumAdapter extends ArrayAdapter<PhotoalbumRecord> {
 
-    private final Context context;
-    private final int imageWidth;
-    private Activity activity;
-    private ArrayList<PhotoalbumRecord> photos = new ArrayList<PhotoalbumRecord>();
+    private int layout;
 
-    public PhotoalbumAdapter(Context context, Activity activity, ArrayList<PhotoalbumRecord> photos, int imageWidth) {
-        this.activity = activity;
-        this.photos = photos;
-        this.context = context;
-        this.imageWidth = imageWidth;
+    public PhotoalbumAdapter(Context context, int layout) {
+        super(context, layout);
+        this.layout = layout;
+    }
+
+    public void swapImageRecords(List<PhotoalbumRecord> objects) {
+        clear();
+
+        for(PhotoalbumRecord object : objects) {
+            add(object);
+        }
+
+        notifyDataSetChanged();
     }
 
     @Override
-    public int getCount() {
-        return this.photos.size();
-    }
-
-    @Override
-    public Object getItem(int i) {
-        return this.photos.get(i);
-    }
-
-    @Override
-    public long getItemId(int i) {
-        return i;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup viewGroup) {
-        ImageView imageView;
-        if (convertView == null) {
-            imageView = new ImageView(activity);
-        }
-        else {
-            imageView = (ImageView) convertView;
+    public View getView(int position, View convertView, ViewGroup parent) {
+        if(convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(layout, parent, false);
         }
 
-        PhotoalbumRecord rec = (PhotoalbumRecord) getItem(position);
-
-        Picasso.with(context).load(rec.getThumb()).into(imageView);
-
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        imageView.setLayoutParams(new GridView.LayoutParams(imageWidth, imageWidth));
-
-        // image view click listener
-        imageView.setOnClickListener(new OnImageClickListener(position));
-
-        return imageView;
-    }
-
-    class OnImageClickListener implements View.OnClickListener {
-
-        int _postion;
-
-        // constructor
-        public OnImageClickListener(int position) {
-            this._postion = position;
+        ImageView thumb = null;
+        if(convertView.findViewById(R.id.thumb) != null) {
+             thumb = (ImageView) convertView.findViewById(R.id.thumb);
         }
 
-        @Override
-        public void onClick(View v) {
-            // on selecting grid view image
-            // launch full screen activity
-            Intent i = new Intent(activity, PhotoalbumGallery.class);
-            i.putExtra("position", _postion);
-            activity.startActivity(i);
+        PhotoalbumRecord rec = getItem(position);
+
+        if(convertView.findViewById(R.id.thumb) != null) {
+            Picasso.with(getContext()).load(rec.getThumb()).into(thumb);
+            thumb.getLayoutParams().width = getScreenWidth(getContext())/3;
+            thumb.getLayoutParams().height = getScreenWidth(getContext())/3;
         }
 
+        Picasso.with(getContext()).load(rec.getThumb()).into(thumb);
+
+
+        return convertView;
     }
 }

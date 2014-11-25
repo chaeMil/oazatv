@@ -35,8 +35,6 @@
             android:name="com.chaemil.hgms.PhotoalbumActivity"
             android:label="@string/title_activity_photoalbum" >
         </activity>
-        <activity android:name="com.chaemil.hgms.PhotoalbumGallery" >
-        </activity>
         <activity
             android:name="com.chaemil.hgms.AudioPlayerActivity"
             android:label="@string/title_activity_audio_player" >

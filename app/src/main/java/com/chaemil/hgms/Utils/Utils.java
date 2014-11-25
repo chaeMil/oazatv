@@ -105,7 +105,7 @@ public class Utils extends Activity {
                         try {
                             List<PhotoalbumRecord> photoalbumRecords = parsePhotoalbum(jsonObject);
 
-                            //adapter.swapImageRecords(photoalbumRecords);
+                            adapter.swapImageRecords(photoalbumRecords);
 
                         }
                         catch(JSONException e) {
@@ -229,7 +229,7 @@ public class Utils extends Activity {
         VolleyApplication.getInstance().getRequestQueue().add(request);
     }
 
-    public int getScreenWidth(Context c) {
+    public static int getScreenWidth(Context c) {
         int columnWidth;
         WindowManager wm = (WindowManager) c
                 .getSystemService(Context.WINDOW_SERVICE);
