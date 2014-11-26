@@ -1,16 +1,25 @@
 package com.chaemil.hgms;
 
+import android.app.DownloadManager;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Display;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -66,7 +75,6 @@ public class VideoPlayer extends FragmentActivity {
         //if (!LibsChecker.checkVitamioLibs(this))
         //    return;
 
-
         Bundle extras = getIntent().getExtras();
         String videoID = getVideoId(extras);
         String videoName = getVideoName(extras);
@@ -76,6 +84,7 @@ public class VideoPlayer extends FragmentActivity {
 
         if(getActionBar() != null) {
             getActionBar().setTitle(videoName);
+            getActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
 
@@ -223,5 +232,51 @@ public class VideoPlayer extends FragmentActivity {
     protected void onPause() {
         super.onPause();
         mVideoView.pause();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu_video_player, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_download_audio) {
+
+            Bundle extras = getIntent().getExtras();
+            String url = getVideoUrl(extras).replace("mp4","mp3").replace("webm","mp3");
+            String filename = url.substring(url.lastIndexOf("/"),url.length());
+
+            String downloadComplete = getResources().getString(R.string.download_complete);
+            String title = getVideoName(extras);
+            String downloadingAudio = getResources().getString(R.string.downloading_audio);
+
+            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+            request.setDescription(downloadingAudio);
+            request.setTitle(title);
+            // in order for this if to run, you must use the android 3.2 to compile your app
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+            }
+            request.setDestinationInExternalFilesDir(getApplicationContext(),Environment.DIRECTORY_DOWNLOADS, filename.replace(".mp3",".oazaAudio"));
+            request.setVisibleInDownloadsUi(false);
+
+            // get download service and enqueue file
+            DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+            manager.enqueue(request);
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

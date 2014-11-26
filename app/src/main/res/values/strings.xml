@@ -15,7 +15,8 @@
     <string name="action_search">Vyhledávání</string>
     <string name="title_activity_audio_player">AudioPlayerActivity</string>
     <string name="title_activity_photoalbum_slideshow">PhotoalbumSlideshow</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="download_audio">Stáhnout audio</string>
+    <string name="downloading_audio">Stahuji audio...</string>
+    <string name="download_complete">Stahování dokončeno</string>
 
 </resources>
