@@ -8,12 +8,14 @@ public class PhotoalbumRecord {
     public String photoLarge;
     public String photoBig;
     public String label;
+    public String photoId;
 
-    public PhotoalbumRecord(String thumb, String photoLarge, String photoBig, String label) {
+    public PhotoalbumRecord(String thumb, String photoLarge, String photoBig, String label, String photoId) {
         this.thumb = thumb;
         this.photoLarge = photoLarge;
         this.photoBig = photoBig;
         this.label = label;
+        this.photoId = photoId;
     }
 
     public String getThumb() {
@@ -30,6 +32,10 @@ public class PhotoalbumRecord {
 
     public String getLabel() {
         return label;
+    }
+
+    public String getPhotoId() {
+        return photoId;
     }
 
 }

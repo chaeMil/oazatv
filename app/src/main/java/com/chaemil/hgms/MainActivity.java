@@ -7,15 +7,21 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -24,6 +30,7 @@ import com.chaemil.hgms.Utils.Utils;
 import com.chaemil.hgms.Adapters.ArchiveMenuAdapter;
 
 import static com.chaemil.hgms.Utils.Utils.fetchMenuData;
+import static com.chaemil.hgms.Utils.Utils.setStatusBarColor;
 
 
 public class MainActivity extends Activity {
@@ -37,6 +44,7 @@ public class MainActivity extends Activity {
     private TextView emptyText;
     private ListView menuList;
     private Fragment fragment;
+    private int actionBarHeight;
 
 
     @Override
@@ -48,6 +56,16 @@ public class MainActivity extends Activity {
                     .add(R.id.content_frame, new HomeFragment())
                     .commit();
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window w = getWindow(); // in Activity's onCreate() for instance
+
+            setStatusBarColor(this, findViewById(R.id.statusBarBackground),getResources().getColor(android.R.color.white));
+
+            w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+
 
         mTitle = mDrawerTitle = getTitle();
         if (getActionBar() != null) {

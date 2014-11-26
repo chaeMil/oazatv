@@ -3,6 +3,10 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <View
+        android:id="@+id/statusBarBackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
     <!-- The main content view -->
     <FrameLayout
         android:tag="fragmentTag"

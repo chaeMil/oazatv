@@ -30,10 +30,10 @@ public class VideoViewFragment extends Fragment {
         super.onConfigurationChanged(newConfig);
 
         // Checks the orientation of the screen
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        /*if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             Toast.makeText(getActivity(), "landscape", Toast.LENGTH_SHORT).show();
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
             Toast.makeText(getActivity(), "portrait", Toast.LENGTH_SHORT).show();
-        }
+        }*/
     }
 }

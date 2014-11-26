@@ -1,11 +1,16 @@
 package com.chaemil.hgms;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.chaemil.hgms.Adapters.PhotoalbumAdapter;
 
@@ -37,10 +42,21 @@ public class PhotoalbumActivity extends Activity {
         Log.i("count", String.valueOf(mPhotoalbumAdapter.getCount()));
 
         photoThumbsGrid.setAdapter(mPhotoalbumAdapter);
+        photoThumbsGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View v, int i, long l) {
+                TextView photoIdElement =  (TextView) v.findViewById(R.id.photoId);
+                CharSequence photoId = photoIdElement.getText();
+                Intent intent = new Intent(getApplicationContext(), PhotoalbumSlideshow.class);
+                intent.putExtra("photoId",photoId);
+                intent.putExtra("albumId",albumId);
+                startActivity(intent);
+            }
+        });
 
 
         Log.i("screenWidth", String.valueOf(getScreenWidth(getApplicationContext())));
-        Log.i("screenWidth / 3", String.valueOf(getScreenWidth(getApplicationContext())/3));
+        Log.i("screenWidth / "+String.valueOf(R.integer.gallery_columns), String.valueOf(getScreenWidth(getApplicationContext())/R.integer.gallery_columns));
     }
 
 

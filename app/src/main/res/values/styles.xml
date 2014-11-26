@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <!-- Base application theme. -->
@@ -5,6 +6,6 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="leftMenuButton"></style>
+    <style name="leftMenuButton" />
 
 </resources>

@@ -23,21 +23,29 @@
             android:name="com.chaemil.hgms.VideoPlayer"
             android:configChanges="orientation|keyboardHidden|screenSize" >
         </activity>
-        <!--
-            <activity
+
+            <!--<activity
             android:name="io.vov.vitamio.activity.InitActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:launchMode="singleTop"
             android:theme="@android:style/Theme.NoTitleBar"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        -->
+            android:windowSoftInputMode="stateAlwaysHidden" />-->
+
         <activity
             android:name="com.chaemil.hgms.PhotoalbumActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_photoalbum" >
         </activity>
         <activity
             android:name="com.chaemil.hgms.AudioPlayerActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_audio_player" >
+        </activity>
+        <activity
+            android:name="com.chaemil.hgms.PhotoalbumSlideshow"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_activity_photoalbum_slideshow"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
     </application>
 
