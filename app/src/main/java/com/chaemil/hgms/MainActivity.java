@@ -57,14 +57,16 @@ public class MainActivity extends Activity {
                     .commit();
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window w = getWindow(); // in Activity's onCreate() for instance
 
-            setStatusBarColor(this, findViewById(R.id.statusBarBackground),getResources().getColor(android.R.color.white));
+            //setStatusBarColor(this, findViewById(R.id.statusBarBackground),getResources().getColor(R.color.actionbar_touch));
+
+
 
             w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }
+            //w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }*/
 
 
         mTitle = mDrawerTitle = getTitle();

@@ -2,8 +2,11 @@ package com.chaemil.hgms.Utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Point;
 import android.os.Build;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -308,6 +311,25 @@ public class Utils extends Activity {
         return result;
     }
 
+    private int getNavigationBarHeight(Context context, int orientation) {
+        Resources resources = context.getResources();
+
+        int id = resources.getIdentifier(
+                orientation == Configuration.ORIENTATION_PORTRAIT ? "navigation_bar_height" : "navigation_bar_height_landscape",
+                "dimen", "android");
+        if (id > 0) {
+            return resources.getDimensionPixelSize(id);
+        }
+        return 0;
+    }
+
+    /*private static void setStatusBarColor(Activity activity) {
+        Window window = activity.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setStatusBarColor(activity.getResources().getColor(R.color.example_color));
+    }*/
+
     public static void setStatusBarColor(Activity a, View statusBar, int color){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window w = a.getWindow();
@@ -315,8 +337,10 @@ public class Utils extends Activity {
             //status bar height
             int actionBarHeight = getActionBarHeight(a);
             int statusBarHeight = getStatusBarHeight(a);
+            Log.i("statusBarHeight", Integer.toString(statusBarHeight));
+            Log.i("actionBarHeight", Integer.toString(actionBarHeight));
             //action bar height
-            statusBar.getLayoutParams().height = actionBarHeight + statusBarHeight;
+            //statusBar.getLayoutParams().height = actionBarHeight + statusBarHeight;
             statusBar.setBackgroundColor(color);
         }
     }
