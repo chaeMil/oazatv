@@ -4,12 +4,14 @@ import android.app.DownloadManager;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.BroadcastReceiver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,6 +29,8 @@ import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
 
+import com.chaemil.hgms.DB.AudioDBContract.DownloadedAudio;
+import com.chaemil.hgms.DB.AudioDBHelper;
 import com.wefika.flowlayout.FlowLayout;
 
 import static com.chaemil.hgms.Utils.Utils.displayVideoTags;
@@ -43,6 +47,7 @@ public class VideoPlayer extends FragmentActivity {
     private VideoView mVideoView;
     private Fragment fragment;
     private LinearLayout videoInfo;
+    private SQLiteDatabase db;
 
 
     private String getVideoId(Bundle b) {
@@ -228,6 +233,8 @@ public class VideoPlayer extends FragmentActivity {
 
     }
 
+
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -242,6 +249,19 @@ public class VideoPlayer extends FragmentActivity {
         return true;
     }
 
+    public void saveAudioToDb() {
+        Bundle extras = getIntent().getExtras();
+
+        AudioDBHelper helper = new AudioDBHelper(getApplicationContext());
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(DownloadedAudio.COLUMN_NAME_AUDIO_ID, 0);
+        values.put(DownloadedAudio.COLUMN_NAME_AUDIO_FILE, getVideoName(extras));
+
+        db.insert(DownloadedAudio.TABLE_NAME,null,values);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -252,7 +272,7 @@ public class VideoPlayer extends FragmentActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_download_audio) {
 
-            Bundle extras = getIntent().getExtras();
+            /*Bundle extras = getIntent().getExtras();
             String url = getVideoUrl(extras).replace("mp4","mp3").replace("webm","mp3");
             String filename = url.substring(url.lastIndexOf("/"),url.length());
 
@@ -272,7 +292,10 @@ public class VideoPlayer extends FragmentActivity {
 
             // get download service and enqueue file
             DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-            manager.enqueue(request);
+            manager.enqueue(request);*/
+
+
+            saveAudioToDb();
 
             return true;
         }

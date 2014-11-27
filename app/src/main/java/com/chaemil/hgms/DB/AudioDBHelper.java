@@ -23,7 +23,7 @@ public class AudioDBHelper extends SQLiteOpenHelper {
                     DownloadedAudio.COLUMN_NAME_AUDIO_THUMB + TEXT_TYPE + COMMA_SEP +
                     DownloadedAudio.COLUMN_NAME_AUDIO_NAME_CZ + TEXT_TYPE + COMMA_SEP +
                     DownloadedAudio.COLUMN_NAME_AUDIO_NAME_EN + TEXT_TYPE + COMMA_SEP +
-                    DownloadedAudio.COLUMN_NAME_AUDIO_DATE + TEXT_TYPE + COMMA_SEP +
+                    DownloadedAudio.COLUMN_NAME_AUDIO_DATE + TEXT_TYPE +
             " )";
 
     private static final String SQL_DELETE_ENTRIES =
