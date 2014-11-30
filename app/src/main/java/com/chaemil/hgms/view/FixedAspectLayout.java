@@ -1,4 +1,4 @@
-package com.chaemil.hgms.View;
+package com.chaemil.hgms.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;

@@ -1,4 +1,4 @@
-package com.chaemil.hgms.Utils;
+package com.chaemil.hgms.utils;
 
 import android.app.Activity;
 import android.content.Context;
@@ -23,13 +23,13 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.chaemil.hgms.Adapters.ArchiveAdapter;
-import com.chaemil.hgms.Adapters.ArchiveMenuAdapter;
-import com.chaemil.hgms.Adapters.ArchiveMenuRecord;
-import com.chaemil.hgms.Adapters.ArchiveRecord;
+import com.chaemil.hgms.adapters.ArchiveAdapter;
+import com.chaemil.hgms.adapters.ArchiveMenuAdapter;
+import com.chaemil.hgms.adapters.ArchiveMenuRecord;
+import com.chaemil.hgms.adapters.ArchiveRecord;
 //import com.chaemil.hgms.Adapters.PhotoalbumAdapter_;
-import com.chaemil.hgms.Adapters.PhotoalbumAdapter;
-import com.chaemil.hgms.Adapters.PhotoalbumRecord;
+import com.chaemil.hgms.adapters.PhotoalbumAdapter;
+import com.chaemil.hgms.adapters.PhotoalbumRecord;
 import com.chaemil.hgms.R;
 import com.wefika.flowlayout.FlowLayout;
 
@@ -384,4 +384,5 @@ public class Utils extends Activity {
             return false;
         }
     }
+
 }

@@ -5,9 +5,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
 
-import com.chaemil.hgms.Adapters.PhotoalbumAdapter;
+import com.chaemil.hgms.adapters.PhotoalbumAdapter;
 
-import static com.chaemil.hgms.Utils.Utils.fetchPhotoalbum;
+import static com.chaemil.hgms.utils.Utils.fetchPhotoalbum;
 
 
 public class PhotoalbumSlideshow extends Activity {

@@ -1,22 +1,17 @@
 package com.chaemil.hgms;
 
-import android.app.DownloadManager;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.BroadcastReceiver;
 import android.content.ContentValues;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Display;
@@ -24,19 +19,28 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
-import com.chaemil.hgms.DB.AudioDBContract.DownloadedAudio;
-import com.chaemil.hgms.DB.AudioDBHelper;
+import com.chaemil.hgms.db.AudioDBContract.DownloadedAudio;
+import com.chaemil.hgms.db.AudioDBHelper;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
+import com.koushikdutta.ion.ProgressCallback;
 import com.wefika.flowlayout.FlowLayout;
 
-import static com.chaemil.hgms.Utils.Utils.displayVideoTags;
-import static com.chaemil.hgms.Utils.Utils.getScreenWidth;
-import static com.chaemil.hgms.Utils.Utils.hideSystemUI;
-import static com.chaemil.hgms.Utils.Utils.showSystemUI;
+import java.io.File;
+import java.util.concurrent.Future;
+
+import static com.chaemil.hgms.utils.Utils.displayVideoTags;
+import static com.chaemil.hgms.utils.Utils.getScreenWidth;
+import static com.chaemil.hgms.utils.Utils.hideSystemUI;
+import static com.chaemil.hgms.utils.Utils.showSystemUI;
 
 
 /**
@@ -47,7 +51,16 @@ public class VideoPlayer extends FragmentActivity {
     private VideoView mVideoView;
     private Fragment fragment;
     private LinearLayout videoInfo;
+    private Button download;
+    private TextView downloadCount;
+    private ProgressBar progressBar;
+    private LinearLayout downloadUI;
+
     private SQLiteDatabase db;
+    private AudioDBHelper helper;
+
+
+    Future<File> downloading;
 
 
     private String getVideoId(Bundle b) {
@@ -57,6 +70,20 @@ public class VideoPlayer extends FragmentActivity {
 
     private String getVideoName(Bundle b) {
         return b.getString("videoName");
+    }
+
+    private String getAudioFileName(Bundle b, boolean fake) {
+        if (fake) {
+            return getVideoId(b)+".mp3";
+        }
+        else {
+            return getVideoId(b)+".audio";
+        }
+
+    }
+
+    private String getAudioThumbFileName(Bundle b) {
+        return getVideoId(b)+".jpg";
     }
 
     private String getVideoUrl(Bundle b) {
@@ -71,6 +98,106 @@ public class VideoPlayer extends FragmentActivity {
         return b.getString("videoViews");
     }
 
+    void resetDownload() {
+        // cancel any pending download
+        downloading.cancel(true);
+        downloading = null;
+
+        // reset the ui
+        download.setText("Download");
+        downloadCount.setText(null);
+        progressBar.setProgress(0);
+    }
+
+    private void downloadAudio() {
+        Bundle extras = getIntent().getExtras();
+        String audioUrl = getVideoUrl(extras).replace("mp4","mp3").replace("webm","mp3");
+        String thumbUrl = audioUrl.replace(".mp3",".jpg");
+        String filename = audioUrl.substring(audioUrl.lastIndexOf("/")+1,audioUrl.length()).replace(".mp3",".audio");
+        String thumbFilename = filename.replace(".audio",".thumb");
+
+        helper = new AudioDBHelper(getApplicationContext());
+        db = helper.getWritableDatabase();
+
+        if (!AudioDBHelper.audioFileExists(db, getAudioFileName(extras,true))) {
+
+            File audioFile = new File(getExternalFilesDir(null), filename);
+            File thumbFile = new File(getExternalFilesDir(null), thumbFilename);
+            progressBar = (ProgressBar) findViewById(R.id.progressBar);
+
+            if (downloading != null && !downloading.isCancelled()) {
+                resetDownload();
+                return;
+            }
+
+            download = (Button) findViewById(R.id.download);
+            downloadCount = (TextView) findViewById(R.id.downloadCount);
+            downloadUI = (LinearLayout) findViewById(R.id.downloadUI);
+
+            downloadUI.setVisibility(View.VISIBLE);
+
+            download.setText(getResources().getString(R.string.cancel_audio_download));
+            download.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    resetDownload();
+                }
+            });
+
+            downloading = Ion.with(VideoPlayer.this)
+                .load(thumbUrl)
+                .write(thumbFile);
+
+            downloading = Ion.with(VideoPlayer.this)
+                .load(audioUrl)
+                    // attach the percentage report to a progress bar.
+                    // can also attach to a ProgressDialog with progressDialog.
+                .progressBar(progressBar)
+                    // callbacks on progress can happen on the UI thread
+                    // via progressHandler. This is useful if you need to update a TextView.
+                    // Updates to TextViews MUST happen on the UI thread.
+                .progressHandler(new ProgressCallback() {
+                    @Override
+                    public void onProgress(long downloaded, long total) {
+                        //downloadCount.setText("" + downloaded + " / " + total);
+                        long percent = (long) ((float) downloaded / total * 100);
+                        downloadCount.setText(percent + "%");
+                    }
+                })
+                    // write to a file
+                .write(audioFile)
+                    // run a callback on completion
+                .setCallback(new FutureCallback<File>() {
+                    @Override
+                    public void onCompleted(Exception e, File result) {
+                        resetDownload();
+                        downloadUI.setVisibility(View.GONE);
+                        if (e != null) {
+                            Toast.makeText(VideoPlayer.this, getResources().getString(R.string.error_downloading_audiofile), Toast.LENGTH_LONG).show();
+                            return;
+                        }
+
+
+                        Log.i("filepath", String.valueOf(result.getAbsoluteFile()));
+
+                        if (!AudioDBHelper.audioFileExists(db, getAudioFileName(getIntent().getExtras(),true))) {
+                            Log.i("audioFileExists", "false, saving new record");
+                            saveAudioToDb();
+                        } else {
+                            Log.i("audioFileExists", "true, doing nothing");
+                        }
+
+                        Toast.makeText(VideoPlayer.this, getResources().getString(R.string.download_audiofile_completed), Toast.LENGTH_LONG).show();
+                    }
+                });
+        }
+        else {
+            Toast.makeText(VideoPlayer.this, getResources().getString(R.string.already_downloaded), Toast.LENGTH_LONG).show();
+        }
+
+
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -256,11 +383,23 @@ public class VideoPlayer extends FragmentActivity {
         SQLiteDatabase db = helper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(DownloadedAudio.COLUMN_NAME_AUDIO_ID, 0);
-        values.put(DownloadedAudio.COLUMN_NAME_AUDIO_FILE, getVideoName(extras));
+        values.put(DownloadedAudio.COLUMN_NAME_AUDIO_FILE, getAudioFileName(extras,true));
+        values.put(DownloadedAudio.COLUMN_NAME_AUDIO_NAME, getVideoName(extras));
+        values.put(DownloadedAudio.COLUMN_NAME_AUDIO_THUMB, getAudioThumbFileName(extras).replace(".jpg",".thumb"));
+        values.put(DownloadedAudio.COLUMN_NAME_AUDIO_DATE, getVideoDate(extras));
 
         db.insert(DownloadedAudio.TABLE_NAME,null,values);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if(downloading != null) {
+            resetDownload();
+        }
+    }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -272,30 +411,9 @@ public class VideoPlayer extends FragmentActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_download_audio) {
 
-            /*Bundle extras = getIntent().getExtras();
-            String url = getVideoUrl(extras).replace("mp4","mp3").replace("webm","mp3");
-            String filename = url.substring(url.lastIndexOf("/"),url.length());
-
-            String downloadComplete = getResources().getString(R.string.download_complete);
-            String title = getVideoName(extras);
-            String downloadingAudio = getResources().getString(R.string.downloading_audio);
-
-            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
-            request.setDescription(downloadingAudio);
-            request.setTitle(title);
-            // in order for this if to run, you must use the android 3.2 to compile your app
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-            }
-            request.setDestinationInExternalFilesDir(getApplicationContext(),Environment.DIRECTORY_DOWNLOADS, filename.replace(".mp3",".oazaAudio"));
-            request.setVisibleInDownloadsUi(false);
-
-            // get download service and enqueue file
-            DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-            manager.enqueue(request);*/
 
 
-            saveAudioToDb();
+            downloadAudio();
 
             return true;
         }

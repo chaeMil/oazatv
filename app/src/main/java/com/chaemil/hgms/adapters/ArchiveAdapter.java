@@ -1,4 +1,4 @@
-package com.chaemil.hgms.Adapters;
+package com.chaemil.hgms.adapters;
 
 
 import android.content.Context;
@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chaemil.hgms.R;
+import com.koushikdutta.ion.Ion;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -56,8 +57,20 @@ public class ArchiveAdapter extends ArrayAdapter<ArchiveRecord> {
 
         if(convertView.findViewById(R.id.background) != null) {
             Picasso.with(getContext()).load(rec.getThumbBlur()).into(background);
+            /*Ion.with(background)
+                    /*.placeholder(R.drawable.placeholder_image)
+                    .error(R.drawable.error_image)
+                    .animateLoad(spinAnimation)
+                    .animateIn(fadeInAnimation)
+                    .load(rec.getThumbBlur());*/
         }
         Picasso.with(getContext()).load(rec.getThumb()).into(videoThumb);
+        /*Ion.with(videoThumb)
+                /*.placeholder(R.drawable.placeholder_image)
+                .error(R.drawable.error_image)
+                .animateLoad(spinAnimation)
+                .animateIn(fadeInAnimation)
+                .load(rec.getThumb());*/
         videoName.setText(rec.getTitle());
         videoDate.setText(rec.getVideoDate());
         videoURL.setText(rec.getVideoUrl());

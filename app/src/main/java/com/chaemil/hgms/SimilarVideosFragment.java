@@ -11,10 +11,10 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.chaemil.hgms.Adapters.ArchiveAdapter;
-import com.chaemil.hgms.Utils.Utils;
+import com.chaemil.hgms.adapters.ArchiveAdapter;
+import com.chaemil.hgms.utils.Utils;
 
-import static com.chaemil.hgms.Utils.Basic.startVideoPlayer;
+import static com.chaemil.hgms.utils.Basic.startVideoPlayer;
 
 /**
  * Created by chaemil on 23.10.14.
@@ -39,7 +39,7 @@ public class SimilarVideosFragment extends Fragment {
         ListView similarVideos = (ListView) rootView.findViewById(R.id.similarVideos);
         similarVideos.setAdapter(similarVideosAdapter);
         String similarVideosJSON = getResources().getString(R.string.mainServerJson) + "?page=similarVideos&video=" + videoID + "&lang=" + Utils.lang;
-        com.chaemil.hgms.Utils.Utils.fetchArchive(
+        com.chaemil.hgms.utils.Utils.fetchArchive(
                 getActivity().getApplicationContext(),
                 similarVideosJSON,
                 similarVideosAdapter,

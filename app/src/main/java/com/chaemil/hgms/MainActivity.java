@@ -7,30 +7,23 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
-import com.chaemil.hgms.Utils.Utils;
-import com.chaemil.hgms.Adapters.ArchiveMenuAdapter;
+import com.chaemil.hgms.utils.Utils;
+import com.chaemil.hgms.adapters.ArchiveMenuAdapter;
 
-import static com.chaemil.hgms.Utils.Utils.fetchMenuData;
-import static com.chaemil.hgms.Utils.Utils.setStatusBarColor;
+import static com.chaemil.hgms.utils.Utils.fetchMenuData;
 
 
 public class MainActivity extends Activity {

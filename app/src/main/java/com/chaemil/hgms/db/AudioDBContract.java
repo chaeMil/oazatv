@@ -1,4 +1,4 @@
-package com.chaemil.hgms.DB;
+package com.chaemil.hgms.db;
 
 import android.provider.BaseColumns;
 
@@ -11,11 +11,9 @@ public final class AudioDBContract {
 
     public static abstract class DownloadedAudio implements BaseColumns {
         public static final String TABLE_NAME = "downloadedAudio";
-        public static final String COLUMN_NAME_AUDIO_ID = "audioId";
         public static final String COLUMN_NAME_AUDIO_FILE = "audioFile";
         public static final String COLUMN_NAME_AUDIO_THUMB = "audioThumb";
-        public static final String COLUMN_NAME_AUDIO_NAME_CZ = "audioNameCz";
-        public static final String COLUMN_NAME_AUDIO_NAME_EN = "audioNameEn";
+        public static final String COLUMN_NAME_AUDIO_NAME = "audioName";
         public static final String COLUMN_NAME_AUDIO_DATE = "audioDate";
     }
 }

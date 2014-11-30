@@ -1,4 +1,4 @@
-package com.chaemil.hgms.Adapters;
+package com.chaemil.hgms.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;

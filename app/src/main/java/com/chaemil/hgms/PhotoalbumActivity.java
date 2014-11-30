@@ -9,13 +9,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.chaemil.hgms.Adapters.PhotoalbumAdapter;
+import com.chaemil.hgms.adapters.PhotoalbumAdapter;
 
-import static com.chaemil.hgms.Utils.Utils.fetchPhotoalbum;
-import static com.chaemil.hgms.Utils.Utils.getScreenWidth;
+import static com.chaemil.hgms.utils.Utils.fetchPhotoalbum;
+import static com.chaemil.hgms.utils.Utils.getScreenWidth;
 
 
 public class PhotoalbumActivity extends Activity {

@@ -1,4 +1,4 @@
-package com.chaemil.hgms.Utils;
+package com.chaemil.hgms.utils;
 
 import android.app.Application;
 

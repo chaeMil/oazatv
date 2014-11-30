@@ -1,6 +1,6 @@
-package com.chaemil.hgms.Adapters.HomePageAdapters;
+package com.chaemil.hgms.adapters.home_page_adapters;
 
-import com.chaemil.hgms.Adapters.ArchiveRecord;
+import com.chaemil.hgms.adapters.ArchiveRecord;
 
 /**
  * Created by chaemil on 21.10.14.

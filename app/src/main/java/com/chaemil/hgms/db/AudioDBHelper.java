@@ -1,16 +1,17 @@
-package com.chaemil.hgms.DB;
+package com.chaemil.hgms.db;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import com.chaemil.hgms.DB.AudioDBContract.DownloadedAudio;
+import com.chaemil.hgms.db.AudioDBContract.DownloadedAudio;
 
 /**
  * Created by chaemil on 26.11.14.
  */
 public class AudioDBHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 3;
     public static final String DATABASE_NAME = "Audio.db";
 
     private static final String TEXT_TYPE = " TEXT";
@@ -18,11 +19,9 @@ public class AudioDBHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + DownloadedAudio.TABLE_NAME + " (" +
                     DownloadedAudio._ID + " INTEGER PRIMARY KEY," +
-                    DownloadedAudio.COLUMN_NAME_AUDIO_ID + TEXT_TYPE + COMMA_SEP +
                     DownloadedAudio.COLUMN_NAME_AUDIO_FILE + TEXT_TYPE + COMMA_SEP +
                     DownloadedAudio.COLUMN_NAME_AUDIO_THUMB + TEXT_TYPE + COMMA_SEP +
-                    DownloadedAudio.COLUMN_NAME_AUDIO_NAME_CZ + TEXT_TYPE + COMMA_SEP +
-                    DownloadedAudio.COLUMN_NAME_AUDIO_NAME_EN + TEXT_TYPE + COMMA_SEP +
+                    DownloadedAudio.COLUMN_NAME_AUDIO_NAME + TEXT_TYPE + COMMA_SEP +
                     DownloadedAudio.COLUMN_NAME_AUDIO_DATE + TEXT_TYPE +
             " )";
 
@@ -48,4 +47,20 @@ public class AudioDBHelper extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
+    public static boolean audioFileExists(SQLiteDatabase db, String audioFileName) {
+        Cursor cursor = db.query(DownloadedAudio.TABLE_NAME,
+                new String[] {DownloadedAudio.COLUMN_NAME_AUDIO_FILE},
+                DownloadedAudio.COLUMN_NAME_AUDIO_FILE + " = ?",
+                new String[] {audioFileName},
+                null,
+                null,
+                DownloadedAudio.COLUMN_NAME_AUDIO_FILE + " ASC");
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            cursor.moveToNext();
+            return true;
+        }
+        return false;
+    }
 }

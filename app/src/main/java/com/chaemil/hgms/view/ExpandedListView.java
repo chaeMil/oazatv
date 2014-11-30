@@ -1,27 +1,27 @@
-package com.chaemil.hgms.View;
+package com.chaemil.hgms.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
-import android.widget.GridView;
+import android.widget.ListView;
 
 /**
- * Created by chaemil on 21.9.14.
+ * Created by chaemil on 18.10.14.
  */
-public class ExpandedHeightGridView extends GridView {
+public class ExpandedListView extends ListView {
 
     boolean expanded = false;
 
-    public ExpandedHeightGridView(Context context) {
+    public ExpandedListView(Context context) {
         super(context);
     }
 
-    public ExpandedHeightGridView(Context context, AttributeSet attrs) {
+    public ExpandedListView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public ExpandedHeightGridView(Context context, AttributeSet attrs,
-                                  int defStyle) {
+    public ExpandedListView(Context context, AttributeSet attrs,
+                            int defStyle) {
         super(context, attrs, defStyle);
     }
 

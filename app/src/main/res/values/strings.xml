@@ -18,5 +18,9 @@
     <string name="download_audio">Stáhnout audio</string>
     <string name="downloading_audio">Stahuji audio...</string>
     <string name="download_complete">Stahování dokončeno</string>
+    <string name="cancel_audio_download">zrušit stahování</string>
+    <string name="error_downloading_audiofile">Stahování audio záznamu bylo zrušeno</string>
+    <string name="download_audiofile_completed">Stahování audizáznamu dokončeno</string>
+    <string name="already_downloaded">Již staženo</string>
 
 </resources>

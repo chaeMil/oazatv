@@ -1,4 +1,4 @@
-package com.chaemil.hgms.Adapters;
+package com.chaemil.hgms.adapters;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -10,12 +10,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chaemil.hgms.R;
-import com.squareup.picasso.Picasso;
+import com.koushikdutta.ion.Ion;
 
 import java.util.List;
 
-import static com.chaemil.hgms.Utils.Utils.getScreenHeight;
-import static com.chaemil.hgms.Utils.Utils.getScreenWidth;
+import static com.chaemil.hgms.utils.Utils.getScreenHeight;
+import static com.chaemil.hgms.utils.Utils.getScreenWidth;
 
 /**
  * Created by chaemil on 13.11.14.
@@ -55,14 +55,26 @@ public class PhotoalbumAdapter extends ArrayAdapter<PhotoalbumRecord> {
 
         if(convertView.findViewById(R.id.thumb) != null) {
             thumb = (ImageView) convertView.findViewById(R.id.thumb);
-            Picasso.with(getContext()).load(rec.getThumb()).into(thumb);
+            //Picasso.with(getContext()).load(rec.getThumb()).into(thumb);
+            Ion.with(thumb)
+                    /*.placeholder(R.drawable.placeholder_image)
+                    .error(R.drawable.error_image)
+                    .animateLoad(spinAnimation)
+                    .animateIn(fadeInAnimation)*/
+                    .load(rec.getThumb());
             thumb.getLayoutParams().width = getScreenWidth(getContext())/res.getInteger(R.integer.gallery_columns);
             thumb.getLayoutParams().height = getScreenWidth(getContext())/res.getInteger(R.integer.gallery_columns);
         }
 
         if(convertView.findViewById(R.id.photoLarge) != null) {
             photoLarge = (ImageView) convertView.findViewById(R.id.photoLarge);
-            Picasso.with(getContext()).load(rec.getPhotoBig()).into(photoLarge);
+            //Picasso.with(getContext()).load(rec.getPhotoBig()).into(photoLarge);
+            Ion.with(photoLarge)
+                    /*.placeholder(R.drawable.placeholder_image)
+                    .error(R.drawable.error_image)
+                    .animateLoad(spinAnimation)
+                    .animateIn(fadeInAnimation)*/
+                    .load(rec.getPhotoBig());
             photoLarge.getLayoutParams().width = getScreenWidth(getContext());
             photoLarge.getLayoutParams().height = getScreenHeight(getContext());
         }

@@ -9,14 +9,12 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
 
-import com.chaemil.hgms.Adapters.ArchiveAdapter;
-import com.chaemil.hgms.Utils.Utils;
+import com.chaemil.hgms.adapters.ArchiveAdapter;
+import com.chaemil.hgms.utils.Utils;
 
-import org.w3c.dom.Text;
-
-import static com.chaemil.hgms.Utils.Basic.startPhotoalbumViewer;
-import static com.chaemil.hgms.Utils.Basic.startVideoPlayer;
-import static com.chaemil.hgms.Utils.Utils.fetchArchive;
+import static com.chaemil.hgms.utils.Basic.startPhotoalbumViewer;
+import static com.chaemil.hgms.utils.Basic.startVideoPlayer;
+import static com.chaemil.hgms.utils.Utils.fetchArchive;
 
 /**
  * Created by chaemil on 17.10.14.

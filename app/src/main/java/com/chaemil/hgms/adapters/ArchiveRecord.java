@@ -1,4 +1,4 @@
-package com.chaemil.hgms.Adapters;
+package com.chaemil.hgms.adapters;
 
 /**
  * Created by chaemil on 17.9.14.

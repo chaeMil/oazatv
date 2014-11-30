@@ -5,20 +5,19 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.chaemil.hgms.Adapters.ArchiveAdapter;
-import com.chaemil.hgms.Adapters.HomePageAdapters.NewVideosAdapter;
-import com.chaemil.hgms.Adapters.HomePageAdapters.PhotoalbumsAdapter;
-import com.chaemil.hgms.Utils.Utils;
-import com.chaemil.hgms.View.ExpandedListView;
+import com.chaemil.hgms.adapters.ArchiveAdapter;
+import com.chaemil.hgms.adapters.home_page_adapters.NewVideosAdapter;
+import com.chaemil.hgms.adapters.home_page_adapters.PhotoalbumsAdapter;
+import com.chaemil.hgms.utils.Utils;
+import com.chaemil.hgms.view.ExpandedListView;
 
-import static com.chaemil.hgms.Utils.Basic.startPhotoalbumViewer;
-import static com.chaemil.hgms.Utils.Basic.startVideoPlayer;
-import static com.chaemil.hgms.Utils.Utils.fetchArchive;
+import static com.chaemil.hgms.utils.Basic.startPhotoalbumViewer;
+import static com.chaemil.hgms.utils.Basic.startVideoPlayer;
+import static com.chaemil.hgms.utils.Utils.fetchArchive;
 
 /**
  * Created by chaemil on 17.10.14.
