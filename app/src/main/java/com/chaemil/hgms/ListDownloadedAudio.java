@@ -1,6 +1,7 @@
 package com.chaemil.hgms;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.Image;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chaemil.hgms.db.AudioDBContract;
 import com.chaemil.hgms.db.AudioDBContract.DownloadedAudio;
@@ -23,7 +25,7 @@ import com.chaemil.hgms.db.AudioDBHelper;
 import com.squareup.picasso.Picasso;
 
 
-public class AudioPlayerActivity extends Activity {
+public class ListDownloadedAudio extends Activity {
 
     private LinearLayout audioGrid;
 
@@ -53,17 +55,17 @@ public class AudioPlayerActivity extends Activity {
 
 
         String[] projection = {
-                DownloadedAudio._ID,
-                DownloadedAudio.COLUMN_NAME_AUDIO_NAME,
-                DownloadedAudio.COLUMN_NAME_AUDIO_FILE,
-                DownloadedAudio.COLUMN_NAME_AUDIO_DATE,
-                DownloadedAudio.COLUMN_NAME_AUDIO_THUMB
+                AudioDBContract.DownloadedAudio._ID,
+                AudioDBContract.DownloadedAudio.COLUMN_NAME_AUDIO_NAME,
+                AudioDBContract.DownloadedAudio.COLUMN_NAME_AUDIO_FILE,
+                AudioDBContract.DownloadedAudio.COLUMN_NAME_AUDIO_DATE,
+                AudioDBContract.DownloadedAudio.COLUMN_NAME_AUDIO_THUMB
         };
 
-        String sortOrder = DownloadedAudio.COLUMN_NAME_AUDIO_DATE + " DESC";
+        String sortOrder = AudioDBContract.DownloadedAudio.COLUMN_NAME_AUDIO_DATE + " DESC";
 
         Cursor cursor = db.query(
-                DownloadedAudio.TABLE_NAME,  // The table to query
+                AudioDBContract.DownloadedAudio.TABLE_NAME,  // The table to query
                 projection,                               // The columns to return
                 null,                                // The columns for the WHERE clause
                 null,                            // The values for the WHERE clause
@@ -80,9 +82,10 @@ public class AudioPlayerActivity extends Activity {
                 LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
                 View view = inflater.inflate(R.layout.home_block, audioGrid, false);
 
-                String audioFileName = cursor.getString(cursor.getColumnIndex(DownloadedAudio.COLUMN_NAME_AUDIO_NAME));
-                String thumbFileName = getExternalFilesDir(null) + "/" + cursor.getString(cursor.getColumnIndex(DownloadedAudio.COLUMN_NAME_AUDIO_THUMB));
-                String audioDate = cursor.getString(cursor.getColumnIndex(DownloadedAudio.COLUMN_NAME_AUDIO_DATE));
+                final String audioFileName = cursor.getString(cursor.getColumnIndex(AudioDBContract.DownloadedAudio.COLUMN_NAME_AUDIO_NAME));
+                final String thumbFileName = getExternalFilesDir(null) + "/" + cursor.getString(cursor.getColumnIndex(AudioDBContract.DownloadedAudio.COLUMN_NAME_AUDIO_THUMB));
+                final String audioDate = cursor.getString(cursor.getColumnIndex(AudioDBContract.DownloadedAudio.COLUMN_NAME_AUDIO_DATE));
+                final String audioFile = cursor.getString(cursor.getColumnIndex(DownloadedAudio.COLUMN_NAME_AUDIO_FILE));
 
                 TextView audioFileNameElement = (TextView) view.findViewById(R.id.videoName);
                 audioFileNameElement.setText(audioFileName);
@@ -92,6 +95,19 @@ public class AudioPlayerActivity extends Activity {
 
                 ImageView thumb = (ImageView) view.findViewById(R.id.thumb);
                 thumb.setImageURI(Uri.parse(thumbFileName));
+
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent audioPlayer = new Intent(ListDownloadedAudio.this, AudioPlayer.class);
+                        audioPlayer.putExtra("audioFile",audioFile);
+                        audioPlayer.putExtra("audioFileName", audioFileName);
+                        audioPlayer.putExtra("audioFileThumb", thumbFileName);
+                        audioPlayer.putExtra("audioFileDate", audioDate);
+                        startActivity(audioPlayer);
+                        Toast.makeText(getApplicationContext(), audioFile, Toast.LENGTH_LONG).show();
+                    }
+                });
 
                 audioGrid.addView(view);
 

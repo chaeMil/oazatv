@@ -41,7 +41,7 @@
             android:label="@string/title_activity_photoalbum" >
         </activity>
         <activity
-            android:name="com.chaemil.hgms.AudioPlayerActivity"
+            android:name=".ListDownloadedAudio"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_audio_player" >
         </activity>
@@ -51,6 +51,11 @@
             android:label="@string/title_activity_photoalbum_slideshow"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
+        <activity
+            android:name=".AudioPlayer"
+            android:label="@string/title_activity_audio_player">
+        </activity>
+
     </application>
 
 </manifest>

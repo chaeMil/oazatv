@@ -238,7 +238,7 @@ public class MainActivity extends Activity {
 
         }
         else if(type.equals("downloadedAudio")) {
-            Intent i = new Intent(this,AudioPlayerActivity.class);
+            Intent i = new Intent(this,ListDownloadedAudio.class);
             startActivity(i);
         }
         else if (type.equals("exitApp")) {

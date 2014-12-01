@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -55,6 +56,7 @@ public class VideoPlayer extends FragmentActivity {
     private TextView downloadCount;
     private ProgressBar progressBar;
     private LinearLayout downloadUI;
+    private ProgressBar videoSpinner;
 
     private SQLiteDatabase db;
     private AudioDBHelper helper;
@@ -74,10 +76,10 @@ public class VideoPlayer extends FragmentActivity {
 
     private String getAudioFileName(Bundle b, boolean fake) {
         if (fake) {
-            return getVideoId(b)+".mp3";
+            return getVideoId(b)+".audio";
         }
         else {
-            return getVideoId(b)+".audio";
+            return getVideoId(b)+".mp3";
         }
 
     }
@@ -244,6 +246,7 @@ public class VideoPlayer extends FragmentActivity {
         TextView videoDateElement = (TextView) findViewById(R.id.videoDate);
         videoDateElement.setText(videoDate);
         videoInfo = (LinearLayout) findViewById(R.id.videoInfo);
+        videoSpinner = (ProgressBar) findViewById(R.id.videoSpinner);
 
         FlowLayout videoTags = (FlowLayout) findViewById(R.id.videoTags);
 
@@ -267,6 +270,45 @@ public class VideoPlayer extends FragmentActivity {
         mVideoView.setMediaController(mediaController);
         mVideoView.setVideoURI(video);
         mVideoView.start();
+
+
+        if (currentapiVersion >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            mVideoView.setOnInfoListener(new MediaPlayer.OnInfoListener() {
+                @Override
+                public boolean onInfo(MediaPlayer mp, int what, int extra) {
+                    if (MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START == what) {
+                        videoSpinner.setVisibility(View.GONE);
+                    }
+                    if (MediaPlayer.MEDIA_INFO_BUFFERING_START == what) {
+                        videoSpinner.setVisibility(View.VISIBLE);
+                    }
+                    if (MediaPlayer.MEDIA_INFO_BUFFERING_END == what) {
+                        videoSpinner.setVisibility(View.VISIBLE);
+                    }
+                    return false;
+                }
+            });
+        }
+        else {
+            mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    videoSpinner.setVisibility(View.GONE);
+                    mp.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
+                        @Override
+                        public void onBufferingUpdate(MediaPlayer mp, int percent) {
+                            Log.i("percent", String.valueOf(percent));
+                            if (percent < 50) {
+                                videoSpinner.setVisibility(View.VISIBLE);
+                            }
+                            else {
+                                videoSpinner.setVisibility(View.GONE);
+                            }
+                        }
+                    });
+                }
+            });
+        }
 
         mVideoView.setOnClickListener(new View.OnClickListener() {
             @Override

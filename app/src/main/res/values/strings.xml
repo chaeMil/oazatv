@@ -22,5 +22,7 @@
     <string name="error_downloading_audiofile">Stahování audio záznamu bylo zrušeno</string>
     <string name="download_audiofile_completed">Stahování audizáznamu dokončeno</string>
     <string name="already_downloaded">Již staženo</string>
+    <string name="deleteAudio">Smazat audiozáznam</string>
+    <string name="showOnlineVideo">Přejít na video</string>
 
 </resources>

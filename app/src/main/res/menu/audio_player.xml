@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+
+    <item
+        android:id="@+id/delete_action"
+        android:icon="@drawable/ic_action_delete"
+        android:showAsAction="always"
+        android:title="@string/deleteAudio" />
+
+    <item
+        android:id="@+id/show_video"
+        android:icon="@drawable/ic_show_video"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/showOnlineVideo" />
+
+</menu>
