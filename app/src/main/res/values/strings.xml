@@ -26,5 +26,6 @@
     <string name="showOnlineVideo">Přejít na video</string>
     <string name="yes">Smazat</string>
     <string name="no">Zrušit</string>
+    <string name="action_share">Sdílet</string>
 
 </resources>

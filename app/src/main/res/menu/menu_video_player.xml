@@ -3,4 +3,6 @@
     tools:context="com.chaemil.hgms.ListDownloadedAudio">
     <item android:id="@+id/action_download_audio" android:title="@string/download_audio"
         android:orderInCategory="100" android:showAsAction="always" android:icon="@drawable/ic_file_download"/>
+    <item android:id="@+id/action_share_link" android:title="@string/action_share"
+        android:showAsAction="always" android:icon="@drawable/ic_share" />
 </menu>

@@ -12,14 +12,18 @@ import com.chaemil.hgms.VideoPlayer;
 public class Basic {
 
     //konstanty
-
-    public static final String MAIN_SERVER_JSON = "http://oaza.tv/json.php";
+    public static final String MAIN_SERVER = "http://oaza.tv/";
+    public static final String MAIN_SERVER_JSON = MAIN_SERVER + "json.php";
+    public static final String MAIN_SERVER_VIDEO_LINK_PREFIX = MAIN_SERVER + "?page=vp&v=";
+    public static final String MAIN_SERVER_PHOTOALBUM_LINK_PREFIX = MAIN_SERVER + "?page=photo-album&album=";
 
     public static final String VIDEO_LINK = "videoLink";
     public static final String VIDEO_NAME = "videoName";
     public static final String VIDEO_DATE = "videoDate";
     public static final String VIDEO_VIEWS = "videoViews";
     public static final String ALBUM_ID = "albumId";
+    public static final String ALBUM_NAME = "albumName";
+    public static final String ALBUM_DATE = "albumDate";
     public static final String AUDIO_FILE = "audioFile";
     public static final String PHOTO_ID = "photoId";
     public static final String AUDIO_FILE_THUMB = "audioFileThumb";
@@ -82,9 +86,11 @@ public class Basic {
         v.getContext().startActivity(a);
     }
 
-    public static void startPhotoalbumViewer(View v, String albumId) {
+    public static void startPhotoalbumViewer(View v, String albumId, String albumName, String albumDate) {
         Intent a = new Intent(v.getContext(), PhotoalbumActivity.class);
         a.putExtra(ALBUM_ID, albumId);
+        a.putExtra(ALBUM_NAME, albumName);
+        a.putExtra(ALBUM_DATE, albumDate);
         v.getContext().startActivity(a);
     }
 }

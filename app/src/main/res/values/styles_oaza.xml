@@ -50,7 +50,7 @@
     </style>
 
     <style name="PopupMenu.Oaza" parent="@android:style/Widget.Holo.ListPopupWindow">
-        <item name="android:popupBackground">@drawable/menu_dropdown_panel_oaza</item>	
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_oaza</item>
     </style>
 
     <style name="DropDownListView.Oaza" parent="@android:style/Widget.Holo.ListView.DropDown">

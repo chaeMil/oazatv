@@ -106,7 +106,11 @@ public class HomeFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View v, int i, long l) {
                 TextView albumIdElement = (TextView) v.findViewById(R.id.albumId);
                 String albumId = albumIdElement.getText().toString();
-                startPhotoalbumViewer(getView(),albumId);
+                TextView albumNameElement = (TextView) v.findViewById(R.id.videoName);
+                String albumName = albumNameElement.getText().toString();
+                TextView albumDateElement = (TextView) v.findViewById(R.id.videoDate);
+                String albumDate = albumDateElement.getText().toString();
+                startPhotoalbumViewer(getView(), albumId, albumName, albumDate);
             }
         });
 

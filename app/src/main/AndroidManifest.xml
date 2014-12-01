@@ -11,10 +11,11 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Theme.Oaza" >
+        android:theme="@style/Theme.Oaza"
+        android:largeHeap="true" >
 
         <activity
-            android:name="com.chaemil.hgms.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name"
             android:configChanges="orientation|keyboardHidden|screenSize">
             <intent-filter>
@@ -24,7 +25,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.chaemil.hgms.VideoPlayer"
+            android:name=".VideoPlayer"
             android:configChanges="orientation|keyboardHidden|screenSize" >
         </activity>
 
@@ -36,7 +37,7 @@
             android:windowSoftInputMode="stateAlwaysHidden" />-->
 
         <activity
-            android:name="com.chaemil.hgms.PhotoalbumActivity"
+            android:name=".PhotoalbumActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_photoalbum" >
         </activity>
@@ -47,7 +48,7 @@
             android:label="@string/title_activity_audio_player" >
         </activity>
         <activity
-            android:name="com.chaemil.hgms.PhotoalbumSlideshow"
+            android:name=".PhotoalbumSlideshow"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_photoalbum_slideshow"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >

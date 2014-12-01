@@ -20,22 +20,40 @@ import static com.chaemil.hgms.utils.Utils.getScreenWidth;
 
 public class PhotoalbumActivity extends Activity {
 
+    private String getAlbumId() {
+        Bundle bundle = getIntent().getExtras();
+        return bundle.getString(Basic.ALBUM_ID);
+    }
+
+    private String getAlbumName() {
+        Bundle bundle = getIntent().getExtras();
+        return bundle.getString(Basic.ALBUM_NAME);
+    }
+
+    private String getAlbumDate() {
+        Bundle bundle = getIntent().getExtras();
+        return bundle.getString(Basic.ALBUM_DATE);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.photoalbum);
 
-
-        Bundle extras = getIntent().getExtras();
-
-        final String albumId = extras.getString(Basic.ALBUM_ID);
+        final String albumId = getAlbumId();
 
 
         Log.i(Basic.ALBUM_ID, albumId);
 
         GridView photoThumbsGrid = (GridView) findViewById(R.id.photoThumbsGrid);
         PhotoalbumAdapter mPhotoalbumAdapter = new PhotoalbumAdapter(getApplicationContext(),R.layout.photo_thumb);
+
+        if(getActionBar() != null) {
+            getActionBar().setTitle(getAlbumName());
+            getActionBar().setSubtitle(getAlbumDate());
+            getActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         fetchPhotoalbum(getApplicationContext(),mPhotoalbumAdapter,albumId);
 
@@ -67,6 +85,15 @@ public class PhotoalbumActivity extends Activity {
         return true;
     }
 
+    public void shareLink() {
+        Bundle bundle = getIntent().getExtras();
+        Intent share = new Intent(android.content.Intent.ACTION_SEND);
+        share.setType("text/plain");
+        share.putExtra(Intent.EXTRA_SUBJECT, getAlbumName());
+        share.putExtra(Intent.EXTRA_TEXT, Basic.MAIN_SERVER_PHOTOALBUM_LINK_PREFIX + getAlbumId());
+        startActivity(Intent.createChooser(share, getResources().getString(R.string.action_share)));
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -75,8 +102,13 @@ public class PhotoalbumActivity extends Activity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case android.R.id.home:
+                finish();
+                return true;
+            case R.id.action_share_link:
+                shareLink();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);

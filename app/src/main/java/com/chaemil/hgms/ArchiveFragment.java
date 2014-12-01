@@ -13,6 +13,8 @@ import com.chaemil.hgms.adapters.ArchiveAdapter;
 import com.chaemil.hgms.utils.Basic;
 import com.chaemil.hgms.utils.Utils;
 
+import org.w3c.dom.Text;
+
 import static com.chaemil.hgms.utils.Basic.startPhotoalbumViewer;
 import static com.chaemil.hgms.utils.Basic.startVideoPlayer;
 import static com.chaemil.hgms.utils.Utils.fetchArchive;
@@ -63,7 +65,11 @@ public class ArchiveFragment extends Fragment {
                 else if(type.equals(Basic.JSON_ARCHIVE_TYPE_PHOTOALBUM)) {
                     TextView albumIdElement = (TextView) v.findViewById(R.id.albumId);
                     String albumId = albumIdElement.getText().toString();
-                    startPhotoalbumViewer(getView(), albumId);
+                    TextView albumNameElement = (TextView) v.findViewById(R.id.videoName);
+                    String albumName = albumNameElement.getText().toString();
+                    TextView albumDateElement = (TextView) v.findViewById(R.id.videoDate);
+                    String albumDate = albumDateElement.getText().toString();
+                    startPhotoalbumViewer(getView(), albumId, albumName, albumDate);
                 }
             }
         });

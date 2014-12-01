@@ -3,6 +3,7 @@ package com.chaemil.hgms;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
@@ -199,6 +200,15 @@ public class VideoPlayer extends FragmentActivity {
 
 
 
+    }
+
+    private void shareLink() {
+        Bundle bundle = getIntent().getExtras();
+        Intent share = new Intent(android.content.Intent.ACTION_SEND);
+        share.setType("text/plain");
+        share.putExtra(Intent.EXTRA_SUBJECT, getVideoName(bundle));
+        share.putExtra(Intent.EXTRA_TEXT, Basic.MAIN_SERVER_VIDEO_LINK_PREFIX + getVideoId(bundle));
+        startActivity(Intent.createChooser(share, getResources().getString(R.string.action_share)));
     }
 
     @Override
@@ -450,14 +460,16 @@ public class VideoPlayer extends FragmentActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_download_audio) {
-
-
-
-            downloadAudio();
-
-            return true;
+        switch(id) {
+            case android.R.id.home:
+                finish();
+                return true;
+            case R.id.action_download_audio:
+                downloadAudio();
+                return true;
+            case R.id.action_share_link:
+                shareLink();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);

@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:theme="@android:style/Widget.PopupWindow"
+    android:background="@drawable/drop_shadow">
 
     <ImageView
         android:layout_width="fill_parent"
