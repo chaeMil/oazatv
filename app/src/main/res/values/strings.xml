@@ -24,5 +24,7 @@
     <string name="already_downloaded">Již staženo</string>
     <string name="deleteAudio">Smazat audiozáznam</string>
     <string name="showOnlineVideo">Přejít na video</string>
+    <string name="yes">Smazat</string>
+    <string name="no">Zrušit</string>
 
 </resources>

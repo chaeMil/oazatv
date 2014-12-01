@@ -106,6 +106,7 @@ public class ListDownloadedAudio extends Activity {
                         audioPlayer.putExtra("audioFileDate", audioDate);
                         startActivity(audioPlayer);
                         Toast.makeText(getApplicationContext(), audioFile, Toast.LENGTH_LONG).show();
+                        finish();
                     }
                 });
 

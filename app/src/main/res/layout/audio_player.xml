@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/imageView1"
@@ -10,6 +11,48 @@
         android:layout_height="fill_parent"
         android:scaleType="centerCrop"
         android:src="@drawable/backdrop1" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/linearLayout1">
+
+        <com.chaemil.hgms.view.FixedAspectLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|center"
+            android:id="@+id/thumbWrapper"
+            android:layout_margin="10dp"
+            app:aspectRatio="0.5625">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/audioThumb"/>
+
+        </com.chaemil.hgms.view.FixedAspectLayout>
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="audioName"
+            android:id="@+id/audioName"
+            android:layout_gravity="center_horizontal" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="audioDate"
+            android:id="@+id/audioDate"
+            android:layout_gravity="center_horizontal" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout1"
@@ -66,7 +109,6 @@
                 android:src="@android:drawable/ic_media_ff" />
         </LinearLayout>
     </LinearLayout>
-
 
 
 </RelativeLayout>

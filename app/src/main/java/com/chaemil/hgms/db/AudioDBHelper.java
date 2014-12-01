@@ -47,6 +47,10 @@ public class AudioDBHelper extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
+    public static void deleteAudioDBRecord(SQLiteDatabase db, String fileName) {
+        db.delete(DownloadedAudio.TABLE_NAME,DownloadedAudio.COLUMN_NAME_AUDIO_FILE + "= '" + fileName + "'", null);
+    }
+
     public static boolean audioFileExists(SQLiteDatabase db, String audioFileName) {
         Cursor cursor = db.query(DownloadedAudio.TABLE_NAME,
                 new String[] {DownloadedAudio.COLUMN_NAME_AUDIO_FILE},

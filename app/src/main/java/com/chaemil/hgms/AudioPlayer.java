@@ -3,9 +3,14 @@ package com.chaemil.hgms;
 
 
 
+import java.io.File;
 import java.io.IOException;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnPreparedListener;
 import android.net.Uri;
@@ -18,11 +23,19 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+import android.widget.MediaController.MediaPlayerControl;
 
-public class AudioPlayer extends Activity implements OnPreparedListener {
+
+import com.chaemil.hgms.db.AudioDBHelper;
+import com.chaemil.hgms.utils.MusicController;
+
+import static com.chaemil.hgms.db.AudioDBHelper.deleteAudioDBRecord;
+
+public class AudioPlayer extends Activity implements OnPreparedListener/*, MediaPlayerControl TODO*/ {
 
     private ImageButton btnPlay;
     private ImageButton btnPouse;
@@ -34,11 +47,45 @@ public class AudioPlayer extends Activity implements OnPreparedListener {
     private MediaPlayer mPlayer;
     private SeekBar mSeekBarPlayer;
     private TextView mMediaTime;
+    private ImageView audioThumb;
+    private TextView audioName;
+    private TextView audioDate;
+    private MusicController controller;
     NotificationCompat.Builder builder;
+
+    private void setController(){
+        controller = new MusicController(this);
+        controller.setPrevNextListeners(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPlayer.seekTo(mPlayer.getCurrentPosition()+20000);
+            }
+        }, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPlayer.seekTo(mPlayer.getCurrentPosition()-20000);
+            }
+        });
+    }
 
     public String file() {
         Bundle bundle = getIntent().getExtras();
         return bundle.getString("audioFile");
+    }
+
+    public String audioThumb() {
+        Bundle bundle = getIntent().getExtras();
+        return bundle.getString("audioFileThumb");
+    }
+
+    public String audioName() {
+        Bundle bundle = getIntent().getExtras();
+        return bundle.getString("audioFileName");
+    }
+
+    public String audioDate() {
+        Bundle bundle = getIntent().getExtras();
+        return bundle.getString("audioFileDate");
     }
 
     @Override
@@ -51,8 +98,27 @@ public class AudioPlayer extends Activity implements OnPreparedListener {
         btnRew = (ImageButton) findViewById(R.id.rew);
         mMediaTime = (TextView)findViewById(R.id.mediaTime);
         mSeekBarPlayer = (SeekBar)findViewById(R.id.seekBar);
+        audioName = (TextView) findViewById(R.id.audioName);
+        audioThumb = (ImageView) findViewById(R.id.audioThumb);
+        audioDate = (TextView) findViewById(R.id.audioDate);
 
+        Log.i("audioThumb", audioThumb().substring(audioThumb().lastIndexOf("/")+1));
+        Log.i("audioFile", file());
 
+        if (getActionBar() != null) {
+            getActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+        audioName.setText(audioName());
+        audioThumb.setImageURI(Uri.parse(audioThumb()));
+        audioDate.setText(audioDate());
+
+        /*controller.setMediaPlayer(this);
+        controller.setAnchorView(findViewById(R.id.song_list));
+        controller.setEnabled(true);*/
+        //TODO
+
+        setController();
 
         mPlayer = new MediaPlayer();
         mPlayer = MediaPlayer.create(this, Uri.parse(getExternalFilesDir(null) + "/" + file()));
@@ -79,14 +145,11 @@ public class AudioPlayer extends Activity implements OnPreparedListener {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 try {
                     mPlayer.prepare();
                 } catch (IllegalStateException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 } catch (IOException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
                 mPlayer.start();
@@ -99,7 +162,6 @@ public class AudioPlayer extends Activity implements OnPreparedListener {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 mPlayer.pause();
             }
         });
@@ -108,7 +170,6 @@ public class AudioPlayer extends Activity implements OnPreparedListener {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 mPlayer.seekTo(mPlayer.getCurrentPosition()+20000);
             }
         });
@@ -117,7 +178,6 @@ public class AudioPlayer extends Activity implements OnPreparedListener {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 mPlayer.seekTo(mPlayer.getCurrentPosition()-20000);
             }
         });
@@ -148,7 +208,7 @@ public class AudioPlayer extends Activity implements OnPreparedListener {
     private Runnable onEverySecond = new Runnable() {
         @Override
         public void run(){
-            if(true == running){
+            if(running){
                 if(mSeekBarPlayer != null) {
                     mSeekBarPlayer.setProgress(mPlayer.getCurrentPosition());
                 }
@@ -191,7 +251,6 @@ public class AudioPlayer extends Activity implements OnPreparedListener {
 
     @Override
     public void onPrepared(MediaPlayer arg0) {
-        // TODO Auto-generated method stub
         duration = mPlayer.getDuration();
         mSeekBarPlayer.setMax(duration);
         mSeekBarPlayer.postDelayed(onEverySecond, 1000);
@@ -200,10 +259,13 @@ public class AudioPlayer extends Activity implements OnPreparedListener {
     public void exitPlayer() {
         //mVideoView.stopPlayback();
         mPlayer.stop();
+        Intent i = new Intent(AudioPlayer.this, ListDownloadedAudio.class);
+        startActivity(i);
+        finish();
     }
 
     public void deleteAudio() {
-        /*new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setMessage(getString(R.string.deleteAudio)+"?")
                 .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener()
@@ -211,17 +273,21 @@ public class AudioPlayer extends Activity implements OnPreparedListener {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         exitPlayer();
-                        String path = new File(file().replace("file:", "")).getParent();
-                        File file = new File(path, file().substring(file().lastIndexOf("/")+1));
+                        File audioFile = new File(getExternalFilesDir(null), file());
+                        File audioThumb = new File(getExternalFilesDir(null), audioThumb().substring(audioThumb().lastIndexOf("/") + 1));
                         //Toast.makeText(getApplicationContext(), file.toString(), Toast.LENGTH_LONG).show();
-                        file.delete();
-                        overridePendingTransition(R.anim.fade_in, R.anim.slide_out_right);
-                        finish();
+                        audioFile.delete();
+                        audioThumb.delete();
+                        AudioDBHelper helper = new AudioDBHelper(getApplicationContext());
+                        SQLiteDatabase db = helper.getWritableDatabase();
+                        deleteAudioDBRecord(db, file());
+                        //overridePendingTransition(R.anim.fade_in, R.anim.slide_out_right);
+                        exitPlayer();
                     }
 
                 })
                 .setNegativeButton(getString(R.string.no), null)
-                .show();*/
+                .show();
     }
 
     @Override
@@ -232,7 +298,6 @@ public class AudioPlayer extends Activity implements OnPreparedListener {
                 case KeyEvent.KEYCODE_BACK:
                     exitPlayer();
                     //overridePendingTransition(R.anim.fade_in, R.anim.slide_out_right);
-                    finish();
                     return true;
             }
 
@@ -247,7 +312,6 @@ public class AudioPlayer extends Activity implements OnPreparedListener {
             case android.R.id.home:
                 exitPlayer();
                 //overridePendingTransition(R.anim.fade_in, R.anim.slide_out_right);
-                finish();
                 return true;
             case R.id.show_video:
                 goToVideo();
