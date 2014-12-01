@@ -12,6 +12,7 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import com.chaemil.hgms.adapters.PhotoalbumAdapter;
+import com.chaemil.hgms.utils.Basic;
 
 import static com.chaemil.hgms.utils.Utils.fetchPhotoalbum;
 import static com.chaemil.hgms.utils.Utils.getScreenWidth;
@@ -28,10 +29,10 @@ public class PhotoalbumActivity extends Activity {
 
         Bundle extras = getIntent().getExtras();
 
-        final String albumId = extras.getString("albumId");
+        final String albumId = extras.getString(Basic.ALBUM_ID);
 
 
-        Log.i("albumId", albumId);
+        Log.i(Basic.ALBUM_ID, albumId);
 
         GridView photoThumbsGrid = (GridView) findViewById(R.id.photoThumbsGrid);
         PhotoalbumAdapter mPhotoalbumAdapter = new PhotoalbumAdapter(getApplicationContext(),R.layout.photo_thumb);
@@ -47,8 +48,8 @@ public class PhotoalbumActivity extends Activity {
                 TextView photoIdElement =  (TextView) v.findViewById(R.id.photoId);
                 CharSequence photoId = photoIdElement.getText();
                 Intent intent = new Intent(getApplicationContext(), PhotoalbumSlideshow.class);
-                intent.putExtra("photoId",photoId);
-                intent.putExtra("albumId",albumId);
+                intent.putExtra(Basic.PHOTO_ID,photoId);
+                intent.putExtra(Basic.ALBUM_ID,albumId);
                 startActivity(intent);
             }
         });

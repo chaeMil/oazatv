@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.chaemil.hgms.adapters.ArchiveAdapter;
 import com.chaemil.hgms.adapters.home_page_adapters.NewVideosAdapter;
 import com.chaemil.hgms.adapters.home_page_adapters.PhotoalbumsAdapter;
+import com.chaemil.hgms.utils.Basic;
 import com.chaemil.hgms.utils.Utils;
 import com.chaemil.hgms.view.ExpandedListView;
 
@@ -47,7 +48,7 @@ public class HomeFragment extends Fragment {
         homeFirstVideo.setAdapter(mFirstVideoDataAdapter);
         fetchArchive(
                 getActivity().getApplicationContext(),
-                getResources().getString(R.string.mainServerJson) + "?page=home&lang=" + Utils.lang,
+                Basic.MAIN_SERVER_JSON + "?page=home&lang=" + Utils.lang,
                 mFirstVideoDataAdapter,
                 "mainVideo");
         homeFirstVideo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -71,7 +72,7 @@ public class HomeFragment extends Fragment {
         newVideos.setAdapter(mNewVideosAdapter);
         fetchArchive(
                 getActivity(),
-                getResources().getString(R.string.mainServerJson) + "?page=home&lang=" + Utils.lang,
+                Basic.MAIN_SERVER_JSON + "?page=home&lang=" + Utils.lang,
                 mNewVideosAdapter,
                 "newVideos"
         );
@@ -96,7 +97,7 @@ public class HomeFragment extends Fragment {
         photoAlbums.setAdapter(mPhotoalbumsAdapter);
         fetchArchive(
                 getActivity().getApplicationContext(),
-                getResources().getString(R.string.mainServerJson) + "?page=home&lang=" + Utils.lang,
+                Basic.MAIN_SERVER_JSON + "?page=home&lang=" + Utils.lang,
                 mPhotoalbumsAdapter,
                 "photoAlbums"
         );
@@ -123,7 +124,7 @@ public class HomeFragment extends Fragment {
         Bundle bundle = this.getArguments();
         String title = "";
         if (bundle != null) {
-            title = bundle.getString("title");
+            title = bundle.getString(Basic.BUNDLE_TITLE);
         }
         getActivity().getActionBar().setTitle(title);
     }

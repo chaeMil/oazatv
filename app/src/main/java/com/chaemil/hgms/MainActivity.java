@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import com.chaemil.hgms.utils.Basic;
 import com.chaemil.hgms.utils.Utils;
 import com.chaemil.hgms.adapters.ArchiveMenuAdapter;
 
@@ -153,9 +154,9 @@ public class MainActivity extends Activity {
 
                 Bundle args = new Bundle();
 
-                String link = getResources().getString(R.string.mainServerJson)+"?page=archive&lang="+ Utils.lang+"&nazev="+query;
+                String link = Basic.MAIN_SERVER_JSON+"?page=archive&lang="+ Utils.lang+"&nazev="+query;
 
-                args.putString("link", link);
+                args.putString(Basic.BUNDLE_LINK, link);
 
                 FragmentManager fragmentManager = getFragmentManager();
                 fragment.setArguments(args);
@@ -219,8 +220,8 @@ public class MainActivity extends Activity {
 
 
         Bundle args = new Bundle();
-        args.putString("link", link);
-        args.putString("title", title);
+        args.putString(Basic.BUNDLE_LINK, link);
+        args.putString(Basic.BUNDLE_TITLE, title);
 
 
 
@@ -228,31 +229,31 @@ public class MainActivity extends Activity {
 
         boolean isFragment = false;
 
-        if(type.equals("homeLink")) {
+        if(type.equals(Basic.JSON_MENU_TYPE_HOME_LINK)) {
             fragment = new HomeFragment();
             isFragment = true;
         }
-        else if (type.equals("archiveLink")) {
+        else if (type.equals(Basic.JSON_MENU_TYPE_ARCHIVE_LINK)) {
             fragment = new ArchiveFragment();
             isFragment = true;
 
         }
-        else if(type.equals("downloadedAudio")) {
+        else if(type.equals(Basic.JSON_MENU_TYPE_DOWNLOADED_AUDIO)) {
             Intent i = new Intent(this,ListDownloadedAudio.class);
             startActivity(i);
         }
-        else if (type.equals("exitApp")) {
+        else if (type.equals(Basic.JSON_MENU_TYPE_EXIT)) {
             finish();
         }
 
-        if (!type.equals("downloadedAudio")) {
+        if (!type.equals(Basic.JSON_MENU_TYPE_DOWNLOADED_AUDIO)) {
             mTitle = title;
         }
 
 
         //Toast.makeText(getApplicationContext(),type,Toast.LENGTH_SHORT).show();
         //Toast.makeText(getApplicationContext(),getResources().getString(R.string.mainServerJson)+"?page=archive&lang="+ Utils.lang+link,Toast.LENGTH_LONG).show();
-        Log.i("link",getResources().getString(R.string.mainServerJson)+"?page=archive&lang="+ Utils.lang+link);
+        Log.i("link",Basic.MAIN_SERVER_JSON+"?page=archive&lang="+ Utils.lang+link);
 
         if(isFragment) {
             FragmentManager fragmentManager = getFragmentManager();

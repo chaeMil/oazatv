@@ -10,6 +10,7 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import com.chaemil.hgms.adapters.ArchiveAdapter;
+import com.chaemil.hgms.utils.Basic;
 import com.chaemil.hgms.utils.Utils;
 
 import static com.chaemil.hgms.utils.Basic.startPhotoalbumViewer;
@@ -35,7 +36,7 @@ public class ArchiveFragment extends Fragment {
         Bundle bundle = this.getArguments();
         String link = "";
         if (bundle != null) {
-            link = bundle.getString("link");
+            link = bundle.getString(Basic.BUNDLE_LINK);
         }
 
         ArchiveAdapter mArchiveAdapter = new ArchiveAdapter(getActivity(),R.layout.archive_block);
@@ -48,7 +49,7 @@ public class ArchiveFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View v, int i, long l) {
                 TextView typeElement = (TextView) v.findViewById(R.id.type);
                 String type = typeElement.getText().toString();
-                if(type.equals("video")) {
+                if(type.equals(Basic.JSON_ARCHIVE_TYPE_VIDEO)) {
                     TextView videoUrlElement = (TextView) v.findViewById(R.id.videoURL);
                     String videoURL = videoUrlElement.getText().toString();
                     TextView videoNameElement = (TextView) v.findViewById(R.id.videoName);
@@ -59,16 +60,16 @@ public class ArchiveFragment extends Fragment {
                     String videoViews = videoViewsElement.getText().toString();
                     startVideoPlayer(getView(), videoURL, videoName, videoDate, videoViews);
                 }
-                else if(type.equals("photoAlbum")) {
+                else if(type.equals(Basic.JSON_ARCHIVE_TYPE_PHOTOALBUM)) {
                     TextView albumIdElement = (TextView) v.findViewById(R.id.albumId);
                     String albumId = albumIdElement.getText().toString();
-                    startPhotoalbumViewer(getView(),albumId);
+                    startPhotoalbumViewer(getView(), albumId);
                 }
             }
         });
 
 
-        fetchArchive(getActivity().getApplicationContext(),getResources().getString(R.string.mainServerJson)+"?page=archive&lang="+ Utils.lang+link,mArchiveAdapter,"archive");
+        fetchArchive(getActivity().getApplicationContext(),Basic.MAIN_SERVER_JSON+"?page=archive&lang="+ Utils.lang+link,mArchiveAdapter,"archive");
 
 
         return rootView;
@@ -83,7 +84,7 @@ public class ArchiveFragment extends Fragment {
         Bundle bundle = this.getArguments();
         String title = "";
         if (bundle != null) {
-            title = bundle.getString("title");
+            title = bundle.getString(Basic.BUNDLE_TITLE);
         }
         getActivity().getActionBar().setTitle(title);
     }

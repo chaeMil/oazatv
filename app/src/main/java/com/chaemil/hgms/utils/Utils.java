@@ -49,7 +49,7 @@ public class Utils extends Activity {
 
     public static void fetchMenuData(final Context c, final ArchiveMenuAdapter adapter) {
         JsonObjectRequest request = new JsonObjectRequest(
-                c.getResources().getString(R.string.mainServerJson)+"?page=menu&lang="+Utils.lang,
+                Basic.MAIN_SERVER_JSON+"?page=menu&lang="+Utils.lang,
                 null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -107,7 +107,7 @@ public class Utils extends Activity {
 
     public static void fetchPhotoalbum(final Context c, final PhotoalbumAdapter adapter,String albumId) {
         JsonObjectRequest request = new JsonObjectRequest(
-                c.getResources().getString(R.string.mainServerJson)+"?page=photoalbum&albumId="+albumId+"&lang="+Utils.lang,
+                Basic.MAIN_SERVER_JSON+"?page=photoalbum&albumId="+albumId+"&lang="+Utils.lang,
                 null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -137,14 +137,14 @@ public class Utils extends Activity {
     static private List<ArchiveMenuRecord> parseMenu(JSONObject json) throws JSONException {
         ArrayList<ArchiveMenuRecord> records = new ArrayList<ArchiveMenuRecord>();
 
-        JSONArray jsonImages = json.getJSONArray("menu");
+        JSONArray jsonImages = json.getJSONArray(Basic.JSON_ARRAY_MENU);
 
         for(int i =0; i < jsonImages.length(); i++) {
             JSONObject jsonImage = jsonImages.getJSONObject(i);
-            String label = jsonImage.getString("label");
-            String type = jsonImage.getString("type");
-            String content = jsonImage.getString("content");
-            String titleToShow = jsonImage.getString("titleToShow");
+            String label = jsonImage.getString(Basic.JSON_MENU_LABEL);
+            String type = jsonImage.getString(Basic.JSON_MENU_TYPE);
+            String content = jsonImage.getString(Basic.JSON_MENU_CONTENT);
+            String titleToShow = jsonImage.getString(Basic.JSON_MENU_TITLE_TO_SHOW);
 
             ArchiveMenuRecord record = new ArchiveMenuRecord(type, content, label, titleToShow);
             records.add(record);
@@ -161,14 +161,14 @@ public class Utils extends Activity {
         for(int i=0; i< jsonImages.length(); i++) {
             JSONObject jsonImage = jsonImages.getJSONObject(i);
 
-            String type = jsonImage.getString("type");
-            String title = jsonImage.getString("title");
-            String date = jsonImage.getString("date");
-            String playCount = jsonImage.getString("playCount");
-            String thumb = jsonImage.getString("thumb");
-            String thumbBlur = jsonImage.getString("thumbBlur");
-            String videoURL = jsonImage.getString("videoURL");
-            String albumId = jsonImage.getString("albumId");
+            String type = jsonImage.getString(Basic.JSON_ARCHIVE_TYPE);
+            String title = jsonImage.getString(Basic.JSON_ARCHIVE_TITLE);
+            String date = jsonImage.getString(Basic.JSON_ARCHIVE_DATE);
+            String playCount = jsonImage.getString(Basic.JSON_ARCHIVE_PLAY_COUNT);
+            String thumb = jsonImage.getString(Basic.JSON_ARCHIVE_THUMB);
+            String thumbBlur = jsonImage.getString(Basic.JSON_ARCHIVE_THUMB_BLUR);
+            String videoURL = jsonImage.getString(Basic.JSON_ARCHIVE_VIDEO_URL);
+            String albumId = jsonImage.getString(Basic.JSON_ARCHIVE_ALBUM_ID);
 
             ArchiveRecord record = new ArchiveRecord(type, title, date, playCount, thumb, thumbBlur, videoURL, albumId);
             records.add(record);
@@ -180,15 +180,15 @@ public class Utils extends Activity {
     static private List<PhotoalbumRecord> parsePhotoalbum(JSONObject json) throws JSONException {
         ArrayList<PhotoalbumRecord> records = new ArrayList<PhotoalbumRecord>();
 
-        JSONArray jsonImages = json.getJSONArray("photoalbum");
+        JSONArray jsonImages = json.getJSONArray(Basic.JSON_ARRAY_PHOTOALUMB);
 
         for(int i =0; i < jsonImages.length(); i++) {
             JSONObject jsonImage = jsonImages.getJSONObject(i);
-            String thumb = jsonImage.getString("thumb");
-            String photoLarge = jsonImage.getString("photoLarge");
-            String photoBig = jsonImage.getString("photoBig");
-            String label = jsonImage.getString("label");
-            String photoId = jsonImage.getString("n");
+            String thumb = jsonImage.getString(Basic.JSON_PHOTOALBUM_THUMB);
+            String photoLarge = jsonImage.getString(Basic.JSON_PHOTOALBUM_PHOTO_LARGE);
+            String photoBig = jsonImage.getString(Basic.JSON_PHOTOALBUM_PHOTO_BIG);
+            String label = jsonImage.getString(Basic.JSON_PHOTOALBUM_LABEL);
+            String photoId = jsonImage.getString(Basic.JSON_PHOTOALBUM_PHOTO_ID);
 
             PhotoalbumRecord record = new PhotoalbumRecord(thumb, photoLarge, photoBig, label, photoId);
             records.add(record);
@@ -199,18 +199,18 @@ public class Utils extends Activity {
 
     public static void displayVideoTags(final Context c, String videoId, final FlowLayout layout) {
         JsonObjectRequest request = new JsonObjectRequest(
-                c.getResources().getString(R.string.mainServerJson)+"?page=videoTags&video="+videoId+"&lang="+ Utils.lang,
+                Basic.MAIN_SERVER_JSON+"?page=videoTags&video="+videoId+"&lang="+ Utils.lang,
                 null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         try {
-                            JSONArray jsonImages = jsonObject.getJSONArray("videoTags");
+                            JSONArray jsonImages = jsonObject.getJSONArray(Basic.JSON_ARRAY_VIDEO_TAGS);
 
                             for(int i =0; i < jsonImages.length(); i++) {
                                 JSONObject jsonImage = jsonImages.getJSONObject(i);
-                                String tag = jsonImage.getString("tag");
-                                String tagText = jsonImage.getString("tagText");
+                                String tag = jsonImage.getString(Basic.JSON_VIDEO_TAGS_TAG);
+                                String tagText = jsonImage.getString(Basic.JSON_VIDEO_TAGS_TAG_TEXT);
 
                                 LayoutInflater inflater = LayoutInflater.from(c);
                                 View view  = inflater.inflate(R.layout.tag, layout, false);

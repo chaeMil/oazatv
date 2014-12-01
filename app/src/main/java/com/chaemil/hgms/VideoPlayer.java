@@ -30,6 +30,7 @@ import android.widget.VideoView;
 
 import com.chaemil.hgms.db.AudioDBContract.DownloadedAudio;
 import com.chaemil.hgms.db.AudioDBHelper;
+import com.chaemil.hgms.utils.Basic;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.ProgressCallback;
@@ -66,38 +67,38 @@ public class VideoPlayer extends FragmentActivity {
 
 
     private String getVideoId(Bundle b) {
-        String s = b.getString("videoLink");
+        String s = b.getString(Basic.BUNDLE_VIDEO_LINK);
         return s.substring(s.lastIndexOf("/") + 1, s.lastIndexOf("."));
     }
 
     private String getVideoName(Bundle b) {
-        return b.getString("videoName");
+        return b.getString(Basic.VIDEO_NAME);
     }
 
     private String getAudioFileName(Bundle b, boolean fake) {
         if (fake) {
-            return getVideoId(b)+".audio";
+            return getVideoId(b)+Basic.EXTENSION_AUDIO;
         }
         else {
-            return getVideoId(b)+".mp3";
+            return getVideoId(b)+Basic.EXTENSION_MP3;
         }
 
     }
 
     private String getAudioThumbFileName(Bundle b) {
-        return getVideoId(b)+".jpg";
+        return getVideoId(b)+Basic.EXTENSION_JPG;
     }
 
     private String getVideoUrl(Bundle b) {
-        return b.getString("videoLink");
+        return b.getString(Basic.VIDEO_LINK);
     }
 
     private String getVideoDate(Bundle b) {
-        return b.getString("videoDate");
+        return b.getString(Basic.VIDEO_DATE);
     }
 
     private String getVideoViews(Bundle b) {
-        return b.getString("videoViews");
+        return b.getString(Basic.VIDEO_VIEWS);
     }
 
     void resetDownload() {
@@ -106,17 +107,16 @@ public class VideoPlayer extends FragmentActivity {
         downloading = null;
 
         // reset the ui
-        download.setText("Download");
         downloadCount.setText(null);
         progressBar.setProgress(0);
     }
 
     private void downloadAudio() {
         Bundle extras = getIntent().getExtras();
-        String audioUrl = getVideoUrl(extras).replace("mp4","mp3").replace("webm","mp3");
-        String thumbUrl = audioUrl.replace(".mp3",".jpg");
-        String filename = audioUrl.substring(audioUrl.lastIndexOf("/")+1,audioUrl.length()).replace(".mp3",".audio");
-        String thumbFilename = filename.replace(".audio",".thumb");
+        String audioUrl = getVideoUrl(extras).replace(Basic.EXTENSION_MP4,Basic.EXTENSION_MP3).replace(Basic.EXTENSION_WEBM,Basic.EXTENSION_MP3);
+        String thumbUrl = audioUrl.replace(Basic.EXTENSION_MP3,Basic.EXTENSION_JPG);
+        String filename = audioUrl.substring(audioUrl.lastIndexOf("/")+1,audioUrl.length()).replace(Basic.EXTENSION_MP3,Basic.EXTENSION_AUDIO);
+        String thumbFilename = filename.replace(Basic.EXTENSION_AUDIO, Basic.EXTENSION_THUMB);
 
         helper = new AudioDBHelper(getApplicationContext());
         db = helper.getWritableDatabase();
@@ -231,7 +231,7 @@ public class VideoPlayer extends FragmentActivity {
             fragment = new SimilarVideosFragment();
 
             Bundle args = new Bundle();
-            args.putString("videoLink", getVideoUrl(extras));
+            args.putString(Basic.VIDEO_LINK, getVideoUrl(extras));
 
             fragment.setArguments(args);
 
@@ -263,7 +263,7 @@ public class VideoPlayer extends FragmentActivity {
         if (currentapiVersion <= Build.VERSION_CODES.KITKAT){
             video = Uri.parse(videoURL);
         } else{
-            video = Uri.parse(videoURL.replace(".webm",".mp4"));
+            video = Uri.parse(videoURL.replace(Basic.EXTENSION_WEBM, Basic.EXTENSION_MP4));
         }
 
         //Uri video = Uri.parse("http://oaza.tv/root/db/2014-11-23-lxaAhP.webm");
@@ -427,7 +427,7 @@ public class VideoPlayer extends FragmentActivity {
         ContentValues values = new ContentValues();
         values.put(DownloadedAudio.COLUMN_NAME_AUDIO_FILE, getAudioFileName(extras,true));
         values.put(DownloadedAudio.COLUMN_NAME_AUDIO_NAME, getVideoName(extras));
-        values.put(DownloadedAudio.COLUMN_NAME_AUDIO_THUMB, getAudioThumbFileName(extras).replace(".jpg",".thumb"));
+        values.put(DownloadedAudio.COLUMN_NAME_AUDIO_THUMB, getAudioThumbFileName(extras).replace(Basic.EXTENSION_JPG,Basic.EXTENSION_THUMB));
         values.put(DownloadedAudio.COLUMN_NAME_AUDIO_DATE, getVideoDate(extras));
 
         db.insert(DownloadedAudio.TABLE_NAME,null,values);

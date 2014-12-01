@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.ListView;
 
 import com.chaemil.hgms.adapters.PhotoalbumAdapter;
+import com.chaemil.hgms.utils.Basic;
 
 import static com.chaemil.hgms.utils.Utils.fetchPhotoalbum;
 
@@ -17,8 +18,8 @@ public class PhotoalbumSlideshow extends Activity {
         setContentView(R.layout.photoalbum_slideshow);
 
         Bundle extras = getIntent().getExtras();
-        String albumId = extras.getString("albumId");
-        final String photoId = extras.getString("photoId");
+        String albumId = extras.getString(Basic.ALBUM_ID);
+        final String photoId = extras.getString(Basic.PHOTO_ID);
 
         final ListView slideshow = (ListView) findViewById(R.id.slideshow);
         PhotoalbumAdapter slideshowAdapter = new PhotoalbumAdapter(getApplicationContext(),R.layout.photoalbum_photo);

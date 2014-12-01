@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.chaemil.hgms.db.AudioDBContract;
 import com.chaemil.hgms.db.AudioDBContract.DownloadedAudio;
 import com.chaemil.hgms.db.AudioDBHelper;
+import com.chaemil.hgms.utils.Basic;
 import com.squareup.picasso.Picasso;
 
 
@@ -100,10 +101,10 @@ public class ListDownloadedAudio extends Activity {
                     @Override
                     public void onClick(View view) {
                         Intent audioPlayer = new Intent(ListDownloadedAudio.this, AudioPlayer.class);
-                        audioPlayer.putExtra("audioFile",audioFile);
-                        audioPlayer.putExtra("audioFileName", audioFileName);
-                        audioPlayer.putExtra("audioFileThumb", thumbFileName);
-                        audioPlayer.putExtra("audioFileDate", audioDate);
+                        audioPlayer.putExtra(Basic.AUDIO_FILE,audioFile);
+                        audioPlayer.putExtra(Basic.AUDIO_FILE_NAME, audioFileName);
+                        audioPlayer.putExtra(Basic.AUDIO_FILE_THUMB, thumbFileName);
+                        audioPlayer.putExtra(Basic.AUDIO_FILE_DATE, audioDate);
                         startActivity(audioPlayer);
                         Toast.makeText(getApplicationContext(), audioFile, Toast.LENGTH_LONG).show();
                         finish();

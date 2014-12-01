@@ -32,6 +32,7 @@ import android.widget.MediaController.MediaPlayerControl;
 
 import com.chaemil.hgms.db.AudioDBHelper;
 import com.chaemil.hgms.utils.MusicController;
+import com.chaemil.hgms.utils.Basic;
 
 import static com.chaemil.hgms.db.AudioDBHelper.deleteAudioDBRecord;
 
@@ -70,22 +71,22 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
 
     public String file() {
         Bundle bundle = getIntent().getExtras();
-        return bundle.getString("audioFile");
+        return bundle.getString(Basic.AUDIO_FILE);
     }
 
     public String audioThumb() {
         Bundle bundle = getIntent().getExtras();
-        return bundle.getString("audioFileThumb");
+        return bundle.getString(Basic.AUDIO_FILE_THUMB);
     }
 
     public String audioName() {
         Bundle bundle = getIntent().getExtras();
-        return bundle.getString("audioFileName");
+        return bundle.getString(Basic.AUDIO_FILE_NAME);
     }
 
     public String audioDate() {
         Bundle bundle = getIntent().getExtras();
-        return bundle.getString("audioFileDate");
+        return bundle.getString(Basic.AUDIO_FILE_DATE);
     }
 
     @Override
@@ -102,8 +103,8 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
         audioThumb = (ImageView) findViewById(R.id.audioThumb);
         audioDate = (TextView) findViewById(R.id.audioDate);
 
-        Log.i("audioThumb", audioThumb().substring(audioThumb().lastIndexOf("/")+1));
-        Log.i("audioFile", file());
+        Log.i(Basic.AUDIO_FILE_THUMB, audioThumb().substring(audioThumb().lastIndexOf("/")+1));
+        Log.i(Basic.AUDIO_FILE, file());
 
         if (getActionBar() != null) {
             getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -224,15 +225,15 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
     private void updateTime(){
         do {
             current = mPlayer.getCurrentPosition();
-            System.out.println("duration - " + duration + " current- "
-                    + current);
-            int dSeconds = (int) (duration / 1000) % 60 ;
-            int dMinutes = (int) ((duration / (1000*60)) % 60);
-            int dHours   = (int) ((duration / (1000*60*60)) % 24);
+            /*System.out.println("duration - " + duration + " current- "
+                    + current);*/
+            int dSeconds = (duration / 1000) % 60 ;
+            int dMinutes = ((duration / (1000*60)) % 60);
+            int dHours   = ((duration / (1000*60*60)) % 24);
 
-            int cSeconds = (int) (current / 1000) % 60 ;
-            int cMinutes = (int) ((current / (1000*60)) % 60);
-            int cHours   = (int) ((current / (1000*60*60)) % 24);
+            int cSeconds = (current / 1000) % 60 ;
+            int cMinutes = ((current / (1000*60)) % 60);
+            int cHours   = ((current / (1000*60*60)) % 24);
 
             if(dHours == 0){
                 mMediaTime.setText(String.format("%02d:%02d / %02d:%02d", cMinutes, cSeconds, dMinutes, dSeconds));
