@@ -58,6 +58,13 @@
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_audio_player">
         </activity>
+        <activity
+            android:name="com.chaemil.hgms.LivePlayer"
+            android:screenOrientation="sensor"
+            android:configChanges="keyboardHidden|orientation|screenSize">
+            <!--<meta-data android:name="@string/minVersion" android:value="8"/>
+            <meta-data android:name="@string/isLaunchableActivity" android:value="true"/>-->
+        </activity>
 
     </application>
 

@@ -20,6 +20,11 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.chaemil.hgms.utils.Basic;
 import com.chaemil.hgms.utils.Utils;
 import com.chaemil.hgms.adapters.ArchiveMenuAdapter;
@@ -39,6 +44,7 @@ public class MainActivity extends Activity {
     private ListView menuList;
     private Fragment fragment;
     private int actionBarHeight;
+    private String youtubeVideoId;
 
 
     @Override
@@ -244,6 +250,38 @@ public class MainActivity extends Activity {
         }
         else if (type.equals(Basic.JSON_MENU_TYPE_EXIT)) {
             finish();
+        }
+        else if (type.equals(Basic.JSON_MENU_TYPE_LIVE_PLAYER)) {
+
+            RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+
+            String url = Basic.MAIN_SERVER_JSON + "?page=live";
+
+            StringRequest request = new StringRequest(
+                    url,
+                    new Response.Listener<String>() {
+
+                        @Override
+                        public void onResponse(String s) {
+                            Log.i("request", s);
+                            youtubeVideoId = s;
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError volleyError) {
+                            Log.i("VolleyError.error",volleyError.toString());
+                        }
+                    }
+            );
+
+            // add it to the RequestQueue
+            queue.add(request);
+
+
+            Intent i = new Intent(this,LivePlayer.class);
+            i.putExtra(Basic.YOUTUBE_VIDEO_ID, youtubeVideoId);
+            startActivity(i);
         }
 
         if (!type.equals(Basic.JSON_MENU_TYPE_DOWNLOADED_AUDIO)) {

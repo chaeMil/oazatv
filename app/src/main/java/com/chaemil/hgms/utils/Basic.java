@@ -1,10 +1,23 @@
 package com.chaemil.hgms.utils;
 
+import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.chaemil.hgms.PhotoalbumActivity;
 import com.chaemil.hgms.VideoPlayer;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * Created by chaemil on 27.10.14.
@@ -39,6 +52,7 @@ public class Basic {
     public static final String JSON_MENU_TYPE_ARCHIVE_LINK = "archiveLink";
     public static final String JSON_MENU_TYPE_DOWNLOADED_AUDIO = "downloadedAudio";
     public static final String JSON_MENU_TYPE_EXIT = "exitApp";
+    public static final String JSON_MENU_TYPE_LIVE_PLAYER = "liveBroadcast";
 
     public static final String JSON_ARCHIVE_TITLE = "title";
     public static final String JSON_ARCHIVE_DATE = "date";
@@ -73,8 +87,7 @@ public class Basic {
     public static final String EXTENSION_WEBM = ".webm";
     public static final String EXTENSION_THUMB = ".thumb";
 
-
-
+    public static final String YOUTUBE_VIDEO_ID = "videoId";
 
 
     public static void startVideoPlayer(View v, String videoURL, String videoName, String videoDate, String videoViews) {
