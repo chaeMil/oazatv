@@ -86,7 +86,6 @@ public class PhotoalbumActivity extends Activity {
     }
 
     public void shareLink() {
-        Bundle bundle = getIntent().getExtras();
         Intent share = new Intent(android.content.Intent.ACTION_SEND);
         share.setType("text/plain");
         share.putExtra(Intent.EXTRA_SUBJECT, getAlbumName());
