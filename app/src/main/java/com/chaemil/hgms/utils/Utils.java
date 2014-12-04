@@ -10,6 +10,8 @@ import android.content.res.Resources;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Environment;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
@@ -48,6 +50,7 @@ import java.util.Locale;
  * Created by chaemil on 17.10.14.
  */
 public class Utils extends Activity {
+
     public static String lang = Locale.getDefault().getLanguage();
 
     public static void fetchMenuData(final Context c, final ArchiveMenuAdapter adapter) {
@@ -372,20 +375,15 @@ public class Utils extends Activity {
         return false;
     }
 
-    public static boolean isDownloadManagerAvailable(Context context) {
-        try {
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
-                return false;
-            }
-            Intent intent = new Intent(Intent.ACTION_MAIN);
-            intent.addCategory(Intent.CATEGORY_LAUNCHER);
-            intent.setClassName("com.android.providers.downloads.ui", "com.android.providers.downloads.ui.DownloadList");
-            List<ResolveInfo> list = context.getPackageManager().queryIntentActivities(intent,
-                    PackageManager.MATCH_DEFAULT_ONLY);
-            return list.size() > 0;
-        } catch (Exception e) {
-            return false;
+
+    public static Spannable getStringWithRegularCustomFont(Context context, String text, String font) {
+        if (text != null) {
+            SpannableString spannableString = new SpannableString(text);
+            spannableString.setSpan(new TypefaceSpan(context, font), 0, spannableString.length(),
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            return spannableString;
         }
+        return null;
     }
 
 }

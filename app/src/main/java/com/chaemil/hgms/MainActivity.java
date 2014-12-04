@@ -264,7 +264,7 @@ public class MainActivity extends Activity {
                         @Override
                         public void onResponse(String s) {
                             Log.i("request", s);
-                            youtubeVideoId = s;
+                            youtubeVideoId = s.trim().replaceAll("\n", "");
                         }
                     },
                     new Response.ErrorListener() {
@@ -284,7 +284,7 @@ public class MainActivity extends Activity {
             startActivity(i);
         }
 
-        if (!type.equals(Basic.JSON_MENU_TYPE_DOWNLOADED_AUDIO)) {
+        if (!type.equals(Basic.JSON_MENU_TYPE_DOWNLOADED_AUDIO) || !type.equals(Basic.JSON_MENU_TYPE_LIVE_PLAYER)) {
             mTitle = title;
         }
 

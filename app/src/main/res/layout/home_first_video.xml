@@ -38,26 +38,25 @@
 
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10.0dip"
                 android:background="#2e000000"
+                android:layout_margin="10dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@id/videoName"
                     android:layout_width="wrap_content"
-                    android:layout_height="28.0sp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="top|center"
-                    android:layout_marginTop="10.0dip"
                     android:ellipsize="none"
-                    android:fontFamily="sans-serif-light"
                     android:gravity="center_horizontal"
                     android:text="videoName"
                     android:textSize="20.0sp" />
 
                 <LinearLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="10.0dip"
                     android:orientation="horizontal">
 
@@ -68,7 +67,6 @@
                         android:layout_above="@id/videoDate"
                         android:layout_marginRight="5.0dip"
                         android:layout_weight="1.0"
-                        android:fontFamily="sans-serif-light"
                         android:gravity="right"
                         android:text="240 zhlédnutí"
                         android:textSize="15.0sp" />
@@ -76,7 +74,6 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
                         android:text="|"
                         android:textSize="15.0sp" />
 
@@ -86,7 +83,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5.0dip"
                         android:layout_weight="1.0"
-                        android:fontFamily="sans-serif-light"
                         android:text="neděle 14.září 2014"
                         android:textSize="15.0sp" />
                 </LinearLayout>

@@ -4,7 +4,6 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -55,7 +54,7 @@ public class LivePlayer extends YouTubeFailureRecoveryActivity implements
 
 
 
-        setContentView(R.layout.fullscreen_demo);
+        setContentView(R.layout.live_player);
         baseLayout = (LinearLayout) findViewById(R.id.layout);
         playerView = (YouTubePlayerView) findViewById(R.id.player);
         fullscreenButton = (Button) findViewById(R.id.fullscreen_button);
@@ -83,7 +82,8 @@ public class LivePlayer extends YouTubeFailureRecoveryActivity implements
         player.addFullscreenControlFlag(YouTubePlayer.FULLSCREEN_FLAG_CUSTOM_LAYOUT);
         player.setOnFullscreenListener(this);
         if (!wasRestored) {
-            player.cueVideo(videoId);
+            //videoId = videoId + "";
+            player.cueVideo(String.valueOf(videoId));
         }
     }
 

@@ -29,8 +29,7 @@
                 android:layout_height="wrap_content"
                 tools:text="videoName"
                 android:id="@+id/videoName"
-                android:fontFamily="sans-serif-light"
-                android:textSize="18sp"
+                style="@style/videoName"
                 android:ellipsize="none"
                 android:layout_gravity="left|top"
                 android:textIsSelectable="false" />
@@ -41,8 +40,7 @@
                 android:layout_height="wrap_content"
                 tools:text="neděle 14.září 2014"
                 android:id="@+id/videoDate"
-                android:fontFamily="sans-serif-light"
-                android:textSize="12sp"
+                style="@style/videoProperties"
                 android:layout_weight="1"/>
 
             <TextView
@@ -50,8 +48,7 @@
                 android:layout_height="match_parent"
                 tools:text="240 zhlédnutí"
                 android:id="@+id/videoViews"
-                android:fontFamily="sans-serif-light"
-                android:textSize="12sp"
+                style="@style/videoProperties"
                 android:layout_above="@+id/videoDate"
                 android:gravity="center_vertical"/>
 

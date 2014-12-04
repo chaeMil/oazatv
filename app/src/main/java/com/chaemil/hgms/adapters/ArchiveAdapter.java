@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chaemil.hgms.R;
+import com.chaemil.hgms.utils.Utils;
 import com.koushikdutta.ion.Ion;
 import com.squareup.picasso.Picasso;
 
@@ -71,7 +72,7 @@ public class ArchiveAdapter extends ArrayAdapter<ArchiveRecord> {
                 .animateLoad(spinAnimation)
                 .animateIn(fadeInAnimation)
                 .load(rec.getThumb());*/
-        videoName.setText(rec.getTitle());
+        videoName.setText(Utils.getStringWithRegularCustomFont(getContext(),rec.getTitle(),"Titillium-RegularUpright.otf"));
         videoDate.setText(rec.getVideoDate());
         videoURL.setText(rec.getVideoUrl());
         videoViews.setText(rec.getVideoViews());
