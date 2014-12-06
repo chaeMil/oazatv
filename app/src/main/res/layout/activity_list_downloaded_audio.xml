@@ -7,17 +7,46 @@
     <LinearLayout
         android:id="@+id/audioGrid"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:drawSelectorOnTop="true"
         android:fastScrollAlwaysVisible="false"
         android:layout_alignParentTop="true">
     </LinearLayout>
 
-    <include
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/audio_download_ui" />
+        android:orientation="vertical"
+        android:id="@+id/downloadUI"
+        android:visibility="gone"
+        android:layout_below="@+id/audioGrid">
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/download_audio"
+                android:id="@+id/download"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="58%"
+                android:id="@+id/downloadCount"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 
 </RelativeLayout>

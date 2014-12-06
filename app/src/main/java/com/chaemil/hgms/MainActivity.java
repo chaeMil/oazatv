@@ -25,9 +25,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.chaemil.hgms.adapters.ArchiveMenuAdapter;
 import com.chaemil.hgms.utils.Basic;
 import com.chaemil.hgms.utils.Utils;
-import com.chaemil.hgms.adapters.ArchiveMenuAdapter;
 
 import static com.chaemil.hgms.utils.Utils.fetchMenuData;
 
@@ -44,7 +44,9 @@ public class MainActivity extends Activity {
     private ListView menuList;
     private Fragment fragment;
     private String youtubeVideoId;
-
+    private MenuItem searchMenuItem;
+    private SearchView searchView;
+    private Menu _menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,16 +58,17 @@ public class MainActivity extends Activity {
                     .commit();
         }
 
-        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            Window w = getWindow(); // in Activity's onCreate() for instance
-
-            //setStatusBarColor(this, findViewById(R.id.statusBarBackground),getResources().getColor(R.color.actionbar_touch));
+        Bundle extras = getIntent().getExtras();
 
 
+        if (extras != null) {
+            if (extras.containsKey("tag")) {
+                if(extras.getString("tag") != null) {
+                    submitSearch(extras.getString("tag"));
+                }
+            }
+        }
 
-            w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            //w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }*/
 
 
         mTitle = mDrawerTitle = getTitle();
@@ -130,16 +133,22 @@ public class MainActivity extends Activity {
         mDrawerToggle.syncState();
     }
 
+    private Menu getMenu()
+    {
+        return _menu;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_activity_actions, menu);
 
+        _menu = menu;
+
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 
-        final MenuItem searchMenuItem = menu.findItem(R.id.search);
-        final SearchView searchView = (SearchView) searchMenuItem.getActionView();
+        searchMenuItem = menu.findItem(R.id.search);
+        searchView = (SearchView) searchMenuItem.getActionView();
 
         if (null != searchView) {
             searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
@@ -155,28 +164,7 @@ public class MainActivity extends Activity {
             public boolean onQueryTextSubmit(String query) {
 
 
-                fragment = new ArchiveFragment();
-
-                Bundle args = new Bundle();
-
-                String link = Basic.MAIN_SERVER_JSON+"?page=archive&lang="+ Utils.lang+"&nazev="+query;
-
-                args.putString(Basic.BUNDLE_LINK, link);
-
-                FragmentManager fragmentManager = getFragmentManager();
-                fragment.setArguments(args);
-                fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, fragment)
-                        .addToBackStack(null)
-                        .commit();
-
-
-
-                searchMenuItem.collapseActionView();
-
-                setTitle(getResources().getString(R.string.action_search)+": "+query);
-
-                mDrawerLayout.closeDrawers();
+                submitSearch(query);
 
                 return false;
             }
@@ -185,6 +173,30 @@ public class MainActivity extends Activity {
         searchView.setOnQueryTextListener(queryTextListener);
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    public void submitSearch(String query) {
+        fragment = new ArchiveFragment();
+        Bundle args = new Bundle();
+
+        searchMenuItem = getMenu().findItem(R.id.search);
+
+        String link = Basic.MAIN_SERVER_JSON+"?page=archive&lang="+ Utils.lang+"&nazev="+query;
+
+        args.putString(Basic.BUNDLE_LINK, link);
+
+        FragmentManager fragmentManager = getFragmentManager();
+        fragment.setArguments(args);
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, fragment)
+                .addToBackStack(null)
+                .commit();
+
+        searchMenuItem.collapseActionView();
+
+        setTitle(getResources().getString(R.string.action_search)+": "+query);
+
+        mDrawerLayout.closeDrawers();
     }
 
     @Override

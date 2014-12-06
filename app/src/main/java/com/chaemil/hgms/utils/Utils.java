@@ -7,7 +7,9 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Environment;
 import android.text.Spannable;
@@ -29,6 +31,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.chaemil.hgms.MainActivity;
 import com.chaemil.hgms.adapters.ArchiveAdapter;
 import com.chaemil.hgms.adapters.ArchiveMenuAdapter;
 import com.chaemil.hgms.adapters.ArchiveMenuRecord;
@@ -36,6 +39,7 @@ import com.chaemil.hgms.adapters.ArchiveRecord;
 import com.chaemil.hgms.adapters.PhotoalbumAdapter;
 import com.chaemil.hgms.adapters.PhotoalbumRecord;
 import com.chaemil.hgms.R;
+import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.wefika.flowlayout.FlowLayout;
 
 import org.json.JSONArray;
@@ -216,7 +220,7 @@ public class Utils extends Activity {
                             for(int i =0; i < jsonImages.length(); i++) {
                                 JSONObject jsonImage = jsonImages.getJSONObject(i);
                                 String tag = jsonImage.getString(Basic.JSON_VIDEO_TAGS_TAG);
-                                String tagText = jsonImage.getString(Basic.JSON_VIDEO_TAGS_TAG_TEXT);
+                                final String tagText = jsonImage.getString(Basic.JSON_VIDEO_TAGS_TAG_TEXT);
 
                                 LayoutInflater inflater = LayoutInflater.from(c);
                                 View view  = inflater.inflate(R.layout.tag, layout, false);
@@ -225,7 +229,17 @@ public class Utils extends Activity {
                                 tagElement.setText(tag);
 
                                 TextView tagTextElement = (TextView) view.findViewById(R.id.tagText);
-                                tagTextElement.setText(tagText);
+                                tagTextElement.setText(Utils.getStringWithRegularCustomFont(c,tagText,"Titillium-BoldUpright.otf"));
+
+                                tagTextElement.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Intent i = new Intent(c.getApplicationContext(), MainActivity.class);
+                                        i.putExtra(Basic.BUNDLE_TAG,tagText);
+                                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        c.getApplicationContext().startActivity(i);
+                                    }
+                                });
 
                                 layout.addView(view);
                             }
@@ -384,6 +398,24 @@ public class Utils extends Activity {
             return spannableString;
         }
         return null;
+    }
+
+    public static void setActionStatusBarTint(Window w, Activity a, String actionBarColor, String statusBarColor) {
+        int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+        if (currentapiVersion >= Build.VERSION_CODES.KITKAT) {
+            if (a.getActionBar() != null) {
+                a.getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor(actionBarColor)));
+            }
+            w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            // create our manager instance after the content view is set
+            SystemBarTintManager tintManager = new SystemBarTintManager(a);
+            // enable status bar tint
+            tintManager.setStatusBarTintEnabled(true);
+            // enable navigation bar tint
+            tintManager.setNavigationBarTintEnabled(true);
+            // set a custom tint color for all system bars
+            tintManager.setTintColor(Color.parseColor(statusBarColor));
+        }
     }
 
 }

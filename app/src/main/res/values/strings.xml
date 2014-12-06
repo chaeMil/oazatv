@@ -32,5 +32,6 @@
     <string name="enter_fullscreen">Enter Fullscreen</string>
     <string name="landscape_fullscreen">Always fullscreen in landscape</string>
     <string name="title_activity_download_manager">DownloadManager</string>
+    <string name="already_downloading">Již se stahuje jiný audio záznam</string>
 
 </resources>

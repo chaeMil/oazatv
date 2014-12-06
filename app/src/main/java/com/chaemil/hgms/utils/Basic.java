@@ -30,6 +30,8 @@ public class Basic {
     public static final String MAIN_SERVER_VIDEO_LINK_PREFIX = MAIN_SERVER + "?page=vp&v=";
     public static final String MAIN_SERVER_PHOTOALBUM_LINK_PREFIX = MAIN_SERVER + "?page=photo-album&album=";
 
+    public static final String BUNDLE_TAG = "tag";
+
     public static final String VIDEO_LINK = "videoLink";
     public static final String VIDEO_NAME = "videoName";
     public static final String VIDEO_DATE = "videoDate";

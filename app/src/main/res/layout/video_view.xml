@@ -68,12 +68,6 @@
         android:layout_below="@+id/videoViewWrapper"
         android:orientation="vertical">
 
-
-        <include
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            layout="@layout/audio_download_ui" />
-
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="30dp"

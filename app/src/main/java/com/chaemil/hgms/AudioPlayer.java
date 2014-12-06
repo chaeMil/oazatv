@@ -11,9 +11,12 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnPreparedListener;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -22,6 +25,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -33,8 +38,10 @@ import android.widget.MediaController.MediaPlayerControl;
 import com.chaemil.hgms.db.AudioDBHelper;
 import com.chaemil.hgms.utils.MusicController;
 import com.chaemil.hgms.utils.Basic;
+import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import static com.chaemil.hgms.db.AudioDBHelper.deleteAudioDBRecord;
+import static com.chaemil.hgms.utils.Utils.setActionStatusBarTint;
 
 public class AudioPlayer extends Activity implements OnPreparedListener/*, MediaPlayerControl TODO*/ {
 
@@ -52,6 +59,7 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
     private TextView audioName;
     private TextView audioDate;
     private MusicController controller;
+    private SystemBarTintManager tintManager;
     NotificationCompat.Builder builder;
 
     private void setController(){
@@ -108,7 +116,10 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
 
         if (getActionBar() != null) {
             getActionBar().setDisplayHomeAsUpEnabled(true);
+
         }
+
+        setActionStatusBarTint(getWindow(), this ,"#FF894C96", "#FF6D3679");
 
         audioName.setText(audioName());
         audioThumb.setImageURI(Uri.parse(audioThumb()));

@@ -45,7 +45,7 @@
             android:name="com.chaemil.hgms.ListDownloadedAudio"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_audio_player"
-            android:launchMode="singleTask" >
+            android:launchMode="singleInstance" >
         </activity>
         <activity
             android:name="com.chaemil.hgms.PhotoalbumSlideshow"
@@ -67,10 +67,6 @@
             <meta-data android:name="@string/minVersion" android:value="8"/>
             <meta-data android:name="@string/isLaunchableActivity" android:value="true"/>
             -->
-        </activity>
-        <activity
-            android:name="com.chaemil.hgms.DownloadManager"
-            android:label="@string/title_activity_download_manager" >
         </activity>
     </application>
 
