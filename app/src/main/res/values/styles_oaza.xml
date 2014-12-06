@@ -38,9 +38,38 @@
 
     </style>
 
+    <style name="firstVideoName" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">8</item>
+    </style>
+
+    <style name="firstVideoDetails" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">8</item>
+    </style>
+
+    <style name="homeScreenTitles" parent="@android:style/TextAppearance.Large">
+        <item name="android:textSize">27sp</item>
+        <item name="android:textColor">#ff2581d6</item>
+        <item name="android:shadowColor">#ffababab</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">5</item>
+        <item name="android:shadowRadius">0</item>
+        <item name="android:padding">15dp</item>
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+
     <style name="videoName" parent="@android:style/TextAppearance.Medium">
         <item name="android:textSize">16sp</item>
-        <item name="android:textColor">#000000</item>
+        <item name="android:textColor">#a8181818</item>
     </style>
 
     <style name="videoProperties">

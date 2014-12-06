@@ -4,18 +4,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.GridLayout;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +19,7 @@ import com.chaemil.hgms.db.AudioDBContract;
 import com.chaemil.hgms.db.AudioDBContract.DownloadedAudio;
 import com.chaemil.hgms.db.AudioDBHelper;
 import com.chaemil.hgms.utils.Basic;
-import com.squareup.picasso.Picasso;
+import com.chaemil.hgms.utils.Utils;
 
 
 public class ListDownloadedAudio extends Activity {
@@ -33,7 +29,7 @@ public class ListDownloadedAudio extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_audio_player);
+        setContentView(R.layout.activity_list_downloaded_audio);
 
 
         audioGrid = (LinearLayout) findViewById(R.id.audioGrid);
@@ -89,10 +85,10 @@ public class ListDownloadedAudio extends Activity {
                 final String audioFile = cursor.getString(cursor.getColumnIndex(DownloadedAudio.COLUMN_NAME_AUDIO_FILE));
 
                 TextView audioFileNameElement = (TextView) view.findViewById(R.id.videoName);
-                audioFileNameElement.setText(audioFileName);
+                audioFileNameElement.setText(Utils.getStringWithRegularCustomFont(getApplicationContext(), audioFileName, "Titillium-BoldUpright.otf"));
 
                 TextView dateElement = (TextView) view.findViewById(R.id.videoDate);
-                dateElement.setText(audioDate);
+                dateElement.setText(Utils.getStringWithRegularCustomFont(getApplicationContext(), audioDate, "Titillium-RegularUpright.otf"));
 
                 ImageView thumb = (ImageView) view.findViewById(R.id.thumb);
                 thumb.setImageURI(Uri.parse(thumbFileName));

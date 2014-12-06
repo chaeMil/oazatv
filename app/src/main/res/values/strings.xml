@@ -20,6 +20,7 @@
     <string name="download_complete">Stahování dokončeno</string>
     <string name="cancel_audio_download">zrušit stahování</string>
     <string name="error_downloading_audiofile">Stahování audio záznamu bylo zrušeno</string>
+    <string name="downloading_audio_in_background">Audiozáznam se stahuje na pozadí</string>
     <string name="download_audiofile_completed">Stahování audizáznamu dokončeno</string>
     <string name="already_downloaded">Již staženo</string>
     <string name="deleteAudio">Smazat audiozáznam</string>
@@ -27,9 +28,9 @@
     <string name="yes">Smazat</string>
     <string name="no">Zrušit</string>
     <string name="action_share">Sdílet</string>
-
     <string name="error_player">There was an error initializing the YouTubePlayer (%1$s)</string>
     <string name="enter_fullscreen">Enter Fullscreen</string>
     <string name="landscape_fullscreen">Always fullscreen in landscape</string>
+    <string name="title_activity_download_manager">DownloadManager</string>
 
 </resources>

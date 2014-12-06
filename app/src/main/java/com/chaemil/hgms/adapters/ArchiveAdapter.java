@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.chaemil.hgms.R;
 import com.chaemil.hgms.utils.Utils;
-import com.koushikdutta.ion.Ion;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -39,6 +38,7 @@ public class ArchiveAdapter extends ArrayAdapter<ArchiveRecord> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
+
         if(convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(layout, parent, false);
         }
@@ -47,7 +47,7 @@ public class ArchiveAdapter extends ArrayAdapter<ArchiveRecord> {
             background = (ImageView) convertView.findViewById(R.id.background);
         }
         ImageView videoThumb = (ImageView) convertView.findViewById(R.id.thumb);
-        TextView videoName = (TextView) convertView.findViewById(R.id.videoName);
+        final TextView videoName = (TextView) convertView.findViewById(R.id.videoName);
         TextView videoDate = (TextView) convertView.findViewById(R.id.videoDate);
         TextView videoURL = (TextView) convertView.findViewById(R.id.videoURL);
         TextView videoViews = (TextView) convertView.findViewById(R.id.videoViews);
@@ -72,12 +72,14 @@ public class ArchiveAdapter extends ArrayAdapter<ArchiveRecord> {
                 .animateLoad(spinAnimation)
                 .animateIn(fadeInAnimation)
                 .load(rec.getThumb());*/
-        videoName.setText(Utils.getStringWithRegularCustomFont(getContext(),rec.getTitle(),"Titillium-RegularUpright.otf"));
-        videoDate.setText(rec.getVideoDate());
+
+        videoName.setText(Utils.getStringWithRegularCustomFont(getContext(),rec.getTitle(),"Titillium-BoldUpright.otf"));
+        videoDate.setText(Utils.getStringWithRegularCustomFont(getContext(), rec.getVideoDate(), "Titillium-RegularUpright.otf"));
         videoURL.setText(rec.getVideoUrl());
-        videoViews.setText(rec.getVideoViews());
+        videoViews.setText(Utils.getStringWithRegularCustomFont(getContext(),rec.getVideoViews(),"Titillium-RegularUpright.otf"));
         albumId.setText(rec.getAlbumId());
         type.setText(rec.getType());
+
 
 
         return convertView;

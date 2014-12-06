@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.chaemil.hgms.adapters.ArchiveAdapter;
@@ -35,7 +36,8 @@ public class HomeFragment extends Fragment {
     private ExpandedListView photoAlbums;
     private NewVideosAdapter mNewVideosAdapter;
     private PhotoalbumsAdapter mPhotoalbumsAdapter;
-
+    private TextView newVideosTitle;
+    private TextView photoalbumsTitle;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,6 +45,12 @@ public class HomeFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
         mFirstVideoDataAdapter = new ArchiveAdapter(getActivity(),R.layout.home_first_video);
+
+        newVideosTitle = (TextView) rootView.findViewById(R.id.newVideosTitle);
+        newVideosTitle.setText(Utils.getStringWithRegularCustomFont(getActivity(),getResources().getString(R.string.newVideos), "Titillium-BoldUpright.otf"));
+
+        photoalbumsTitle = (TextView) rootView.findViewById(R.id.photoalbumsTitle);
+        photoalbumsTitle.setText(Utils.getStringWithRegularCustomFont(getActivity(),getResources().getString(R.string.photoalbums), "Titillium-BoldUpright.otf"));
 
         homeFirstVideo = (ListView) rootView.findViewById(R.id.firstVideo);
         homeFirstVideo.setAdapter(mFirstVideoDataAdapter);

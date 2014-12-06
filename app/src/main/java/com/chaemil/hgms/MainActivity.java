@@ -43,7 +43,6 @@ public class MainActivity extends Activity {
     private TextView emptyText;
     private ListView menuList;
     private Fragment fragment;
-    private int actionBarHeight;
     private String youtubeVideoId;
 
 

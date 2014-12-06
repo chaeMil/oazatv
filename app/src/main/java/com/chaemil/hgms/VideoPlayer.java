@@ -2,7 +2,12 @@ package com.chaemil.hgms;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
@@ -15,6 +20,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
@@ -25,6 +31,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
+import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -59,9 +66,14 @@ public class VideoPlayer extends FragmentActivity {
     private ProgressBar progressBar;
     private LinearLayout downloadUI;
     private ProgressBar videoSpinner;
-
+    private NotificationManager mNotifyManager;
+    private NotificationCompat.Builder mBuilder;
+    private long percent;
+    private boolean isDownloading;
     private SQLiteDatabase db;
     private AudioDBHelper helper;
+
+    private static final int NOTIFICATION_ID = 1;
 
 
     Future<File> downloading;
@@ -106,23 +118,89 @@ public class VideoPlayer extends FragmentActivity {
         // cancel any pending download
         downloading.cancel(true);
         downloading = null;
+        isDownloading = false;
 
         // reset the ui
+        mNotifyManager.cancel(NOTIFICATION_ID);
         downloadCount.setText(null);
         progressBar.setProgress(0);
     }
 
+    public void saveAudioToDb() {
+        Bundle extras = getIntent().getExtras();
+
+        AudioDBHelper helper = new AudioDBHelper(getApplicationContext());
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(DownloadedAudio.COLUMN_NAME_AUDIO_FILE,
+                getAudioFileName(extras,true));
+        values.put(DownloadedAudio.COLUMN_NAME_AUDIO_NAME,
+                getVideoName(extras));
+        values.put(DownloadedAudio.COLUMN_NAME_AUDIO_THUMB,
+                getAudioThumbFileName(extras)
+                        .replace(Basic.EXTENSION_JPG, Basic.EXTENSION_THUMB));
+        values.put(DownloadedAudio.COLUMN_NAME_AUDIO_DATE,
+                getVideoDate(extras));
+
+        db.insert(DownloadedAudio.TABLE_NAME,null,values);
+    }
+
     private void downloadAudio() {
         Bundle extras = getIntent().getExtras();
-        String audioUrl = getVideoUrl(extras).replace(Basic.EXTENSION_MP4,Basic.EXTENSION_MP3).replace(Basic.EXTENSION_WEBM,Basic.EXTENSION_MP3);
-        String thumbUrl = audioUrl.replace(Basic.EXTENSION_MP3,Basic.EXTENSION_JPG);
-        String filename = audioUrl.substring(audioUrl.lastIndexOf("/")+1,audioUrl.length()).replace(Basic.EXTENSION_MP3,Basic.EXTENSION_AUDIO);
-        String thumbFilename = filename.replace(Basic.EXTENSION_AUDIO, Basic.EXTENSION_THUMB);
+        String audioUrl = getVideoUrl(extras)
+                .replace(Basic.EXTENSION_MP4, Basic.EXTENSION_MP3)
+                .replace(Basic.EXTENSION_WEBM, Basic.EXTENSION_MP3);
+        String thumbUrl = audioUrl
+                .replace(Basic.EXTENSION_MP3, Basic.EXTENSION_JPG);
+        String filename = audioUrl
+                .substring(audioUrl.lastIndexOf("/") + 1, audioUrl.length())
+                .replace(Basic.EXTENSION_MP3, Basic.EXTENSION_AUDIO);
+        String thumbFilename = filename
+                .replace(Basic.EXTENSION_AUDIO, Basic.EXTENSION_THUMB);
 
         helper = new AudioDBHelper(getApplicationContext());
         db = helper.getWritableDatabase();
 
         if (!AudioDBHelper.audioFileExists(db, getAudioFileName(extras,true))) {
+
+            isDownloading = true;
+
+            Intent intent = new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER)
+                    .setComponent(getPackageManager().getLaunchIntentForPackage(getPackageName()).getComponent());
+
+            mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            mBuilder = new NotificationCompat.Builder(this);
+            mBuilder.setContentTitle(getVideoName(extras))
+                    .setContentText(getResources().getString(R.string.downloading_audio))
+                    .setProgress(100,0,false)
+                    .setOngoing(true)
+                    .setSmallIcon(R.drawable.ic_white_logo)
+                    .setContentIntent(PendingIntent.getActivity(getApplicationContext(), 0, intent, 0));
+            mNotifyManager.notify(NOTIFICATION_ID, mBuilder.build());
+
+            new Thread(
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            while (isDownloading) {
+                                // Sets the progress indicator to a max value, the
+                                // current completion percentage, and "determinate"
+                                // state
+                                mBuilder.setProgress(100, (int) percent, false);
+                                mNotifyManager.notify(NOTIFICATION_ID, mBuilder.build());
+                                Log.i("percent", String.valueOf(percent));
+                                try {
+                                    // Sleep for 2 seconds
+                                    Thread.sleep(3*1000);
+                                } catch (InterruptedException e) {
+                                }
+                            }
+                        }
+                    }
+            // Starts the thread by calling the run() method in its Runnable
+            ).start();
+
 
             File audioFile = new File(getExternalFilesDir(null), filename);
             File thumbFile = new File(getExternalFilesDir(null), thumbFilename);
@@ -137,7 +215,7 @@ public class VideoPlayer extends FragmentActivity {
             downloadCount = (TextView) findViewById(R.id.downloadCount);
             downloadUI = (LinearLayout) findViewById(R.id.downloadUI);
 
-            downloadUI.setVisibility(View.VISIBLE);
+            //downloadUI.setVisibility(View.VISIBLE);
 
             download.setText(getResources().getString(R.string.cancel_audio_download));
             download.setOnClickListener(new View.OnClickListener() {
@@ -163,8 +241,10 @@ public class VideoPlayer extends FragmentActivity {
                     @Override
                     public void onProgress(long downloaded, long total) {
                         //downloadCount.setText("" + downloaded + " / " + total);
-                        long percent = (long) ((float) downloaded / total * 100);
+                        percent = (long) ((float) downloaded / total * 100);
                         downloadCount.setText(percent + "%");
+                        // update notification
+                        mBuilder.setProgress(100,(int) percent, false);
                     }
                 })
                     // write to a file
@@ -189,6 +269,12 @@ public class VideoPlayer extends FragmentActivity {
                         } else {
                             Log.i("audioFileExists", "true, doing nothing");
                         }
+
+                        mBuilder.setContentText(getResources().getString(R.string.download_audiofile_completed))
+                                // Removes the progress bar
+                                .setProgress(0,0,false)
+                                .setOngoing(false);
+                        mNotifyManager.notify(NOTIFICATION_ID, mBuilder.build());
 
                         Toast.makeText(VideoPlayer.this, getResources().getString(R.string.download_audiofile_completed), Toast.LENGTH_LONG).show();
                     }
@@ -428,25 +514,11 @@ public class VideoPlayer extends FragmentActivity {
         return true;
     }
 
-    public void saveAudioToDb() {
-        Bundle extras = getIntent().getExtras();
-
-        AudioDBHelper helper = new AudioDBHelper(getApplicationContext());
-        SQLiteDatabase db = helper.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(DownloadedAudio.COLUMN_NAME_AUDIO_FILE, getAudioFileName(extras,true));
-        values.put(DownloadedAudio.COLUMN_NAME_AUDIO_NAME, getVideoName(extras));
-        values.put(DownloadedAudio.COLUMN_NAME_AUDIO_THUMB, getAudioThumbFileName(extras).replace(Basic.EXTENSION_JPG,Basic.EXTENSION_THUMB));
-        values.put(DownloadedAudio.COLUMN_NAME_AUDIO_DATE, getVideoDate(extras));
-
-        db.insert(DownloadedAudio.TABLE_NAME,null,values);
-    }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if(downloading != null) {
+        if(isDownloading) {
             resetDownload();
         }
     }
