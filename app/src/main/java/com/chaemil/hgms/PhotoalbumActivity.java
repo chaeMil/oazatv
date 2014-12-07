@@ -16,6 +16,7 @@ import com.chaemil.hgms.utils.Basic;
 
 import static com.chaemil.hgms.utils.Utils.fetchPhotoalbum;
 import static com.chaemil.hgms.utils.Utils.getScreenWidth;
+import static com.chaemil.hgms.utils.Utils.setActionStatusBarTint;
 
 
 public class PhotoalbumActivity extends Activity {
@@ -40,6 +41,8 @@ public class PhotoalbumActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.photoalbum);
+
+        setActionStatusBarTint(getWindow(),this,null,"#58C2FB");
 
         final String albumId = getAlbumId();
 

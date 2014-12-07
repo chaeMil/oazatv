@@ -30,6 +30,7 @@ import com.wefika.flowlayout.FlowLayout;
 import static com.chaemil.hgms.utils.Utils.displayVideoTags;
 import static com.chaemil.hgms.utils.Utils.getScreenWidth;
 import static com.chaemil.hgms.utils.Utils.hideSystemUI;
+import static com.chaemil.hgms.utils.Utils.setActionStatusBarTint;
 import static com.chaemil.hgms.utils.Utils.showSystemUI;
 
 
@@ -94,6 +95,8 @@ public class VideoPlayer extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.video_player);
+
+        setActionStatusBarTint(getWindow(),this,null,"#58C2FB");
 
         //if (!LibsChecker.checkVitamioLibs(this))
         //    return;

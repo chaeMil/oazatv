@@ -30,6 +30,7 @@ import com.chaemil.hgms.utils.Basic;
 import com.chaemil.hgms.utils.Utils;
 
 import static com.chaemil.hgms.utils.Utils.fetchMenuData;
+import static com.chaemil.hgms.utils.Utils.setActionStatusBarTint;
 
 
 public class MainActivity extends Activity {
@@ -57,6 +58,8 @@ public class MainActivity extends Activity {
                     .add(R.id.content_frame, new HomeFragment())
                     .commit();
         }
+
+        setActionStatusBarTint(getWindow(),this,null,"#58C2FB");
 
         Bundle extras = getIntent().getExtras();
 

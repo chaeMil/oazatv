@@ -351,6 +351,13 @@ public class ListDownloadedAudio extends Activity {
                 TextView dateElement = (TextView) view.findViewById(R.id.videoDate);
                 dateElement.setText(Utils.getStringWithRegularCustomFont(getApplicationContext(), audioDate, "Titillium-RegularUpright.otf"));
 
+
+                long fileSize = new File(Uri.parse(getExternalFilesDir(null) + "/") + audioFile).length();
+                Log.i("fileSize", String.valueOf(fileSize));
+
+                TextView fileSizeElement = (TextView) view.findViewById(R.id.videoViews);
+                fileSizeElement.setText(Utils.getStringWithRegularCustomFont(getApplicationContext(), String.valueOf(fileSize/1024/1024) + " Mb", "Titillium-RegularUpright.otf" ));
+
                 ImageView thumb = (ImageView) view.findViewById(R.id.thumb);
                 thumb.setImageURI(Uri.parse(thumbFileName));
 

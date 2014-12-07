@@ -404,17 +404,24 @@ public class Utils extends Activity {
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
         if (currentapiVersion >= Build.VERSION_CODES.KITKAT) {
             if (a.getActionBar() != null) {
-                a.getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor(actionBarColor)));
+                if (actionBarColor != null) {
+                    a.getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor(actionBarColor)));
+                }
             }
-            w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            // create our manager instance after the content view is set
-            SystemBarTintManager tintManager = new SystemBarTintManager(a);
-            // enable status bar tint
-            tintManager.setStatusBarTintEnabled(true);
-            // enable navigation bar tint
-            tintManager.setNavigationBarTintEnabled(true);
-            // set a custom tint color for all system bars
-            tintManager.setTintColor(Color.parseColor(statusBarColor));
+            if (currentapiVersion >= Build.VERSION_CODES.KITKAT) {
+                w.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            }
+            w.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
+            if(statusBarColor != null) {
+                // create our manager instance after the content view is set
+                SystemBarTintManager tintManager = new SystemBarTintManager(a);
+                // enable status bar tint
+                tintManager.setStatusBarTintEnabled(true);
+                // enable navigation bar tint
+                tintManager.setNavigationBarTintEnabled(true);
+                // set a custom tint color for all system bars
+                tintManager.setTintColor(Color.parseColor(statusBarColor));
+            }
         }
     }
 

@@ -10,13 +10,15 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnPreparedListener;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -25,14 +27,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.ImageButton;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
-import android.widget.MediaController.MediaPlayerControl;
 
 
 import com.chaemil.hgms.db.AudioDBHelper;
@@ -41,14 +40,16 @@ import com.chaemil.hgms.utils.Basic;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import static com.chaemil.hgms.db.AudioDBHelper.deleteAudioDBRecord;
+import static com.chaemil.hgms.utils.Utils.getScreenHeight;
+import static com.chaemil.hgms.utils.Utils.getScreenWidth;
 import static com.chaemil.hgms.utils.Utils.setActionStatusBarTint;
 
 public class AudioPlayer extends Activity implements OnPreparedListener/*, MediaPlayerControl TODO*/ {
 
-    private ImageButton btnPlay;
-    private ImageButton btnPouse;
-    private ImageButton btnFf;
-    private ImageButton btnRew;
+    private at.markushi.ui.CircleButton btnPlay;
+    private at.markushi.ui.CircleButton btnPause;
+    private at.markushi.ui.CircleButton btnFf;
+    private at.markushi.ui.CircleButton btnRew;
     private int current = 0;
     private boolean   running = true;
     private	int duration = 0;
@@ -59,8 +60,8 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
     private TextView audioName;
     private TextView audioDate;
     private MusicController controller;
-    private SystemBarTintManager tintManager;
-    NotificationCompat.Builder builder;
+    private int audioThumbWidth;
+    private int audioThumbHeight;
 
     private void setController(){
         controller = new MusicController(this);
@@ -97,21 +98,36 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
         return bundle.getString(Basic.AUDIO_FILE_DATE);
     }
 
+    public void calculateAudioThumb() {
+        if (getScreenHeight(getApplicationContext()) > getScreenWidth(getApplicationContext())) {
+            audioThumbWidth = Integer.valueOf((int) (getScreenWidth(getApplicationContext()) * 0.8));
+            audioThumbHeight = Integer.valueOf((int) (audioThumbWidth * 0.5625));
+        }
+        else {
+            audioThumbWidth = Integer.valueOf((int) (getScreenHeight(getApplicationContext()) * 0.4));
+            audioThumbHeight = Integer.valueOf((int) (audioThumbWidth * 0.5625));
+        }
+        audioThumb.getLayoutParams().width = audioThumbWidth;
+        audioThumb.getLayoutParams().height = audioThumbHeight;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.audio_player);
-        btnPlay = (ImageButton) findViewById(R.id.play);
-        btnPouse = (ImageButton) findViewById(R.id.pause);
-        btnFf = (ImageButton) findViewById(R.id.ff);
-        btnRew = (ImageButton) findViewById(R.id.rew);
+        btnPlay = (at.markushi.ui.CircleButton) findViewById(R.id.play);
+        btnPause = (at.markushi.ui.CircleButton) findViewById(R.id.pause);
+        btnFf = (at.markushi.ui.CircleButton) findViewById(R.id.ff);
+        btnRew = (at.markushi.ui.CircleButton) findViewById(R.id.rew);
         mMediaTime = (TextView)findViewById(R.id.mediaTime);
         mSeekBarPlayer = (SeekBar)findViewById(R.id.seekBar);
         audioName = (TextView) findViewById(R.id.audioName);
         audioThumb = (ImageView) findViewById(R.id.audioThumb);
         audioDate = (TextView) findViewById(R.id.audioDate);
 
-        Log.i(Basic.AUDIO_FILE_THUMB, audioThumb().substring(audioThumb().lastIndexOf("/")+1));
+        calculateAudioThumb();
+
+        Log.i(Basic.AUDIO_FILE_THUMB, audioThumb().substring(audioThumb().lastIndexOf("/") + 1));
         Log.i(Basic.AUDIO_FILE, file());
 
         if (getActionBar() != null) {
@@ -119,7 +135,7 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
 
         }
 
-        setActionStatusBarTint(getWindow(), this ,"#FF894C96", "#FF6D3679");
+        setActionStatusBarTint(getWindow(), this, "#FF894C96", "#FF6D3679");
 
         audioName.setText(audioName());
         audioThumb.setImageURI(Uri.parse(audioThumb()));
@@ -141,12 +157,16 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
 
         mSeekBarPlayer.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {}
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {}
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if(fromUser){
+                if (fromUser) {
                     mPlayer.seekTo(progress);
                     updateTime();
                 }
@@ -170,7 +190,7 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
         });
 
 
-        btnPouse.setOnClickListener(new View.OnClickListener() {
+        btnPause.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -336,6 +356,16 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
         }
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            calculateAudioThumb();
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+            calculateAudioThumb();
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
