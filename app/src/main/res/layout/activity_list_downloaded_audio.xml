@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.chaemil.hgms.ListDownloadedAudio">
@@ -7,7 +8,7 @@
     <LinearLayout
         android:id="@+id/audioGrid"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:orientation="vertical"
         android:drawSelectorOnTop="true"
         android:fastScrollAlwaysVisible="false"
@@ -15,12 +16,14 @@
     </LinearLayout>
 
     <LinearLayout
+        android:background="#FF894C96"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:id="@+id/downloadUI"
         android:visibility="gone"
-        android:layout_below="@+id/audioGrid">
+        android:gravity="bottom"
+        android:layout_alignBottom="@+id/audioGrid">
 
         <ProgressBar
             style="?android:attr/progressBarStyleHorizontal"
@@ -28,23 +31,42 @@
             android:layout_height="wrap_content"
             android:id="@+id/progressBar" />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/download_audio"
-                android:id="@+id/download"/>
+            android:layout_height="64dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="58%"
-                android:id="@+id/downloadCount"/>
+                android:layout_height="fill_parent"
+                style="@style/firstVideoDetails"
+                android:id="@+id/downloadedAudioName"
+                android:gravity="center_vertical"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="10dp" />
 
-        </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                style="@style/firstVideoName"
+                android:text="58%"
+                android:gravity="center_vertical"
+                android:id="@+id/downloadCount"
+                android:layout_alignParentRight="false"
+                android:layout_toLeftOf="@+id/download" />
+
+            <at.markushi.ui.CircleButton
+                android:id="@+id/download"
+                app:cb_pressedRingWidth="8dip"
+                app:cb_color="#ff44274e"
+                android:layout_width="64dip"
+                android:layout_height="64dip"
+                android:src="@drawable/ic_action_content_clear"
+                android:layout_alignParentEnd="false"
+                android:layout_alignParentRight="true" />
+
+
+        </RelativeLayout>
 
     </LinearLayout>
 

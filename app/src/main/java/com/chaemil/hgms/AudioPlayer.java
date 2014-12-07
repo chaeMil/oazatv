@@ -135,7 +135,7 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
 
         }
 
-        setActionStatusBarTint(getWindow(), this, "#FF894C96", "#FF6D3679");
+        setActionStatusBarTint(getWindow(), this , Basic.AUDIOPLAYER_STATUSBAR_COLOR, Basic.AUDIOPLAYER_ACTIONBAR_COLOR);
 
         audioName.setText(audioName());
         audioThumb.setImageURI(Uri.parse(audioThumb()));

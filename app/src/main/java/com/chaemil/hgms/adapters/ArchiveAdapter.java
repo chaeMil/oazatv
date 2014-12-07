@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chaemil.hgms.R;
+import com.chaemil.hgms.utils.Basic;
 import com.chaemil.hgms.utils.Utils;
 import com.squareup.picasso.Picasso;
 
@@ -73,10 +74,10 @@ public class ArchiveAdapter extends ArrayAdapter<ArchiveRecord> {
                 .animateIn(fadeInAnimation)
                 .load(rec.getThumb());*/
 
-        videoName.setText(Utils.getStringWithRegularCustomFont(getContext(),rec.getTitle(),"Titillium-BoldUpright.otf"));
-        videoDate.setText(Utils.getStringWithRegularCustomFont(getContext(), rec.getVideoDate(), "Titillium-RegularUpright.otf"));
+        videoName.setText(Utils.getStringWithRegularCustomFont(getContext(),rec.getTitle(), Basic.FONT_BOLD_UPRIGHT));
+        videoDate.setText(Utils.getStringWithRegularCustomFont(getContext(), rec.getVideoDate(), Basic.FONT_REGULAR_UPRIGHT));
         videoURL.setText(rec.getVideoUrl());
-        videoViews.setText(Utils.getStringWithRegularCustomFont(getContext(),rec.getVideoViews(),"Titillium-RegularUpright.otf"));
+        videoViews.setText(Utils.getStringWithRegularCustomFont(getContext(),rec.getVideoViews(),Basic.FONT_REGULAR_UPRIGHT));
         albumId.setText(rec.getAlbumId());
         type.setText(rec.getType());
 

@@ -400,7 +400,7 @@ public class Utils extends Activity {
         return null;
     }
 
-    public static void setActionStatusBarTint(Window w, Activity a, String actionBarColor, String statusBarColor) {
+    public static void setActionStatusBarTint(Window w, Activity a, String statusBarColor,  String actionBarColor) {
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
         if (currentapiVersion >= Build.VERSION_CODES.KITKAT) {
             if (a.getActionBar() != null) {

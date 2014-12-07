@@ -33,13 +33,6 @@
       android:padding="5dp"
       android:orientation="vertical">
 
-      <CheckBox
-        android:id="@+id/landscape_fullscreen_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/landscape_fullscreen"/>
-
     <Button
         android:id="@+id/fullscreen_button"
         android:layout_width="wrap_content"

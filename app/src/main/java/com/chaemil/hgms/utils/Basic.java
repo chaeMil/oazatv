@@ -91,6 +91,13 @@ public class Basic {
 
     public static final String YOUTUBE_VIDEO_ID = "videoId";
 
+    public static final String AUDIOPLAYER_STATUSBAR_COLOR = "#FF6D3679";
+    public static final String AUDIOPLAYER_ACTIONBAR_COLOR = "#FF894C96";
+    public static final String MAIN_ACTIVITY_STATUSBAR_COLOR = "#FF58C2FB";
+
+    public static final String FONT_REGULAR_UPRIGHT = "Titillium-RegularUpright.otf";
+    public static final String FONT_BOLD_UPRIGHT = "Titillium-BoldUpright.otf";
+
 
     public static void startVideoPlayer(View v, String videoURL, String videoName, String videoDate, String videoViews) {
         Intent a = new Intent(v.getContext(), VideoPlayer.class);

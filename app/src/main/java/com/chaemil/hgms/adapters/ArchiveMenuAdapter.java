@@ -8,6 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.chaemil.hgms.R;
+import com.chaemil.hgms.utils.Basic;
+import com.chaemil.hgms.utils.Utils;
 
 import java.util.List;
 
@@ -45,7 +47,7 @@ public class ArchiveMenuAdapter extends ArrayAdapter<ArchiveMenuRecord> {
 
         ArchiveMenuRecord archiveMenuRecord = getItem(position);
 
-        menuItem.setText(archiveMenuRecord.getLabel());
+        menuItem.setText(Utils.getStringWithRegularCustomFont(getContext(), archiveMenuRecord.getLabel(), Basic.FONT_REGULAR_UPRIGHT));
         type.setText(archiveMenuRecord.getType());
         content.setText(archiveMenuRecord.getContent());
         titleToShow.setText(archiveMenuRecord.getTitleToShow());

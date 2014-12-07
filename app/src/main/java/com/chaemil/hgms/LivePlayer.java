@@ -24,7 +24,6 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
  */
 public class LivePlayer extends YouTubeFailureRecoveryActivity implements
         View.OnClickListener,
-        CompoundButton.OnCheckedChangeListener,
         YouTubePlayer.OnFullscreenListener {
 
     private static final int PORTRAIT_ORIENTATION = Build.VERSION.SDK_INT < 9
@@ -39,7 +38,7 @@ public class LivePlayer extends YouTubeFailureRecoveryActivity implements
     private View otherViews;
     private String videoId;
 
-    private boolean fullscreen;
+    private boolean fullscreen = true;
 
     @Override
     protected void onStart() {
@@ -58,11 +57,8 @@ public class LivePlayer extends YouTubeFailureRecoveryActivity implements
         baseLayout = (LinearLayout) findViewById(R.id.layout);
         playerView = (YouTubePlayerView) findViewById(R.id.player);
         fullscreenButton = (Button) findViewById(R.id.fullscreen_button);
-        checkbox = (CompoundButton) findViewById(R.id.landscape_fullscreen_checkbox);
         otherViews = findViewById(R.id.other_views);
 
-        checkbox.setOnCheckedChangeListener(this);
-        // You can use your own button to switch to fullscreen too
         fullscreenButton.setOnClickListener(this);
 
         videoId = getIntent().getExtras().getString(Basic.YOUTUBE_VIDEO_ID);
@@ -85,6 +81,10 @@ public class LivePlayer extends YouTubeFailureRecoveryActivity implements
             //videoId = videoId + "";
             player.cueVideo(String.valueOf(videoId));
         }
+
+        int controlFlags = player.getFullscreenControlFlags();
+        controlFlags |= YouTubePlayer.FULLSCREEN_FLAG_ALWAYS_FULLSCREEN_IN_LANDSCAPE;
+        player.setFullscreenControlFlags(controlFlags);
     }
 
     @Override
@@ -95,25 +95,6 @@ public class LivePlayer extends YouTubeFailureRecoveryActivity implements
     @Override
     public void onClick(View v) {
         player.setFullscreen(!fullscreen);
-    }
-
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        int controlFlags = player.getFullscreenControlFlags();
-        if (isChecked) {
-            // If you use the FULLSCREEN_FLAG_ALWAYS_FULLSCREEN_IN_LANDSCAPE, your activity's normal UI
-            // should never be laid out in landscape mode (since the video will be fullscreen whenever the
-            // activity is in landscape orientation). Therefore you should set the activity's requested
-            // orientation to portrait. Typically you would do this in your AndroidManifest.xml, we do it
-            // programmatically here since this activity demos fullscreen behavior both with and without
-            // this flag).
-            setRequestedOrientation(PORTRAIT_ORIENTATION);
-            controlFlags |= YouTubePlayer.FULLSCREEN_FLAG_ALWAYS_FULLSCREEN_IN_LANDSCAPE;
-        } else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
-            controlFlags &= ~YouTubePlayer.FULLSCREEN_FLAG_ALWAYS_FULLSCREEN_IN_LANDSCAPE;
-        }
-        player.setFullscreenControlFlags(controlFlags);
     }
 
     private void doLayout() {

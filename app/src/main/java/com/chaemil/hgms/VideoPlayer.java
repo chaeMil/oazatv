@@ -96,7 +96,7 @@ public class VideoPlayer extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.video_player);
 
-        setActionStatusBarTint(getWindow(),this,null,"#58C2FB");
+        setActionStatusBarTint(getWindow(),this,Basic.MAIN_ACTIVITY_STATUSBAR_COLOR ,null);
 
         //if (!LibsChecker.checkVitamioLibs(this))
         //    return;

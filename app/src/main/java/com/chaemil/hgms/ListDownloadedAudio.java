@@ -41,7 +41,7 @@ import static com.chaemil.hgms.utils.Utils.setActionStatusBarTint;
 public class ListDownloadedAudio extends Activity {
 
     private LinearLayout audioGrid;
-    private Button download;
+    private at.markushi.ui.CircleButton download;
     private TextView downloadCount;
     private ProgressBar progressBar;
     private LinearLayout downloadUI;
@@ -50,6 +50,7 @@ public class ListDownloadedAudio extends Activity {
     private long percent;
     private SQLiteDatabase db;
     private AudioDBHelper helper;
+    private TextView downloadedAudioName;
 
     public static final int NOTIFICATION_ID = 1;
 
@@ -140,6 +141,11 @@ public class ListDownloadedAudio extends Activity {
 
             MyApp.isDownloadingAudio = true;
 
+            downloadedAudioName = (TextView) findViewById(R.id.downloadedAudioName);
+            downloadedAudioName.setText(Utils.getStringWithRegularCustomFont(getApplicationContext(),
+                    getIntent().getExtras().getString(Basic.VIDEO_NAME),
+                    Basic.FONT_REGULAR_UPRIGHT));
+
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.downloading_audio_in_background),Toast.LENGTH_LONG).show();
 
             Intent intent = new Intent(this, ListDownloadedAudio.class);
@@ -186,13 +192,12 @@ public class ListDownloadedAudio extends Activity {
                 return;
             }
 
-            download = (Button) findViewById(R.id.download);
+            download = (at.markushi.ui.CircleButton) findViewById(R.id.download);
             downloadCount = (TextView) findViewById(R.id.downloadCount);
             downloadUI = (LinearLayout) findViewById(R.id.downloadUI);
 
             //downloadUI.setVisibility(View.VISIBLE);
 
-            download.setText(getResources().getString(R.string.cancel_audio_download));
             download.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -273,7 +278,7 @@ public class ListDownloadedAudio extends Activity {
 
         downloadUI = (LinearLayout) findViewById(R.id.downloadUI);
 
-        setActionStatusBarTint(getWindow(), this ,"#FF894C96", "#FF6D3679");
+        setActionStatusBarTint(getWindow(), this , Basic.AUDIOPLAYER_STATUSBAR_COLOR, Basic.AUDIOPLAYER_ACTIONBAR_COLOR);
 
         Bundle extras = getIntent().getExtras();
 

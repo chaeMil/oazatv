@@ -59,7 +59,7 @@ public class MainActivity extends Activity {
                     .commit();
         }
 
-        setActionStatusBarTint(getWindow(),this,null,"#58C2FB");
+        setActionStatusBarTint(getWindow(),this,Basic.MAIN_ACTIVITY_STATUSBAR_COLOR ,null);
 
         Bundle extras = getIntent().getExtras();
 
