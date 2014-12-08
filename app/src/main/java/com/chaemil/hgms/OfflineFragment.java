@@ -12,6 +12,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.chaemil.hgms.db.AudioDBHelper;
+import com.chaemil.hgms.utils.Utils;
 
 import at.markushi.ui.CircleButton;
 
@@ -66,10 +67,12 @@ public class OfflineFragment extends Fragment {
         AudioDBHelper helper = new AudioDBHelper(getActivity().getApplicationContext());
         SQLiteDatabase db = helper.getWritableDatabase();
         if (AudioDBHelper.count(db) > 0) {
-            homeNetworkProblemText.setText(getResources().getString(R.string.offline_but_have_audio));
+            homeNetworkProblemText.setText(Utils.getStringWithRegularCustomFont(getActivity(),
+                    getResources().getString(R.string.offline_but_have_audio), "Titillium-BoldUpright.otf"));
         }
         else {
-            homeNetworkProblemText.setText(getResources().getString(R.string.offline_but_have_no_audio));
+            homeNetworkProblemText.setText(Utils.getStringWithRegularCustomFont(getActivity(),
+                    getResources().getString(R.string.offline_but_have_no_audio), "Titillium-BoldUpright.otf"));
             goToAudioPlayer.setVisibility(View.GONE);
         }
 

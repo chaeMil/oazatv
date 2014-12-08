@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="@dimen/no_downloaded_audio_message_width"
+    android:layout_height="match_parent"
+    android:id="@+id/noDownloadedAudioMessage">
+
+    <ImageView
+        android:layout_marginTop="40dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@drawable/ic_sad_smile"
+        android:id="@+id/sadSmile"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/no_downloaded_audio"
+        android:textColor="#894c96"
+        android:gravity="center_horizontal"
+        android:id="@+id/noAudioTitle"
+        android:layout_margin="8dp"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_below="@+id/noAudioTitle"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearance"
+            android:text="@string/no_downloaded_audio_help"
+            android:textColor="#894c96"
+            android:gravity="right"
+            android:id="@+id/textView"
+            android:layout_toLeftOf="@+id/downloadIcon"
+            android:layout_margin="5dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/downloadIcon"
+            android:background="@drawable/ic_file_download_purple"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="3dp" />
+
+
+    </RelativeLayout>
+
+</LinearLayout>

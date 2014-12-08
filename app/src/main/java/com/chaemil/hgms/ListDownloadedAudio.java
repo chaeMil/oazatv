@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -259,6 +260,9 @@ public class ListDownloadedAudio extends Activity {
 
                             loadData();
 
+                            LinearLayout noDownloadedAudioMessage = (LinearLayout) findViewById(R.id.noDownloadedAudioMessage);
+                            noDownloadedAudioMessage.setVisibility(View.GONE);
+
                             Toast.makeText(ListDownloadedAudio.this, getResources().getString(R.string.download_audiofile_completed), Toast.LENGTH_LONG).show();
                         }
                     });
@@ -339,8 +343,6 @@ public class ListDownloadedAudio extends Activity {
         if(cursor.getCount() > 0) {
             cursor.moveToFirst();
 
-            audioGrid.invalidate();
-
             while (!cursor.isAfterLast()) {
                 LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
                 View view = inflater.inflate(R.layout.home_block, audioGrid, false);
@@ -384,6 +386,11 @@ public class ListDownloadedAudio extends Activity {
 
                 cursor.moveToNext();
             }
+        }
+        else {
+            RelativeLayout mainView = (RelativeLayout) findViewById(R.id.mainView);
+            LinearLayout noAudioView = (LinearLayout) getLayoutInflater().inflate(R.layout.no_downloaded_audio_message, null);
+            mainView.addView(noAudioView);
         }
     }
 

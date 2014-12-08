@@ -35,5 +35,7 @@
     <string name="connection_problem_home_title">Problém s připojením k internetu</string>
     <string name="offline_but_have_audio">...nevadí, máme přece stažené audio nahrávky!</string>
     <string name="offline_but_have_no_audio">... pro příště si stáhněte audio nahrávky pro offline poslech.</string>
+    <string name="no_downloaded_audio">Nemáte stažené žádné audio záznamy, to bysme měli napravit!</string>
+    <string name="no_downloaded_audio_help">Audio záznamy můžete stáhnout v přehrávači videí klepnutím na tuto ikonku:</string>
 
 </resources>
