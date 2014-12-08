@@ -101,10 +101,12 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
 
     public static void pause() {
         mPlayer.pause();
+        Log.i("mPlayer","pause");
     }
 
     public static void play() {
         mPlayer.start();
+        Log.i("mPlayer","play");
     }
 
     public void calculateAudioThumb() {
