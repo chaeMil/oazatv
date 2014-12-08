@@ -53,7 +53,7 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
     private int current = 0;
     private boolean   running = true;
     private	int duration = 0;
-    private MediaPlayer mPlayer;
+    private static MediaPlayer mPlayer;
     private SeekBar mSeekBarPlayer;
     private TextView mMediaTime;
     private ImageView audioThumb;
@@ -62,6 +62,7 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
     private MusicController controller;
     private int audioThumbWidth;
     private int audioThumbHeight;
+    private NotificationPanel nPanel;
 
     private void setController(){
         controller = new MusicController(this);
@@ -98,6 +99,14 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
         return bundle.getString(Basic.AUDIO_FILE_DATE);
     }
 
+    public static void pause() {
+        mPlayer.pause();
+    }
+
+    public static void play() {
+        mPlayer.start();
+    }
+
     public void calculateAudioThumb() {
         if (getScreenHeight(getApplicationContext()) > getScreenWidth(getApplicationContext())) {
             audioThumbWidth = Integer.valueOf((int) (getScreenWidth(getApplicationContext()) * 0.8));
@@ -126,6 +135,8 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
         audioDate = (TextView) findViewById(R.id.audioDate);
 
         calculateAudioThumb();
+
+        nPanel = new NotificationPanel(this);
 
         Log.i(Basic.AUDIO_FILE_THUMB, audioThumb().substring(audioThumb().lastIndexOf("/") + 1));
         Log.i(Basic.AUDIO_FILE, file());
@@ -291,6 +302,7 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
     public void exitPlayer() {
         //mVideoView.stopPlayback();
         mPlayer.stop();
+        nPanel.notificationCancel();
         Intent i = new Intent(AudioPlayer.this, ListDownloadedAudio.class);
         startActivity(i);
         finish();
