@@ -52,6 +52,16 @@
         <item name="android:layout_marginRight">5dp</item>
     </style>
 
+    <style name="homeNetworkProblemTitle">
+        <item name="android:textColor">#db0000</item>
+        <item name="android:textSize">25sp</item>
+    </style>
+
+    <style name="homeNetworkProblemText">
+        <item name="android:textColor">#db0000</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
     <style name="firstVideoName" parent="@android:style/TextAppearance.Medium">
         <item name="android:textSize">22sp</item>
         <item name="android:textColor">#FFFFFF</item>

@@ -2,6 +2,7 @@ package com.chaemil.hgms.db;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import com.chaemil.hgms.db.AudioDBContract.DownloadedAudio;
@@ -31,6 +32,14 @@ public class AudioDBHelper extends SQLiteOpenHelper {
 
     public AudioDBHelper (Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+
+    public static int count (SQLiteDatabase db) {
+        Cursor mCount= db.rawQuery("select count(*) from " + DownloadedAudio.TABLE_NAME , null);
+        mCount.moveToFirst();
+        int count= mCount.getInt(0);
+        mCount.close();
+        return count;
     }
 
     public void onCreate(SQLiteDatabase db) {

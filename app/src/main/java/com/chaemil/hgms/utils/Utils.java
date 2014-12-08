@@ -10,6 +10,8 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Environment;
 import android.text.Spannable;
@@ -422,6 +424,18 @@ public class Utils extends Activity {
                 // set a custom tint color for all system bars
                 tintManager.setTintColor(Color.parseColor(statusBarColor));
             }
+        }
+    }
+
+    public static boolean isOnline(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+        if (ni == null) {
+            // There are no active networks.
+            return false;
+        }
+        else {
+            return true;
         }
     }
 

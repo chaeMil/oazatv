@@ -53,13 +53,21 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction()
-                    .add(R.id.content_frame, new HomeFragment())
-                    .commit();
+
+        FragmentManager fragmentManager = getFragmentManager();
+
+        if(!Utils.isOnline(getApplicationContext())) {
+            fragment = new OfflineFragment();
+        } else {
+            fragment = new HomeFragment();
         }
 
-        setActionStatusBarTint(getWindow(),this,Basic.MAIN_ACTIVITY_STATUSBAR_COLOR ,null);
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, fragment)
+                .addToBackStack(null)
+                .commit();
+
+        setActionStatusBarTint(getWindow(),this,Basic.MAIN_ACTIVITY_STATUSBAR_COLOR ,Basic.MAIN_ACTIVITY_STATUSBAR_COLOR);
 
         Bundle extras = getIntent().getExtras();
 
@@ -249,53 +257,56 @@ public class MainActivity extends Activity {
 
         boolean isFragment = false;
 
-        if(type.equals(Basic.JSON_MENU_TYPE_HOME_LINK)) {
-            fragment = new HomeFragment();
+        if(!Utils.isOnline(getApplicationContext())) {
+            fragment = new OfflineFragment();
             isFragment = true;
         }
-        else if (type.equals(Basic.JSON_MENU_TYPE_ARCHIVE_LINK)) {
-            fragment = new ArchiveFragment();
-            isFragment = true;
+        else {
+            setActionStatusBarTint(getWindow(),this,Basic.MAIN_ACTIVITY_STATUSBAR_COLOR ,Basic.MAIN_ACTIVITY_STATUSBAR_COLOR);
+            if (type.equals(Basic.JSON_MENU_TYPE_HOME_LINK)) {
+                fragment = new HomeFragment();
+                isFragment = true;
+            } else if (type.equals(Basic.JSON_MENU_TYPE_ARCHIVE_LINK)) {
+                fragment = new ArchiveFragment();
+                isFragment = true;
 
-        }
-        else if(type.equals(Basic.JSON_MENU_TYPE_DOWNLOADED_AUDIO)) {
-            Intent i = new Intent(this,ListDownloadedAudio.class);
-            startActivity(i);
-        }
-        else if (type.equals(Basic.JSON_MENU_TYPE_EXIT)) {
-            finish();
-        }
-        else if (type.equals(Basic.JSON_MENU_TYPE_LIVE_PLAYER)) {
+            } else if (type.equals(Basic.JSON_MENU_TYPE_DOWNLOADED_AUDIO)) {
+                Intent i = new Intent(this, ListDownloadedAudio.class);
+                startActivity(i);
+            } else if (type.equals(Basic.JSON_MENU_TYPE_EXIT)) {
+                finish();
+            } else if (type.equals(Basic.JSON_MENU_TYPE_LIVE_PLAYER)) {
 
-            RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+                RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
 
-            String url = Basic.MAIN_SERVER_JSON + "?page=live";
+                String url = Basic.MAIN_SERVER_JSON + "?page=live";
 
-            StringRequest request = new StringRequest(
-                    url,
-                    new Response.Listener<String>() {
+                StringRequest request = new StringRequest(
+                        url,
+                        new Response.Listener<String>() {
 
-                        @Override
-                        public void onResponse(String s) {
-                            Log.i("request", s);
-                            youtubeVideoId = s.trim().replaceAll("\n", "");
+                            @Override
+                            public void onResponse(String s) {
+                                Log.i("request", s);
+                                youtubeVideoId = s.trim().replaceAll("\n", "");
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError volleyError) {
+                                Log.i("VolleyError.error", volleyError.toString());
+                            }
                         }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError volleyError) {
-                            Log.i("VolleyError.error",volleyError.toString());
-                        }
-                    }
-            );
+                );
 
-            // add it to the RequestQueue
-            queue.add(request);
+                // add it to the RequestQueue
+                queue.add(request);
 
 
-            Intent i = new Intent(this,LivePlayer.class);
-            i.putExtra(Basic.YOUTUBE_VIDEO_ID, youtubeVideoId);
-            startActivity(i);
+                Intent i = new Intent(this, LivePlayer.class);
+                i.putExtra(Basic.YOUTUBE_VIDEO_ID, youtubeVideoId);
+                startActivity(i);
+            }
         }
 
         if (!type.equals(Basic.JSON_MENU_TYPE_DOWNLOADED_AUDIO) || !type.equals(Basic.JSON_MENU_TYPE_LIVE_PLAYER)) {
