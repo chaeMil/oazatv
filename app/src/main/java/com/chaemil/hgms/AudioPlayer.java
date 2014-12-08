@@ -123,6 +123,28 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        nPanel = new NotificationPanel(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (nPanel != null) {
+            nPanel.notificationCancel();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (nPanel != null) {
+            nPanel.notificationCancel();
+        }
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.audio_player);
@@ -138,7 +160,9 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
 
         calculateAudioThumb();
 
-        nPanel = new NotificationPanel(this);
+        if (nPanel != null) {
+            nPanel.notificationCancel();
+        }
 
         Log.i(Basic.AUDIO_FILE_THUMB, audioThumb().substring(audioThumb().lastIndexOf("/") + 1));
         Log.i(Basic.AUDIO_FILE, file());
@@ -304,7 +328,9 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
     public void exitPlayer() {
         //mVideoView.stopPlayback();
         mPlayer.stop();
-        nPanel.notificationCancel();
+        if (nPanel != null) {
+            nPanel.notificationCancel();
+        }
         Intent i = new Intent(AudioPlayer.this, ListDownloadedAudio.class);
         startActivity(i);
         finish();
