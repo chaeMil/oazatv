@@ -11,7 +11,6 @@ public class NotificationReturnSlot extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         String action = (String) getIntent().getExtras().get("DO");
         if (action.equals("pause")) {

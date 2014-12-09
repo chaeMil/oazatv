@@ -5,6 +5,8 @@ import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
@@ -17,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
@@ -97,7 +100,9 @@ public class VideoPlayer extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.video_player);
 
-        setActionStatusBarTint(getWindow(),this,Basic.MAIN_ACTIVITY_STATUSBAR_COLOR ,null);
+        if(getActionBar() != null) {
+            getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#000000")));
+        }
 
         //if (!LibsChecker.checkVitamioLibs(this))
         //    return;
@@ -242,32 +247,22 @@ public class VideoPlayer extends FragmentActivity {
 
     public void screenOrientation()
     {
+        int currentapiVersion = android.os.Build.VERSION.SDK_INT;
         if (findViewById(R.id.rightFrag) == null) {
             Display getOrient = getWindowManager().getDefaultDisplay();
-            //int orientation = Configuration.ORIENTATION_UNDEFINED;
             if (getOrient.getWidth() == getOrient.getHeight()) {
-                //orientation = Configuration.ORIENTATION_SQUARE;
             } else {
                 if (getOrient.getWidth() < getOrient.getHeight()) {
-                    //orientation = Configuration.ORIENTATION_PORTRAIT;
                     showSystemUI(this, getCurrentFocus());
                     videoInfo.setVisibility(View.VISIBLE);
                     mVideoView.getLayoutParams().width = getScreenWidth(getApplicationContext());
-                    //mVideoView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
 
-
-                    //mVideoView.invalidate();
 
                 } else {
-                    //orientation = Configuration.ORIENTATION_LANDSCAPE;
                     hideSystemUI(this, getCurrentFocus());
                     videoInfo.setVisibility(View.GONE);
-                    //mVideoView.getLayoutParams().width = getScreenWidth(getApplicationContext());
                     mVideoView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
                     mVideoView.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
-                    //mVideoView.getLayoutParams().height = getScreenHeight(getApplicationContext());
-
-                    //mVideoView.invalidate();
 
                 }
             }
