@@ -72,11 +72,13 @@ public class LivePlayer extends YouTubeFailureRecoveryActivity implements
     @Override
     public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer player,
                                         boolean wasRestored) {
+        YouTubePlayer.PlayerStyle style = YouTubePlayer.PlayerStyle.MINIMAL;
         this.player = player;
         setControlsEnabled();
         // Specify that we want to handle fullscreen behavior ourselves.
         player.addFullscreenControlFlag(YouTubePlayer.FULLSCREEN_FLAG_CUSTOM_LAYOUT);
         player.setOnFullscreenListener(this);
+        player.setPlayerStyle(style);
         if (!wasRestored) {
             //videoId = videoId + "";
             player.cueVideo(String.valueOf(videoId));
@@ -130,8 +132,8 @@ public class LivePlayer extends YouTubeFailureRecoveryActivity implements
     }
 
     private void setControlsEnabled() {
-        checkbox.setEnabled(player != null
-                && getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT);
+        /*checkbox.setEnabled(player != null
+                && getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT);*/
         fullscreenButton.setEnabled(player != null);
     }
 

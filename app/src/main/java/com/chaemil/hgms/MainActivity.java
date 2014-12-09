@@ -45,7 +45,7 @@ public class MainActivity extends Activity {
     private TextView emptyText;
     private ListView menuList;
     private Fragment fragment;
-    private String youtubeVideoId = null;
+    private String youtubeVideoId;
     private MenuItem searchMenuItem;
     private SearchView searchView;
     private Menu _menu;
@@ -294,6 +294,18 @@ public class MainActivity extends Activity {
                                 if(!s.trim().replaceAll("\n", "").equals("null")) {
                                     youtubeVideoId = s.trim().replaceAll("\n", "");
                                 }
+                                if(youtubeVideoId != null) {
+                                    Intent i = new Intent(getApplicationContext(), LivePlayer.class);
+                                    i.putExtra(Basic.YOUTUBE_VIDEO_ID, youtubeVideoId);
+                                    startActivity(i);
+                                    //Utils.goForwardAnimation(getParent());
+                                }
+                                else {
+                                    Toast.makeText(getApplicationContext(),
+                                            getResources().getString(R.string.no_broadcats_message),
+                                            Toast.LENGTH_LONG).show();
+                                }
+
 
                             }
                         },
@@ -307,18 +319,6 @@ public class MainActivity extends Activity {
 
                 queue.add(request);
 
-
-                if(youtubeVideoId != null) {
-                    Intent i = new Intent(this, LivePlayer.class);
-                    i.putExtra(Basic.YOUTUBE_VIDEO_ID, youtubeVideoId);
-                    startActivity(i);
-                    Utils.goForwardAnimation(this);
-                }
-                else {
-                    Toast.makeText(getApplicationContext(),
-                            getResources().getString(R.string.no_broadcats_message),
-                            Toast.LENGTH_LONG).show();
-                }
             }
         }
 
