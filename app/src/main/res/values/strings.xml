@@ -37,5 +37,6 @@
     <string name="offline_but_have_no_audio">... pro příště si stáhněte audio nahrávky pro offline poslech.</string>
     <string name="no_downloaded_audio">Nemáte stažené žádné audio záznamy, to bysme měli napravit!</string>
     <string name="no_downloaded_audio_help">Audio záznamy můžete stáhnout v přehrávači videí klepnutím na tuto ikonku:</string>
+    <string name="no_broadcats_message">Právě neprobíhá žádné vysílání, zkuste to později.</string>
 
 </resources>

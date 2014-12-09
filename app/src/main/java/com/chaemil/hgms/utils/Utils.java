@@ -446,4 +446,8 @@ public class Utils extends Activity {
     public static void goBackwardAnimation(Activity a) {
         a.overridePendingTransition(R.anim.fade_in, R.anim.slide_out_right);
     }
+
+    public static void flipCardAnimation(Activity a) {
+        a.overridePendingTransition(R.anim.card_flip_left_in, R.anim.card_flip_left_out);
+    }
 }

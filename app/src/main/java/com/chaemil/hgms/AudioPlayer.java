@@ -126,6 +126,7 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
     @Override
     protected void onPause() {
         super.onPause();
+        Utils.goBackwardAnimation(this);
         nPanel = new NotificationPanel(this);
     }
 
@@ -406,11 +407,6 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
             calculateAudioThumb();
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        Utils.goBackwardAnimation(this);
     }
 
     @Override

@@ -147,7 +147,8 @@ public class ListDownloadedAudio extends Activity {
                     getIntent().getExtras().getString(Basic.VIDEO_NAME),
                     Basic.FONT_REGULAR_UPRIGHT));
 
-            Toast.makeText(getApplicationContext(), getResources().getString(R.string.downloading_audio_in_background), Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.downloading_audio_in_background),
+                    Toast.LENGTH_LONG).show();
 
             Intent intent = new Intent(this, ListDownloadedAudio.class);
 
@@ -237,14 +238,17 @@ public class ListDownloadedAudio extends Activity {
                             resetDownload();
                             downloadUI.setVisibility(View.GONE);
                             if (e != null) {
-                                Toast.makeText(ListDownloadedAudio.this, getResources().getString(R.string.error_downloading_audiofile), Toast.LENGTH_LONG).show();
+                                Toast.makeText(ListDownloadedAudio.this,
+                                        getResources().getString(R.string.error_downloading_audiofile),
+                                        Toast.LENGTH_LONG).show();
                                 return;
                             }
 
 
                             Log.i("filepath", String.valueOf(result.getAbsoluteFile()));
 
-                            if (!AudioDBHelper.audioFileExists(db, getAudioFileName(getIntent().getExtras(), true))) {
+                            if (!AudioDBHelper.audioFileExists(db,
+                                    getAudioFileName(getIntent().getExtras(), true))) {
                                 Log.i("audioFileExists", "false, saving new record");
                                 saveAudioToDb();
                             } else {
@@ -260,12 +264,15 @@ public class ListDownloadedAudio extends Activity {
 
                             loadData();
 
-                            LinearLayout noDownloadedAudioMessage = (LinearLayout) findViewById(R.id.noDownloadedAudioMessage);
+                            LinearLayout noDownloadedAudioMessage = (LinearLayout)
+                                    findViewById(R.id.noDownloadedAudioMessage);
                             if (noDownloadedAudioMessage != null) {
                                 noDownloadedAudioMessage.setVisibility(View.GONE);
                             }
 
-                            Toast.makeText(ListDownloadedAudio.this, getResources().getString(R.string.download_audiofile_completed), Toast.LENGTH_LONG).show();
+                            Toast.makeText(ListDownloadedAudio.this,
+                                    getResources().getString(R.string.download_audiofile_completed),
+                                    Toast.LENGTH_LONG).show();
                         }
                     });
         } else {
@@ -283,7 +290,8 @@ public class ListDownloadedAudio extends Activity {
         downloadUI = (LinearLayout) findViewById(R.id.downloadUI);
         activity = this;
 
-        setActionStatusBarTint(getWindow(), this, Basic.AUDIOPLAYER_STATUSBAR_COLOR, Basic.AUDIOPLAYER_ACTIONBAR_COLOR);
+        setActionStatusBarTint(getWindow(), this, Basic.AUDIOPLAYER_STATUSBAR_COLOR,
+                Basic.AUDIOPLAYER_ACTIONBAR_COLOR);
 
         if(getActionBar() !=null) {
             getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -352,23 +360,32 @@ public class ListDownloadedAudio extends Activity {
                 LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
                 View view = inflater.inflate(R.layout.home_block, audioGrid, false);
 
-                final String audioFileName = cursor.getString(cursor.getColumnIndex(AudioDBContract.DownloadedAudio.COLUMN_NAME_AUDIO_NAME));
-                final String thumbFileName = getExternalFilesDir(null) + "/" + cursor.getString(cursor.getColumnIndex(AudioDBContract.DownloadedAudio.COLUMN_NAME_AUDIO_THUMB));
-                final String audioDate = cursor.getString(cursor.getColumnIndex(AudioDBContract.DownloadedAudio.COLUMN_NAME_AUDIO_DATE));
-                final String audioFile = cursor.getString(cursor.getColumnIndex(DownloadedAudio.COLUMN_NAME_AUDIO_FILE));
+                final String audioFileName = cursor.getString(
+                        cursor.getColumnIndex(AudioDBContract
+                                .DownloadedAudio.COLUMN_NAME_AUDIO_NAME));
+                final String thumbFileName = getExternalFilesDir(null)
+                        + "/" + cursor.getString(cursor.getColumnIndex(
+                        AudioDBContract.DownloadedAudio.COLUMN_NAME_AUDIO_THUMB));
+                final String audioDate = cursor.getString(cursor.getColumnIndex(
+                        AudioDBContract.DownloadedAudio.COLUMN_NAME_AUDIO_DATE));
+                final String audioFile = cursor.getString(cursor.getColumnIndex(
+                        DownloadedAudio.COLUMN_NAME_AUDIO_FILE));
 
                 TextView audioFileNameElement = (TextView) view.findViewById(R.id.videoName);
-                audioFileNameElement.setText(Utils.getStringWithRegularCustomFont(getApplicationContext(), audioFileName, "Titillium-BoldUpright.otf"));
+                audioFileNameElement.setText(Utils.getStringWithRegularCustomFont(getApplicationContext(),
+                        audioFileName, "Titillium-BoldUpright.otf"));
 
                 TextView dateElement = (TextView) view.findViewById(R.id.videoDate);
-                dateElement.setText(Utils.getStringWithRegularCustomFont(getApplicationContext(), audioDate, "Titillium-RegularUpright.otf"));
+                dateElement.setText(Utils.getStringWithRegularCustomFont(getApplicationContext(),
+                        audioDate, "Titillium-RegularUpright.otf"));
 
 
                 long fileSize = new File(Uri.parse(getExternalFilesDir(null) + "/") + audioFile).length();
                 Log.i("fileSize", String.valueOf(fileSize));
 
                 TextView fileSizeElement = (TextView) view.findViewById(R.id.videoViews);
-                fileSizeElement.setText(Utils.getStringWithRegularCustomFont(getApplicationContext(), String.valueOf(fileSize / 1024 / 1024) + " Mb", "Titillium-RegularUpright.otf"));
+                fileSizeElement.setText(Utils.getStringWithRegularCustomFont(getApplicationContext(),
+                        String.valueOf(fileSize / 1024 / 1024) + " Mb", "Titillium-RegularUpright.otf"));
 
                 ImageView thumb = (ImageView) view.findViewById(R.id.thumb);
                 thumb.setImageURI(Uri.parse(thumbFileName));
@@ -394,22 +411,21 @@ public class ListDownloadedAudio extends Activity {
             }
         } else {
             RelativeLayout mainView = (RelativeLayout) findViewById(R.id.mainView);
-            LinearLayout noAudioView = (LinearLayout) getLayoutInflater().inflate(R.layout.no_downloaded_audio_message, null);
+            LinearLayout noAudioView = (LinearLayout) getLayoutInflater()
+                    .inflate(R.layout.no_downloaded_audio_message, null);
             mainView.addView(noAudioView);
         }
     }
 
     @Override
     public void onBackPressed() {
-        //super.onBackPressed();
         if (!MyApp.isDownloadingAudio) {
-            //resetDownload();
-            super.onBackPressed();
+            finish();
+            Utils.goBackwardAnimation(this);
+
         } else {
             moveTaskToBack(true);
         }
-        Utils.goBackwardAnimation(this);
-        //finish();
     }
 
     @Override

@@ -68,11 +68,13 @@ public class OfflineFragment extends Fragment {
         SQLiteDatabase db = helper.getWritableDatabase();
         if (AudioDBHelper.count(db) > 0) {
             homeNetworkProblemText.setText(Utils.getStringWithRegularCustomFont(getActivity(),
-                    getResources().getString(R.string.offline_but_have_audio), "Titillium-BoldUpright.otf"));
+                    getResources().getString(R.string.offline_but_have_audio),
+                    "Titillium-BoldUpright.otf"));
         }
         else {
             homeNetworkProblemText.setText(Utils.getStringWithRegularCustomFont(getActivity(),
-                    getResources().getString(R.string.offline_but_have_no_audio), "Titillium-BoldUpright.otf"));
+                    getResources().getString(R.string.offline_but_have_no_audio),
+                    "Titillium-BoldUpright.otf"));
             goToAudioPlayer.setVisibility(View.GONE);
         }
 

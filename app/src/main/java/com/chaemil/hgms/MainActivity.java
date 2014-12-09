@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -44,7 +45,7 @@ public class MainActivity extends Activity {
     private TextView emptyText;
     private ListView menuList;
     private Fragment fragment;
-    private String youtubeVideoId;
+    private String youtubeVideoId = null;
     private MenuItem searchMenuItem;
     private SearchView searchView;
     private Menu _menu;
@@ -63,11 +64,11 @@ public class MainActivity extends Activity {
         }
 
         fragmentManager.beginTransaction()
-                .replace(R.id.content_frame, fragment)
-                .addToBackStack(null)
+                .add(R.id.content_frame, fragment)
                 .commit();
 
-        setActionStatusBarTint(getWindow(),this,Basic.MAIN_ACTIVITY_STATUSBAR_COLOR ,Basic.MAIN_ACTIVITY_STATUSBAR_COLOR);
+        setActionStatusBarTint(getWindow(),this,Basic.MAIN_ACTIVITY_STATUSBAR_COLOR,
+                Basic.MAIN_ACTIVITY_STATUSBAR_COLOR);
 
         Bundle extras = getIntent().getExtras();
 
@@ -262,7 +263,8 @@ public class MainActivity extends Activity {
             isFragment = true;
         }
         else {
-            setActionStatusBarTint(getWindow(),this,Basic.MAIN_ACTIVITY_STATUSBAR_COLOR ,Basic.MAIN_ACTIVITY_STATUSBAR_COLOR);
+            setActionStatusBarTint(getWindow(),this,Basic.MAIN_ACTIVITY_STATUSBAR_COLOR,
+                    Basic.MAIN_ACTIVITY_STATUSBAR_COLOR);
             if (type.equals(Basic.JSON_MENU_TYPE_HOME_LINK)) {
                 fragment = new HomeFragment();
                 isFragment = true;
@@ -289,7 +291,10 @@ public class MainActivity extends Activity {
                             @Override
                             public void onResponse(String s) {
                                 Log.i("request", s);
-                                youtubeVideoId = s.trim().replaceAll("\n", "");
+                                if(!s.trim().replaceAll("\n", "").equals("null")) {
+                                    youtubeVideoId = s.trim().replaceAll("\n", "");
+                                }
+
                             }
                         },
                         new Response.ErrorListener() {
@@ -300,25 +305,30 @@ public class MainActivity extends Activity {
                         }
                 );
 
-                // add it to the RequestQueue
                 queue.add(request);
 
 
-                Intent i = new Intent(this, LivePlayer.class);
-                i.putExtra(Basic.YOUTUBE_VIDEO_ID, youtubeVideoId);
-                startActivity(i);
-                Utils.goForwardAnimation(this);
+                if(youtubeVideoId != null) {
+                    Intent i = new Intent(this, LivePlayer.class);
+                    i.putExtra(Basic.YOUTUBE_VIDEO_ID, youtubeVideoId);
+                    startActivity(i);
+                    Utils.goForwardAnimation(this);
+                }
+                else {
+                    Toast.makeText(getApplicationContext(),
+                            getResources().getString(R.string.no_broadcats_message),
+                            Toast.LENGTH_LONG).show();
+                }
             }
         }
 
-        if (!type.equals(Basic.JSON_MENU_TYPE_DOWNLOADED_AUDIO) || !type.equals(Basic.JSON_MENU_TYPE_LIVE_PLAYER)) {
+        if (!type.equals(Basic.JSON_MENU_TYPE_DOWNLOADED_AUDIO)
+            || !type.equals(Basic.JSON_MENU_TYPE_LIVE_PLAYER)) {
             mTitle = title;
         }
 
 
-        //Toast.makeText(getApplicationContext(),type,Toast.LENGTH_SHORT).show();
-        //Toast.makeText(getApplicationContext(),getResources().getString(R.string.mainServerJson)+"?page=archive&lang="+ Utils.lang+link,Toast.LENGTH_LONG).show();
-        Log.i("link",Basic.MAIN_SERVER_JSON+"?page=archive&lang="+ Utils.lang+link);
+       Log.i("link",Basic.MAIN_SERVER_JSON+"?page=archive&lang="+ Utils.lang+link);
 
         if(isFragment) {
             FragmentManager fragmentManager = getFragmentManager();
