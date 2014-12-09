@@ -109,6 +109,7 @@ public class HomeFragment extends Fragment {
                 TextView videoViewsElement = (TextView) v.findViewById(R.id.videoViews);
                 String videoViews = videoViewsElement.getText().toString();
                 startVideoPlayer(getView(), videoURL, videoName, videoDate, videoViews);
+                Utils.goForwardAnimation(getActivity());
             }
         });
 
@@ -132,6 +133,7 @@ public class HomeFragment extends Fragment {
                 TextView albumDateElement = (TextView) v.findViewById(R.id.videoDate);
                 String albumDate = albumDateElement.getText().toString();
                 startPhotoalbumViewer(getView(), albumId, albumName, albumDate);
+                Utils.goForwardAnimation(getActivity());
             }
         });
 

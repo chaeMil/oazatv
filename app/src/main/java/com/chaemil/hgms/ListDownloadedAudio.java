@@ -52,6 +52,7 @@ public class ListDownloadedAudio extends Activity {
     private SQLiteDatabase db;
     private AudioDBHelper helper;
     private TextView downloadedAudioName;
+    private Activity activity;
 
     public static final int NOTIFICATION_ID = 1;
 
@@ -69,16 +70,15 @@ public class ListDownloadedAudio extends Activity {
 
     private String getAudioFileName(Bundle b, boolean fake) {
         if (fake) {
-            return getVideoId(b)+Basic.EXTENSION_AUDIO;
-        }
-        else {
-            return getVideoId(b)+Basic.EXTENSION_MP3;
+            return getVideoId(b) + Basic.EXTENSION_AUDIO;
+        } else {
+            return getVideoId(b) + Basic.EXTENSION_MP3;
         }
 
     }
 
     private String getAudioThumbFileName(Bundle b) {
-        return getVideoId(b)+Basic.EXTENSION_JPG;
+        return getVideoId(b) + Basic.EXTENSION_JPG;
     }
 
     private String getVideoUrl(Bundle b) {
@@ -110,7 +110,7 @@ public class ListDownloadedAudio extends Activity {
 
         ContentValues values = new ContentValues();
         values.put(DownloadedAudio.COLUMN_NAME_AUDIO_FILE,
-                getAudioFileName(extras,true));
+                getAudioFileName(extras, true));
         values.put(DownloadedAudio.COLUMN_NAME_AUDIO_NAME,
                 getVideoName(extras));
         values.put(DownloadedAudio.COLUMN_NAME_AUDIO_THUMB,
@@ -119,7 +119,7 @@ public class ListDownloadedAudio extends Activity {
         values.put(DownloadedAudio.COLUMN_NAME_AUDIO_DATE,
                 getVideoDate(extras));
 
-        db.insert(DownloadedAudio.TABLE_NAME,null,values);
+        db.insert(DownloadedAudio.TABLE_NAME, null, values);
     }
 
     private void downloadAudio() {
@@ -138,7 +138,7 @@ public class ListDownloadedAudio extends Activity {
         helper = new AudioDBHelper(getApplicationContext());
         db = helper.getWritableDatabase();
 
-        if (!AudioDBHelper.audioFileExists(db, getAudioFileName(extras,true))) {
+        if (!AudioDBHelper.audioFileExists(db, getAudioFileName(extras, true))) {
 
             MyApp.isDownloadingAudio = true;
 
@@ -147,7 +147,7 @@ public class ListDownloadedAudio extends Activity {
                     getIntent().getExtras().getString(Basic.VIDEO_NAME),
                     Basic.FONT_REGULAR_UPRIGHT));
 
-            Toast.makeText(getApplicationContext(), getResources().getString(R.string.downloading_audio_in_background),Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.downloading_audio_in_background), Toast.LENGTH_LONG).show();
 
             Intent intent = new Intent(this, ListDownloadedAudio.class);
 
@@ -155,7 +155,7 @@ public class ListDownloadedAudio extends Activity {
             mBuilder = new NotificationCompat.Builder(this);
             mBuilder.setContentTitle(getVideoName(extras))
                     .setContentText(getResources().getString(R.string.downloading_audio))
-                    .setProgress(100,0,false)
+                    .setProgress(100, 0, false)
                     .setOngoing(true)
                     .setSmallIcon(R.drawable.ic_white_logo)
                     .setContentIntent(PendingIntent.getActivity(getApplicationContext(), 0, intent, 0));
@@ -174,7 +174,7 @@ public class ListDownloadedAudio extends Activity {
                                 Log.i("percent", String.valueOf(percent));
                                 try {
                                     // Sleep for 2 seconds
-                                    Thread.sleep(3*1000);
+                                    Thread.sleep(3 * 1000);
                                 } catch (InterruptedException e) {
                                 }
                             }
@@ -225,7 +225,7 @@ public class ListDownloadedAudio extends Activity {
                             percent = (long) ((float) downloaded / total * 100);
                             downloadCount.setText(percent + "%");
                             // update notification
-                            mBuilder.setProgress(100,(int) percent, false);
+                            mBuilder.setProgress(100, (int) percent, false);
                         }
                     })
                             // write to a file
@@ -244,7 +244,7 @@ public class ListDownloadedAudio extends Activity {
 
                             Log.i("filepath", String.valueOf(result.getAbsoluteFile()));
 
-                            if (!AudioDBHelper.audioFileExists(db, getAudioFileName(getIntent().getExtras(),true))) {
+                            if (!AudioDBHelper.audioFileExists(db, getAudioFileName(getIntent().getExtras(), true))) {
                                 Log.i("audioFileExists", "false, saving new record");
                                 saveAudioToDb();
                             } else {
@@ -253,7 +253,7 @@ public class ListDownloadedAudio extends Activity {
 
                             mBuilder.setContentText(getResources().getString(R.string.download_audiofile_completed))
                                     // Removes the progress bar
-                                    .setProgress(0,0,false)
+                                    .setProgress(0, 0, false)
                                     .setOngoing(false)
                                     .setAutoCancel(true);
                             mNotifyManager.notify(NOTIFICATION_ID, mBuilder.build());
@@ -268,11 +268,9 @@ public class ListDownloadedAudio extends Activity {
                             Toast.makeText(ListDownloadedAudio.this, getResources().getString(R.string.download_audiofile_completed), Toast.LENGTH_LONG).show();
                         }
                     });
-        }
-        else {
+        } else {
             Toast.makeText(ListDownloadedAudio.this, getResources().getString(R.string.already_downloaded), Toast.LENGTH_LONG).show();
         }
-
 
 
     }
@@ -283,14 +281,19 @@ public class ListDownloadedAudio extends Activity {
         setContentView(R.layout.activity_list_downloaded_audio);
 
         downloadUI = (LinearLayout) findViewById(R.id.downloadUI);
+        activity = this;
 
-        setActionStatusBarTint(getWindow(), this , Basic.AUDIOPLAYER_STATUSBAR_COLOR, Basic.AUDIOPLAYER_ACTIONBAR_COLOR);
+        setActionStatusBarTint(getWindow(), this, Basic.AUDIOPLAYER_STATUSBAR_COLOR, Basic.AUDIOPLAYER_ACTIONBAR_COLOR);
+
+        if(getActionBar() !=null) {
+            getActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
             if (extras.containsKey("download")) {
-                if(extras.getBoolean("download")) {
+                if (extras.getBoolean("download")) {
                     downloadAudio();
                 }
             }
@@ -308,9 +311,9 @@ public class ListDownloadedAudio extends Activity {
 
         r.run();
 
-        Log.i("MyApp.isDownloading",String.valueOf(MyApp.isDownloadingAudio));
+        Log.i("MyApp.isDownloading", String.valueOf(MyApp.isDownloadingAudio));
 
-        if(MyApp.isDownloadingAudio) {
+        if (MyApp.isDownloadingAudio) {
             downloadUI.setVisibility(View.VISIBLE);
         }
 
@@ -342,7 +345,7 @@ public class ListDownloadedAudio extends Activity {
         );
 
 
-        if(cursor.getCount() > 0) {
+        if (cursor.getCount() > 0) {
             cursor.moveToFirst();
 
             while (!cursor.isAfterLast()) {
@@ -365,7 +368,7 @@ public class ListDownloadedAudio extends Activity {
                 Log.i("fileSize", String.valueOf(fileSize));
 
                 TextView fileSizeElement = (TextView) view.findViewById(R.id.videoViews);
-                fileSizeElement.setText(Utils.getStringWithRegularCustomFont(getApplicationContext(), String.valueOf(fileSize/1024/1024) + " Mb", "Titillium-RegularUpright.otf" ));
+                fileSizeElement.setText(Utils.getStringWithRegularCustomFont(getApplicationContext(), String.valueOf(fileSize / 1024 / 1024) + " Mb", "Titillium-RegularUpright.otf"));
 
                 ImageView thumb = (ImageView) view.findViewById(R.id.thumb);
                 thumb.setImageURI(Uri.parse(thumbFileName));
@@ -374,11 +377,12 @@ public class ListDownloadedAudio extends Activity {
                     @Override
                     public void onClick(View view) {
                         Intent audioPlayer = new Intent(ListDownloadedAudio.this, AudioPlayer.class);
-                        audioPlayer.putExtra(Basic.AUDIO_FILE,audioFile);
+                        audioPlayer.putExtra(Basic.AUDIO_FILE, audioFile);
                         audioPlayer.putExtra(Basic.AUDIO_FILE_NAME, audioFileName);
                         audioPlayer.putExtra(Basic.AUDIO_FILE_THUMB, thumbFileName);
                         audioPlayer.putExtra(Basic.AUDIO_FILE_DATE, audioDate);
                         startActivity(audioPlayer);
+                        Utils.goForwardAnimation(activity);
                         //Toast.makeText(getApplicationContext(), audioFile, Toast.LENGTH_LONG).show();
                         finish();
                     }
@@ -388,8 +392,7 @@ public class ListDownloadedAudio extends Activity {
 
                 cursor.moveToNext();
             }
-        }
-        else {
+        } else {
             RelativeLayout mainView = (RelativeLayout) findViewById(R.id.mainView);
             LinearLayout noAudioView = (LinearLayout) getLayoutInflater().inflate(R.layout.no_downloaded_audio_message, null);
             mainView.addView(noAudioView);
@@ -402,10 +405,10 @@ public class ListDownloadedAudio extends Activity {
         if (!MyApp.isDownloadingAudio) {
             //resetDownload();
             super.onBackPressed();
-        }
-        else {
+        } else {
             moveTaskToBack(true);
         }
+        Utils.goBackwardAnimation(this);
         //finish();
     }
 
@@ -419,18 +422,21 @@ public class ListDownloadedAudio extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(MyApp.isDownloadingAudio) {
+        if (MyApp.isDownloadingAudio) {
             resetDownload();
         }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        return super.onOptionsItemSelected(item);
+        // Handle item selection
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                Utils.goBackwardAnimation(this);
+                return true;
+            default:
+                return true;
+        }
     }
 }

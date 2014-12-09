@@ -410,7 +410,7 @@ public class Utils extends Activity {
                     a.getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor(actionBarColor)));
                 }
             }
-            if (currentapiVersion >= Build.VERSION_CODES.KITKAT) {
+            if (currentapiVersion > Build.VERSION_CODES.KITKAT) {
                 w.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             }
             w.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
@@ -439,4 +439,11 @@ public class Utils extends Activity {
         }
     }
 
+    public static void goForwardAnimation(Activity a) {
+        a.overridePendingTransition(R.anim.slide_in_right, R.anim.fade_out);
+    }
+
+    public static void goBackwardAnimation(Activity a) {
+        a.overridePendingTransition(R.anim.fade_in, R.anim.slide_out_right);
+    }
 }

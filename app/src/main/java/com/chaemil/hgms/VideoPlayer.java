@@ -25,6 +25,7 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.chaemil.hgms.utils.Basic;
+import com.chaemil.hgms.utils.Utils;
 import com.wefika.flowlayout.FlowLayout;
 
 import static com.chaemil.hgms.utils.Utils.displayVideoTags;
@@ -325,6 +326,7 @@ public class VideoPlayer extends FragmentActivity {
         switch(id) {
             case android.R.id.home:
                 finish();
+                Utils.goBackwardAnimation(this);
                 return true;
             case R.id.action_download_audio:
                 if (isDownloadingAudio()) {
@@ -347,5 +349,11 @@ public class VideoPlayer extends FragmentActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Utils.goBackwardAnimation(this);
     }
 }

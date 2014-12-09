@@ -273,6 +273,7 @@ public class MainActivity extends Activity {
             } else if (type.equals(Basic.JSON_MENU_TYPE_DOWNLOADED_AUDIO)) {
                 Intent i = new Intent(this, ListDownloadedAudio.class);
                 startActivity(i);
+                Utils.goForwardAnimation(this);
             } else if (type.equals(Basic.JSON_MENU_TYPE_EXIT)) {
                 finish();
             } else if (type.equals(Basic.JSON_MENU_TYPE_LIVE_PLAYER)) {
@@ -306,6 +307,7 @@ public class MainActivity extends Activity {
                 Intent i = new Intent(this, LivePlayer.class);
                 i.putExtra(Basic.YOUTUBE_VIDEO_ID, youtubeVideoId);
                 startActivity(i);
+                Utils.goForwardAnimation(this);
             }
         }
 

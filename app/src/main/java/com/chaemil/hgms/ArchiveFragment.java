@@ -61,6 +61,7 @@ public class ArchiveFragment extends Fragment {
                     TextView videoViewsElement = (TextView) v.findViewById(R.id.videoViews);
                     String videoViews = videoViewsElement.getText().toString();
                     startVideoPlayer(getView(), videoURL, videoName, videoDate, videoViews);
+                    Utils.goForwardAnimation(getActivity());
                 }
                 else if(type.equals(Basic.JSON_ARCHIVE_TYPE_PHOTOALBUM)) {
                     TextView albumIdElement = (TextView) v.findViewById(R.id.albumId);
@@ -70,6 +71,7 @@ public class ArchiveFragment extends Fragment {
                     TextView albumDateElement = (TextView) v.findViewById(R.id.videoDate);
                     String albumDate = albumDateElement.getText().toString();
                     startPhotoalbumViewer(getView(), albumId, albumName, albumDate);
+                    Utils.goForwardAnimation(getActivity());
                 }
             }
         });

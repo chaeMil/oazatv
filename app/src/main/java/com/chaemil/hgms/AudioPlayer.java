@@ -37,6 +37,7 @@ import android.widget.TextView;
 import com.chaemil.hgms.db.AudioDBHelper;
 import com.chaemil.hgms.utils.MusicController;
 import com.chaemil.hgms.utils.Basic;
+import com.chaemil.hgms.utils.Utils;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import static com.chaemil.hgms.db.AudioDBHelper.deleteAudioDBRecord;
@@ -383,7 +384,7 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
         switch (item.getItemId()) {
             case android.R.id.home:
                 exitPlayer();
-                //overridePendingTransition(R.anim.fade_in, R.anim.slide_out_right);
+                Utils.goBackwardAnimation(this);
                 return true;
             case R.id.show_video:
                 goToVideo();
@@ -405,6 +406,11 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
             calculateAudioThumb();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Utils.goBackwardAnimation(this);
     }
 
     @Override
