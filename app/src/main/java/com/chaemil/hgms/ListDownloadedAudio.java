@@ -261,7 +261,9 @@ public class ListDownloadedAudio extends Activity {
                             loadData();
 
                             LinearLayout noDownloadedAudioMessage = (LinearLayout) findViewById(R.id.noDownloadedAudioMessage);
-                            noDownloadedAudioMessage.setVisibility(View.GONE);
+                            if (noDownloadedAudioMessage != null) {
+                                noDownloadedAudioMessage.setVisibility(View.GONE);
+                            }
 
                             Toast.makeText(ListDownloadedAudio.this, getResources().getString(R.string.download_audiofile_completed), Toast.LENGTH_LONG).show();
                         }
