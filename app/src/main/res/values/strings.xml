@@ -38,5 +38,7 @@
     <string name="no_downloaded_audio">Nemáte stažené žádné audio záznamy, to bychom měli napravit!</string>
     <string name="no_downloaded_audio_help">Audio záznamy můžete stáhnout v přehrávači videí klepnutím na tuto ikonku:</string>
     <string name="no_broadcats_message">Právě neprobíhá žádné vysílání, zkuste to později.</string>
+    <string name="share_live_player">Oáza.tv - živé vysílání</string>
+    <string name="share_live_player_message">pro více informací navštivte http://oaza.tv</string>
 
 </resources>
