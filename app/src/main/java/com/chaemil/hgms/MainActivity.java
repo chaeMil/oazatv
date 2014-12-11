@@ -64,7 +64,7 @@ public class MainActivity extends Activity {
         }
 
         fragmentManager.beginTransaction()
-                .add(R.id.content_frame, fragment)
+                .replace(R.id.content_frame, fragment)
                 .commit();
 
         setActionStatusBarTint(getWindow(),this,Basic.MAIN_ACTIVITY_STATUSBAR_COLOR,

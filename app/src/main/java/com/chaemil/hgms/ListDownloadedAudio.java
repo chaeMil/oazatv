@@ -147,7 +147,8 @@ public class ListDownloadedAudio extends Activity {
                     getIntent().getExtras().getString(Basic.VIDEO_NAME),
                     Basic.FONT_REGULAR_UPRIGHT));
 
-            Toast.makeText(getApplicationContext(), getResources().getString(R.string.downloading_audio_in_background),
+            Toast.makeText(getApplicationContext(),
+                    getResources().getString(R.string.downloading_audio_in_background),
                     Toast.LENGTH_LONG).show();
 
             Intent intent = new Intent(this, ListDownloadedAudio.class);
@@ -174,7 +175,7 @@ public class ListDownloadedAudio extends Activity {
                                 mNotifyManager.notify(NOTIFICATION_ID, mBuilder.build());
                                 Log.i("percent", String.valueOf(percent));
                                 try {
-                                    // Sleep for 2 seconds
+                                    // Sleep for 3 seconds
                                     Thread.sleep(3 * 1000);
                                 } catch (InterruptedException e) {
                                 }

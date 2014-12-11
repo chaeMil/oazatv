@@ -2,11 +2,15 @@ package com.chaemil.hgms;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
@@ -72,6 +76,10 @@ public class VideoPlayer extends FragmentActivity {
         return getVideoId(b)+Basic.EXTENSION_JPG;
     }*/
 
+    private void pause() {
+        mVideoView.pause();
+    }
+
     private String getVideoUrl(Bundle b) {
         return b.getString(Basic.VIDEO_LINK);
     }
@@ -84,6 +92,16 @@ public class VideoPlayer extends FragmentActivity {
         return b.getString(Basic.VIDEO_VIEWS);
     }
 
+    private class NoisyAudioStreamReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (AudioManager.ACTION_AUDIO_BECOMING_NOISY.equals(intent.getAction())) {
+                pause();
+            }
+        }
+    }
+
+    private IntentFilter intentFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
 
 
     private void shareLink() {
@@ -106,6 +124,8 @@ public class VideoPlayer extends FragmentActivity {
 
         //if (!LibsChecker.checkVitamioLibs(this))
         //    return;
+
+        registerReceiver(new NoisyAudioStreamReceiver(), intentFilter);
 
         Bundle extras = getIntent().getExtras();
         String videoID = getVideoId(extras);

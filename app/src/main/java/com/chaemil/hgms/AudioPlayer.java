@@ -8,14 +8,18 @@ import java.io.IOException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnPreparedListener;
 import android.net.Uri;
@@ -64,6 +68,18 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
     private int audioThumbWidth;
     private int audioThumbHeight;
     private NotificationPanel nPanel;
+
+    private class NoisyAudioStreamReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (AudioManager.ACTION_AUDIO_BECOMING_NOISY.equals(intent.getAction())) {
+                pause();
+            }
+        }
+    }
+
+    private IntentFilter intentFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
+
 
     private void setController(){
         controller = new MusicController(this);
@@ -161,6 +177,8 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
         audioDate = (TextView) findViewById(R.id.audioDate);
 
         calculateAudioThumb();
+
+        registerReceiver(new NoisyAudioStreamReceiver(), intentFilter);
 
         if (nPanel != null) {
             nPanel.notificationCancel();
