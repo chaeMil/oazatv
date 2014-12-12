@@ -76,6 +76,12 @@
             android:excludeFromRecents="true">
         </activity>
 
+        <activity android:name=".SinglePhoto"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="sensor">
+        </activity>
+
     </application>
 
 </manifest>

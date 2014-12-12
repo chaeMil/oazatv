@@ -51,7 +51,8 @@ public class PhotoalbumActivity extends Activity {
         Log.i(Basic.ALBUM_ID, albumId);
 
         GridView photoThumbsGrid = (GridView) findViewById(R.id.photoThumbsGrid);
-        PhotoalbumAdapter mPhotoalbumAdapter = new PhotoalbumAdapter(getApplicationContext(),R.layout.photo_thumb);
+        PhotoalbumAdapter mPhotoalbumAdapter = new PhotoalbumAdapter(getApplicationContext(),
+                R.layout.photo_thumb);
 
         if(getActionBar() != null) {
             getActionBar().setTitle(getAlbumName());
@@ -69,16 +70,21 @@ public class PhotoalbumActivity extends Activity {
             public void onItemClick(AdapterView<?> adapterView, View v, int i, long l) {
                 TextView photoIdElement =  (TextView) v.findViewById(R.id.photoId);
                 CharSequence photoId = photoIdElement.getText();
-                Intent intent = new Intent(getApplicationContext(), PhotoalbumSlideshow.class);
+                TextView photoUrlElement = (TextView) v.findViewById(R.id.photoUrl);
+                CharSequence photoUrl = photoUrlElement.getText();
+                //Intent intent = new Intent(getApplicationContext(), PhotoalbumSlideshow.class);
+                Intent intent = new Intent(getApplicationContext(), SinglePhoto.class);
                 intent.putExtra(Basic.PHOTO_ID,photoId);
                 intent.putExtra(Basic.ALBUM_ID,albumId);
+                intent.putExtra(Basic.PHOTO_URL,photoUrl);
                 startActivity(intent);
             }
         });
 
 
         Log.i("screenWidth", String.valueOf(getScreenWidth(getApplicationContext())));
-        Log.i("screenWidth / "+String.valueOf(R.integer.gallery_columns), String.valueOf(getScreenWidth(getApplicationContext())/R.integer.gallery_columns));
+        Log.i("screenWidth / "+String.valueOf(R.integer.gallery_columns),
+                String.valueOf(getScreenWidth(getApplicationContext())/R.integer.gallery_columns));
     }
 
 

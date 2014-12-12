@@ -52,6 +52,7 @@ public class PhotoalbumAdapter extends ArrayAdapter<PhotoalbumRecord> {
         ImageView photoLarge = null;
         TextView label = null;
         TextView photoId = null;
+        TextView photoUrl = null;
 
         if(convertView.findViewById(R.id.thumb) != null) {
             thumb = (ImageView) convertView.findViewById(R.id.thumb);
@@ -87,6 +88,11 @@ public class PhotoalbumAdapter extends ArrayAdapter<PhotoalbumRecord> {
         if(convertView.findViewById(R.id.photoId) != null) {
             photoId = (TextView) convertView.findViewById(R.id.photoId);
             photoId.setText(rec.getPhotoId());
+        }
+
+        if(convertView.findViewById(R.id.photoUrl) != null) {
+            photoUrl = (TextView) convertView.findViewById(R.id.photoUrl);
+            photoUrl.setText(rec.getPhotoBig());
         }
 
         return convertView;
