@@ -76,7 +76,7 @@ public class MainActivity extends Activity {
         if (extras != null) {
             if (extras.containsKey("tag")) {
                 if(extras.getString("tag") != null) {
-                    submitSearch(extras.getString("tag"));
+                    submitSearch(extras.getString("tag"), true);
                 }
             }
         }
@@ -176,7 +176,7 @@ public class MainActivity extends Activity {
             public boolean onQueryTextSubmit(String query) {
 
 
-                submitSearch(query);
+                submitSearch(query, false);
 
                 return false;
             }
@@ -187,13 +187,14 @@ public class MainActivity extends Activity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    public void submitSearch(String query) {
+    public void submitSearch(String query, boolean calledExternaly) {
         fragment = new ArchiveFragment();
         Bundle args = new Bundle();
 
-        searchMenuItem = getMenu().findItem(R.id.search);
 
-        String link = Basic.MAIN_SERVER_JSON+"?page=archive&lang="+ Utils.lang+"&nazev="+query;
+
+        String link = Basic.MAIN_SERVER_JSON+"?page=archive&lang="+ Utils.lang+"&tagy="+query;
+        Log.i("submitSearch",link);
 
         args.putString(Basic.BUNDLE_LINK, link);
 
@@ -204,11 +205,15 @@ public class MainActivity extends Activity {
                 .addToBackStack(null)
                 .commit();
 
-        searchMenuItem.collapseActionView();
+        if (!calledExternaly) {
+            searchMenuItem = getMenu().findItem(R.id.search);
+            searchMenuItem.collapseActionView();
+            mDrawerLayout.closeDrawers();
+        }
 
         setTitle(getResources().getString(R.string.action_search)+": "+query);
 
-        mDrawerLayout.closeDrawers();
+
     }
 
     @Override
