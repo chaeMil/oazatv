@@ -23,7 +23,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
@@ -38,7 +37,6 @@ import com.wefika.flowlayout.FlowLayout;
 import static com.chaemil.hgms.utils.Utils.displayVideoTags;
 import static com.chaemil.hgms.utils.Utils.getScreenWidth;
 import static com.chaemil.hgms.utils.Utils.hideSystemUI;
-import static com.chaemil.hgms.utils.Utils.setActionStatusBarTint;
 import static com.chaemil.hgms.utils.Utils.showSystemUI;
 
 
@@ -327,7 +325,7 @@ public class VideoPlayer extends FragmentActivity {
     }
 
     public boolean isDownloadingAudio() {
-        return MyApp.isDownloadingAudio;
+        return App.isDownloadingAudio;
     }
 
 

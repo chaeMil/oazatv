@@ -16,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -93,7 +92,7 @@ public class ListDownloadedAudio extends Activity {
         // cancel any pending download
         downloading.cancel(true);
         downloading = null;
-        MyApp.isDownloadingAudio = false;
+        App.isDownloadingAudio = false;
 
         // reset the ui
         mNotifyManager.cancel(NOTIFICATION_ID);
@@ -140,7 +139,7 @@ public class ListDownloadedAudio extends Activity {
 
         if (!AudioDBHelper.audioFileExists(db, getAudioFileName(extras, true))) {
 
-            MyApp.isDownloadingAudio = true;
+            App.isDownloadingAudio = true;
 
             downloadedAudioName = (TextView) findViewById(R.id.downloadedAudioName);
             downloadedAudioName.setText(Utils.getStringWithRegularCustomFont(getApplicationContext(),
@@ -167,7 +166,7 @@ public class ListDownloadedAudio extends Activity {
                     new Runnable() {
                         @Override
                         public void run() {
-                            while (MyApp.isDownloadingAudio) {
+                            while (App.isDownloadingAudio) {
                                 // Sets the progress indicator to a max value, the
                                 // current completion percentage, and "determinate"
                                 // state
@@ -320,9 +319,9 @@ public class ListDownloadedAudio extends Activity {
 
         r.run();
 
-        Log.i("MyApp.isDownloading", String.valueOf(MyApp.isDownloadingAudio));
+        Log.i("MyApp.isDownloading", String.valueOf(App.isDownloadingAudio));
 
-        if (MyApp.isDownloadingAudio) {
+        if (App.isDownloadingAudio) {
             downloadUI.setVisibility(View.VISIBLE);
         }
 
@@ -420,7 +419,7 @@ public class ListDownloadedAudio extends Activity {
 
     @Override
     public void onBackPressed() {
-        if (!MyApp.isDownloadingAudio) {
+        if (!App.isDownloadingAudio) {
             finish();
             Utils.goBackwardAnimation(this);
 
@@ -439,7 +438,7 @@ public class ListDownloadedAudio extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (MyApp.isDownloadingAudio) {
+        if (App.isDownloadingAudio) {
             resetDownload();
         }
     }
