@@ -55,22 +55,16 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        FragmentManager fragmentManager = getFragmentManager();
-
-        if(!Utils.isOnline(getApplicationContext())) {
-            fragment = new OfflineFragment();
-        } else {
-            fragment = new HomeFragment();
-        }
-
-        fragmentManager.beginTransaction()
-                .replace(R.id.content_frame, fragment)
-                .commit();
-
         setActionStatusBarTint(getWindow(),this,Basic.MAIN_ACTIVITY_STATUSBAR_COLOR,
                 Basic.MAIN_ACTIVITY_STATUSBAR_COLOR);
 
         Bundle extras = getIntent().getExtras();
+
+        if (savedInstanceState == null) {
+            getFragmentManager().beginTransaction()
+                    .add(R.id.content_frame, new HomeFragment())
+                    .commit();
+        }
 
 
         if (extras != null) {

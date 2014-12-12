@@ -1,6 +1,7 @@
 package com.chaemil.hgms;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -56,6 +57,14 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
+
+        FragmentManager fragmentManager = getFragmentManager();
+
+        if(!Utils.isOnline(getActivity().getApplicationContext())) {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, new OfflineFragment())
+                    .commit();
+        }
 
         mFirstVideoDataAdapter = new ArchiveAdapter(getActivity(),R.layout.home_first_video);
 
