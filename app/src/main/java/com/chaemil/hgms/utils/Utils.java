@@ -221,8 +221,8 @@ public class Utils extends Activity {
 
                             for(int i =0; i < jsonImages.length(); i++) {
                                 JSONObject jsonImage = jsonImages.getJSONObject(i);
-                                final String tag = jsonImage.getString(Basic.JSON_VIDEO_TAGS_TAG);
-                                String tagText = jsonImage.getString(Basic.JSON_VIDEO_TAGS_TAG_TEXT);
+                                String tag = jsonImage.getString(Basic.JSON_VIDEO_TAGS_TAG);
+                                final String tagText = jsonImage.getString(Basic.JSON_VIDEO_TAGS_TAG_TEXT);
 
                                 LayoutInflater inflater = LayoutInflater.from(c);
                                 View view  = inflater.inflate(R.layout.tag, layout, false);
@@ -237,7 +237,7 @@ public class Utils extends Activity {
                                     @Override
                                     public void onClick(View view) {
                                         Intent i = new Intent(c.getApplicationContext(), MainActivity.class);
-                                        i.putExtra(Basic.BUNDLE_TAG,tag);
+                                        i.putExtra(Basic.BUNDLE_TAG,tagText);
                                         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                         c.getApplicationContext().startActivity(i);
                                     }

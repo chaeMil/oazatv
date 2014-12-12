@@ -187,13 +187,19 @@ public class MainActivity extends Activity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    public void submitSearch(String query, boolean calledExternaly) {
+    public void submitSearch(String query, boolean calledExternally) {
         fragment = new ArchiveFragment();
         Bundle args = new Bundle();
 
+        String link;
 
+        if (query.startsWith("#")) {
+            link = Basic.MAIN_SERVER_JSON+"?page=archive&lang="+ Utils.lang+"&tagy="+query.replace("#","");
+        }
+        else {
+            link = Basic.MAIN_SERVER_JSON+"?page=archive&lang="+ Utils.lang+"&nazev="+query;
+        }
 
-        String link = Basic.MAIN_SERVER_JSON+"?page=archive&lang="+ Utils.lang+"&tagy="+query;
         Log.i("submitSearch",link);
 
         args.putString(Basic.BUNDLE_LINK, link);
@@ -205,7 +211,7 @@ public class MainActivity extends Activity {
                 .addToBackStack(null)
                 .commit();
 
-        if (!calledExternaly) {
+        if (!calledExternally) {
             searchMenuItem = getMenu().findItem(R.id.search);
             searchMenuItem.collapseActionView();
             mDrawerLayout.closeDrawers();
