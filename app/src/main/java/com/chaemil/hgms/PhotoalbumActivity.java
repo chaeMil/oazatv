@@ -43,7 +43,8 @@ public class PhotoalbumActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.photoalbum);
 
-        setActionStatusBarTint(getWindow(),this,null,"#58C2FB");
+        setActionStatusBarTint(getWindow(),this,Basic.MAIN_ACTIVITY_STATUSBAR_COLOR,
+                Basic.MAIN_ACTIVITY_STATUSBAR_COLOR);
 
         final String albumId = getAlbumId();
 
