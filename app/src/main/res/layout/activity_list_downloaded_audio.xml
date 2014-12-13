@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:id="@+id/downloadUI"
-        android:visibility="visible"
+        android:visibility="gone"
         android:gravity="bottom"
         android:layout_alignBottom="@+id/audioGrid">
 
@@ -43,8 +43,10 @@
                 style="@style/firstVideoDetails"
                 android:id="@+id/downloadedAudioName"
                 android:gravity="center_vertical"
-                android:layout_marginRight="5dp"
-                android:layout_marginLeft="10dp" />
+                android:layout_marginLeft="10dp"
+                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@+id/downloadCount"
+                android:layout_toStartOf="@+id/downloadCount" />
 
             <TextView
                 android:layout_width="wrap_content"

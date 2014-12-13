@@ -404,12 +404,12 @@ public class Utils extends Activity {
 
     public static void setActionStatusBarTint(Window w, Activity a, String statusBarColor,  String actionBarColor) {
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
-        if (currentapiVersion >= Build.VERSION_CODES.KITKAT) {
-            if (a.getActionBar() != null) {
-                if (actionBarColor != null) {
-                    a.getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor(actionBarColor)));
-                }
+        if (a.getActionBar() != null) {
+            if (actionBarColor != null) {
+                a.getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor(actionBarColor)));
             }
+        }
+        if (currentapiVersion >= Build.VERSION_CODES.KITKAT) {
             if (currentapiVersion > Build.VERSION_CODES.KITKAT) {
                 w.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             }
