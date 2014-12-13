@@ -2,7 +2,9 @@ package com.chaemil.hgms;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -55,7 +58,31 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+
+        FrameLayout frameLayout = new FrameLayout(getActivity());
+        populateViewForOrientation(inflater, frameLayout);
+
+
+
+
+
+        return frameLayout;
+
+
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
+        populateViewForOrientation(inflater, (ViewGroup) getView());
+    }
+
+    private void populateViewForOrientation(LayoutInflater inflater, ViewGroup viewGroup) {
+        viewGroup.removeAllViewsInLayout();
+        View rootView = inflater.inflate(R.layout.fragment_home, viewGroup);
+
+        //View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
 
         FragmentManager fragmentManager = getFragmentManager();
@@ -145,12 +172,6 @@ public class HomeFragment extends Fragment {
                 Utils.goForwardAnimation(getActivity());
             }
         });
-
-        //rootView.invalidate();
-
-        return rootView;
-
-
     }
 
     @Override
