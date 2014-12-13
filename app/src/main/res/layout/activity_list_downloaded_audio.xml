@@ -6,15 +6,26 @@
     android:id="@+id/mainView"
     tools:context="com.chaemil.hgms.ListDownloadedAudio">
 
-    <LinearLayout
-        android:id="@+id/audioGrid"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical"
-        android:drawSelectorOnTop="true"
-        android:fastScrollAlwaysVisible="false"
-        android:layout_alignParentTop="true">
-    </LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/downloadUI">
+
+        <LinearLayout
+            android:id="@+id/audioGrid"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:drawSelectorOnTop="true"
+            android:fastScrollAlwaysVisible="false">
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
 
     <LinearLayout
         android:background="#FF894C96"
@@ -24,7 +35,7 @@
         android:id="@+id/downloadUI"
         android:visibility="gone"
         android:gravity="bottom"
-        android:layout_alignBottom="@+id/audioGrid">
+        android:layout_alignParentBottom="true">
 
         <ProgressBar
             style="?android:attr/progressBarStyleHorizontal"
