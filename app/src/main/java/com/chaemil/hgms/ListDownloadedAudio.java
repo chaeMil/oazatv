@@ -158,7 +158,7 @@ public class ListDownloadedAudio extends Activity {
                     .setContentText(getResources().getString(R.string.downloading_audio))
                     .setProgress(100, 0, false)
                     .setOngoing(true)
-                    .setSmallIcon(R.drawable.ic_white_logo)
+                    .setSmallIcon(R.drawable.ic_stat_file_download)
                     .setContentIntent(PendingIntent.getActivity(getApplicationContext(), 0, intent, 0));
             mNotifyManager.notify(NOTIFICATION_ID, mBuilder.build());
 
@@ -259,6 +259,7 @@ public class ListDownloadedAudio extends Activity {
                                     // Removes the progress bar
                                     .setProgress(0, 0, false)
                                     .setOngoing(false)
+                                    .setSmallIcon(R.drawable.ic_stat_action_done)
                                     .setAutoCancel(true);
                             mNotifyManager.notify(NOTIFICATION_ID, mBuilder.build());
 
@@ -393,15 +394,7 @@ public class ListDownloadedAudio extends Activity {
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent audioPlayer = new Intent(ListDownloadedAudio.this, AudioPlayer.class);
-                        audioPlayer.putExtra(Basic.AUDIO_FILE, audioFile);
-                        audioPlayer.putExtra(Basic.AUDIO_FILE_NAME, audioFileName);
-                        audioPlayer.putExtra(Basic.AUDIO_FILE_THUMB, thumbFileName);
-                        audioPlayer.putExtra(Basic.AUDIO_FILE_DATE, audioDate);
-                        startActivity(audioPlayer);
-                        Utils.goForwardAnimation(activity);
-                        //Toast.makeText(getApplicationContext(), audioFile, Toast.LENGTH_LONG).show();
-                        finish();
+                        openAudioPlayer(audioFile,audioFileName,thumbFileName,audioDate);
                     }
                 });
 
@@ -414,6 +407,23 @@ public class ListDownloadedAudio extends Activity {
             LinearLayout noAudioView = (LinearLayout) getLayoutInflater()
                     .inflate(R.layout.no_downloaded_audio_message, null);
             mainView.addView(noAudioView);
+        }
+    }
+
+    public void openAudioPlayer(String audioFile, String audioFileName, String thumbFileName, String audioDate) {
+        Intent audioPlayer = new Intent(ListDownloadedAudio.this, AudioPlayer.class);
+        audioPlayer.putExtra(Basic.AUDIO_FILE, audioFile);
+        audioPlayer.putExtra(Basic.AUDIO_FILE_NAME, audioFileName);
+        audioPlayer.putExtra(Basic.AUDIO_FILE_THUMB, thumbFileName);
+        audioPlayer.putExtra(Basic.AUDIO_FILE_DATE, audioDate);
+        if(App.isDownloadingAudio) {
+            moveTaskToBack(true);
+            startActivity(audioPlayer);
+            Utils.goForwardAnimation(activity);
+        } else {
+            startActivity(audioPlayer);
+            Utils.goForwardAnimation(activity);
+            finish();
         }
     }
 
