@@ -68,6 +68,7 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
     private int audioThumbWidth;
     private int audioThumbHeight;
     private NotificationPanel nPanel;
+    private NoisyAudioStreamReceiver mNoisyAudioStreamReceiver;
 
     private class NoisyAudioStreamReceiver extends BroadcastReceiver {
         @Override
@@ -143,7 +144,7 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
     protected void onPause() {
         super.onPause();
         Utils.goBackwardAnimation(this);
-        nPanel = new NotificationPanel(this);
+        nPanel = new NotificationPanel(this, audioName());
     }
 
     @Override
@@ -160,6 +161,7 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
         if (nPanel != null) {
             nPanel.notificationCancel();
         }
+        unregisterReceiver(mNoisyAudioStreamReceiver);
     }
 
     @Override
@@ -178,7 +180,9 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
 
         calculateAudioThumb();
 
-        registerReceiver(new NoisyAudioStreamReceiver(), intentFilter);
+        mNoisyAudioStreamReceiver = new NoisyAudioStreamReceiver();
+
+        registerReceiver(mNoisyAudioStreamReceiver, intentFilter);
 
         if (nPanel != null) {
             nPanel.notificationCancel();
@@ -192,7 +196,8 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
 
         }
 
-        setActionStatusBarTint(getWindow(), this , Basic.AUDIOPLAYER_STATUSBAR_COLOR, Basic.AUDIOPLAYER_ACTIONBAR_COLOR);
+        setActionStatusBarTint(getWindow(), this , Basic.AUDIOPLAYER_STATUSBAR_COLOR,
+                Basic.AUDIOPLAYER_ACTIONBAR_COLOR);
 
         audioName.setText(audioName());
         audioThumb.setImageURI(Uri.parse(audioThumb()));
@@ -201,7 +206,6 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
         /*controller.setMediaPlayer(this);
         controller.setAnchorView(findViewById(R.id.song_list));
         controller.setEnabled(true);*/
-        //TODO
 
         setController();
 
@@ -324,9 +328,11 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
             int cHours   = ((current / (1000*60*60)) % 24);
 
             if(dHours == 0){
-                mMediaTime.setText(String.format("%02d:%02d / %02d:%02d", cMinutes, cSeconds, dMinutes, dSeconds));
+                mMediaTime.setText(String.format("%02d:%02d / %02d:%02d", cMinutes,
+                        cSeconds, dMinutes, dSeconds));
             }else{
-                mMediaTime.setText(String.format("%02d:%02d:%02d / %02d:%02d:%02d", cHours, cMinutes, cSeconds, dHours, dMinutes, dSeconds));
+                mMediaTime.setText(String.format("%02d:%02d:%02d / %02d:%02d:%02d",
+                        cHours, cMinutes, cSeconds, dHours, dMinutes, dSeconds));
             }
 
             try{
@@ -366,7 +372,8 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
                     public void onClick(DialogInterface dialog, int which) {
                         exitPlayer();
                         File audioFile = new File(getExternalFilesDir(null), file());
-                        File audioThumb = new File(getExternalFilesDir(null), audioThumb().substring(audioThumb().lastIndexOf("/") + 1));
+                        File audioThumb = new File(getExternalFilesDir(null),
+                                audioThumb().substring(audioThumb().lastIndexOf("/") + 1));
                         //Toast.makeText(getApplicationContext(), file.toString(), Toast.LENGTH_LONG).show();
                         audioFile.delete();
                         audioThumb.delete();

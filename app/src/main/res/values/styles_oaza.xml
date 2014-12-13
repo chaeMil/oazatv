@@ -112,6 +112,10 @@
         <item name="android:paddingRight">16dip</item>
     </style>
 
+    <style name="notificationButton">
+        <item name="android:layout_margin">8dp</item>
+    </style>
+
     <style name="ActionBar.Solid.Oaza" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
         <item name="android:background">@drawable/ab_solid_oaza</item>
         <item name="android:backgroundStacked">@drawable/ab_stacked_solid_oaza</item>

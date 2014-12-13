@@ -1,24 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal" >
 
     <Button
         android:id="@+id/pause"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:drawable/ic_media_pause" />
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+        style="@style/notificationButton"
+        android:background="@android:drawable/ic_media_pause"
+        android:layout_toLeftOf="@+id/play" />
 
     <Button
         android:id="@+id/play"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:drawable/ic_media_play" />
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+        style="@style/notificationButton"
+        android:background="@android:drawable/ic_media_play"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:layout_toLeftOf="@+id/pause"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_toRightOf="@+id/imageView"
+        android:layout_toEndOf="@+id/imageView" />
 
-</LinearLayout>
+    <ImageView
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+        android:layout_margin="8dp"
+        android:background="@drawable/ic_white_logo"
+        android:id="@+id/imageView"
+        android:gravity="center_vertical"
+        android:layout_alignParentLeft="true" />
+
+</RelativeLayout>
