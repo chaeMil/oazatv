@@ -77,10 +77,9 @@ public class MainActivity extends Activity {
 
 
 
-        mTitle = mDrawerTitle = getTitle();
-        if (getActionBar() != null) {
-            getActionBar().setTitle(mDrawerTitle);
-        }
+        mTitle = getResources().getString(R.string.app_name);
+        mDrawerTitle = mTitle;
+        setTitle(getResources().getString(R.string.app_name));
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
