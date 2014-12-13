@@ -417,8 +417,7 @@ public class ListDownloadedAudio extends Activity {
         }
     }
 
-    @Override
-    public void onBackPressed() {
+    public void goBack() {
         if (!App.isDownloadingAudio) {
             finish();
             Utils.goBackwardAnimation(this);
@@ -426,6 +425,11 @@ public class ListDownloadedAudio extends Activity {
         } else {
             moveTaskToBack(true);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        goBack();
     }
 
     @Override
@@ -448,8 +452,7 @@ public class ListDownloadedAudio extends Activity {
         // Handle item selection
         switch (item.getItemId()) {
             case android.R.id.home:
-                finish();
-                Utils.goBackwardAnimation(this);
+                goBack();
                 return true;
             default:
                 return true;

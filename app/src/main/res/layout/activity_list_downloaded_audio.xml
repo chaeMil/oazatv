@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:id="@+id/downloadUI"
-        android:visibility="gone"
+        android:visibility="visible"
         android:gravity="bottom"
         android:layout_alignBottom="@+id/audioGrid">
 
