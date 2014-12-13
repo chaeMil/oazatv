@@ -23,6 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
@@ -49,7 +50,7 @@ public class VideoPlayer extends FragmentActivity {
     private Fragment fragment;
     private LinearLayout videoInfo;
     private ProgressBar videoSpinner;
-
+    private MediaController mediaController;
 
     private String getVideoId(Bundle b) {
         String s = b.getString(Basic.BUNDLE_VIDEO_LINK);
@@ -137,25 +138,17 @@ public class VideoPlayer extends FragmentActivity {
             getActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+        String idToSubmitViews = getVideoUrl(getIntent().getExtras());
+        idToSubmitViews = idToSubmitViews
+                .substring(idToSubmitViews.lastIndexOf("/")+1,idToSubmitViews.lastIndexOf("."));
 
-        //tabletový rozhraní
-        if (findViewById(R.id.rightFrag) != null) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
-
-            FragmentManager fragmentManager = getFragmentManager();
-
-            fragment = new SimilarVideosFragment();
-
-            Bundle args = new Bundle();
-            args.putString(Basic.VIDEO_LINK, getVideoUrl(extras));
-
-            fragment.setArguments(args);
-
-            fragmentManager.beginTransaction()
-                    .replace(R.id.rightFrag, fragment)
-                    .addToBackStack(null)
-                    .commit();
+        //submit video view
+        try {
+            Utils.sendGet(Basic.MAIN_SERVER+"?page=vp-stats&source=app&video="+idToSubmitViews);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
 
         TextView videoViewsElement = (TextView) findViewById(R.id.videoViews);
         videoViewsElement.setText(videoViews);
@@ -169,8 +162,8 @@ public class VideoPlayer extends FragmentActivity {
         displayVideoTags(getApplicationContext(), videoID, videoTags);
 
         mVideoView = (VideoView) findViewById(R.id.videoView);
-        MediaController mediaController = new MediaController(this);
-        mediaController.setAnchorView(mVideoView);
+        mediaController = new MediaController(this);
+
 
         Uri video;
 
@@ -210,6 +203,13 @@ public class VideoPlayer extends FragmentActivity {
                 @Override
                 public void onPrepared(MediaPlayer mp) {
                     videoSpinner.setVisibility(View.GONE);
+                    mp.setOnVideoSizeChangedListener(new MediaPlayer.OnVideoSizeChangedListener() {
+                        @Override
+                        public void onVideoSizeChanged(MediaPlayer mediaPlayer, int i, int i2) {
+                            mVideoView.setMediaController(mediaController);
+                            mediaController.setAnchorView(mVideoView);
+                        }
+                    });
                     mp.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
                         @Override
                         public void onBufferingUpdate(MediaPlayer mp, int percent) {
@@ -246,7 +246,29 @@ public class VideoPlayer extends FragmentActivity {
             }
         });
 
+        //tabletový rozhraní
+        if (findViewById(R.id.rightFrag) != null) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
+
+            FragmentManager fragmentManager = getFragmentManager();
+
+            fragment = new SimilarVideosFragment();
+
+            Bundle args = new Bundle();
+            args.putString(Basic.VIDEO_LINK, getVideoUrl(extras));
+
+            fragment.setArguments(args);
+
+            fragmentManager.beginTransaction()
+                    .replace(R.id.rightFrag, fragment)
+                    .addToBackStack(null)
+                    .commit();
+
+        }
+
         screenOrientation();
+
+
 
         /*mVideoView = (VideoView) findViewById(R.id.videoView);
         mVideoView.setBufferSize(1024*1024*8);
@@ -265,7 +287,6 @@ public class VideoPlayer extends FragmentActivity {
 
     public void screenOrientation()
     {
-        int currentapiVersion = android.os.Build.VERSION.SDK_INT;
         if (findViewById(R.id.rightFrag) == null) {
             Display getOrient = getWindowManager().getDefaultDisplay();
             if (getOrient.getWidth() == getOrient.getHeight()) {
@@ -277,13 +298,15 @@ public class VideoPlayer extends FragmentActivity {
 
 
                 } else {
-                    hideSystemUI(this, getCurrentFocus());
-                    videoInfo.setVisibility(View.GONE);
-                    mVideoView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-                    mVideoView.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
-
+                        hideSystemUI(this, getCurrentFocus());
+                        videoInfo.setVisibility(View.GONE);
+                        mVideoView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+                        mVideoView.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
                 }
             }
+        } else {
+            mVideoView.getLayoutParams().width = (int) (Utils.getScreenWidth(getApplicationContext()) * 0.68);
+            mVideoView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
         }
     }
 
