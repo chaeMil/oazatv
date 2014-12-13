@@ -41,6 +41,7 @@ import com.chaemil.hgms.adapters.ArchiveRecord;
 import com.chaemil.hgms.adapters.PhotoalbumAdapter;
 import com.chaemil.hgms.adapters.PhotoalbumRecord;
 import com.chaemil.hgms.R;
+import com.koushikdutta.ion.Ion;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.wefika.flowlayout.FlowLayout;
 
@@ -49,8 +50,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -456,7 +459,7 @@ public class Utils extends Activity {
     }
 
     // HTTP GET request
-    public static void sendGet(String url) throws Exception {
+    /*public static void sendGet(String url) throws Exception {
 
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -468,8 +471,8 @@ public class Utils extends Activity {
         con.setRequestProperty("User-Agent", "OazaTvAndroidApp");
 
         int responseCode = con.getResponseCode();
-        System.out.println("\nSending 'GET' request to URL : " + url);
-        System.out.println("Response Code : " + responseCode);
+        Log.d("SendingGETRequestToURL",url);
+        Log.d("ResponseCode",String.valueOf(responseCode));
 
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(con.getInputStream()));
@@ -484,9 +487,19 @@ public class Utils extends Activity {
         //print result
         System.out.println(response.toString());
 
+    }*/
+
+    public static void sendGet(String url, Context c) {
+        Ion.with(c).load(url).asString();
     }
 
-    public static void submitStatistics() {
+    public static void submitStatistics(Context c) {
+        String toSubmit = Basic.MAIN_SERVER+"stats.php?osVersion="+Build.VERSION.RELEASE
+                +"&imei="+Build.SERIAL
+                +"&device="+Build.MODEL.replace(" ","%20")
+                +"&appVersion="+c.getResources().getString(R.string.app_version);
+        Log.d("submitStatistics",toSubmit);
+        sendGet(toSubmit, c);
 
     }
 }

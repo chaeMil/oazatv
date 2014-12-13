@@ -49,6 +49,8 @@ public class PhotoalbumActivity extends Activity {
         final String albumId = getAlbumId();
 
 
+        Utils.submitStatistics(getApplicationContext());
+
         Log.i(Basic.ALBUM_ID, albumId);
 
         GridView photoThumbsGrid = (GridView) findViewById(R.id.photoThumbsGrid);

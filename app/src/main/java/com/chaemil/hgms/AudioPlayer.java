@@ -180,6 +180,9 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
 
         calculateAudioThumb();
 
+        Utils.submitStatistics(getApplicationContext());
+
+
         mNoisyAudioStreamReceiver = new NoisyAudioStreamReceiver();
 
         registerReceiver(mNoisyAudioStreamReceiver, intentFilter);

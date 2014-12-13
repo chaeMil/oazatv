@@ -41,6 +41,8 @@ public class ArchiveFragment extends Fragment {
             link = bundle.getString(Basic.BUNDLE_LINK);
         }
 
+        Utils.submitStatistics(getActivity().getApplicationContext());
+
         ArchiveAdapter mArchiveAdapter = new ArchiveAdapter(getActivity(),R.layout.archive_block);
 
         archiveGrid = (GridView) rootView.findViewById(R.id.archiveGrid);
@@ -77,7 +79,9 @@ public class ArchiveFragment extends Fragment {
         });
 
 
-        fetchArchive(getActivity().getApplicationContext(),Basic.MAIN_SERVER_JSON+"?page=archive&lang="+ Utils.lang+link,mArchiveAdapter,"archive");
+        fetchArchive(getActivity().getApplicationContext(),
+                Basic.MAIN_SERVER_JSON+"?page=archive&lang="
+                        +Utils.lang+link,mArchiveAdapter,"archive");
 
 
         return rootView;

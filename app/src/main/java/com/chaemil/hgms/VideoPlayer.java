@@ -143,11 +143,9 @@ public class VideoPlayer extends FragmentActivity {
                 .substring(idToSubmitViews.lastIndexOf("/")+1,idToSubmitViews.lastIndexOf("."));
 
         //submit video view
-        try {
-            Utils.sendGet(Basic.MAIN_SERVER+"?page=vp-stats&source=app&video="+idToSubmitViews);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Utils.sendGet(Basic.MAIN_SERVER+"?page=vp-stats&source=app&video="+idToSubmitViews,
+                getApplicationContext());
+        Utils.submitStatistics(getApplicationContext());
 
 
         TextView videoViewsElement = (TextView) findViewById(R.id.videoViews);
