@@ -30,6 +30,12 @@
             android:configChanges="orientation|keyboardHidden|screenSize" >
         </activity>
 
+        <activity android:name=".FirstRun"
+            android:configChanges="orientation|screenSize"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+
+        </activity>
+
         <!--
             <activity
             android:name="io.vov.vitamio.activity.InitActivity"

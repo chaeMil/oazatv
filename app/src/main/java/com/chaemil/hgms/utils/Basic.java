@@ -99,6 +99,9 @@ public class Basic {
     public static final String FONT_BOLD_UPRIGHT = "Titillium-BoldUpright.otf";
     public static final String PHOTO_URL = "photoUrl";
 
+    public static final String MAIN_PREFS = "mainPrefs";
+    public static final String FIRST_RUN = "firstRun";
+
 
     public static void startVideoPlayer(View v, String videoURL, String videoName, String videoDate, String videoViews) {
         Intent a = new Intent(v.getContext(), VideoPlayer.class);

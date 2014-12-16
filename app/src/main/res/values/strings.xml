@@ -41,5 +41,10 @@
     <string name="no_broadcats_message">Právě neprobíhá žádné vysílání, zkuste to později.</string>
     <string name="share_live_player">Oáza.tv - živé vysílání</string>
     <string name="share_live_player_message">pro více informací navštivte http://oaza.tv</string>
+    <string name="title_slide_1">Vítejte!\nProjdeme si pár základních věcí...\nPřipraveni?</string>
+    <string name="title_slide_2_navigation">Navigace</string>
+    <string name="title_slide_2">Veškerý obsah naleznete v levém menu.\n\n Vyhledávat můžete i pomocí tagů: #svoboda</string>
+    <string name="title_slide_3_onthego">Na cestách...</string>
+    <string name="title_slide_3">Stáhněte si audio záznamy\n a poslouchejte kdekoliv!</string>
 
 </resources>

@@ -6,11 +6,14 @@ import android.app.FragmentManager;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -51,6 +54,22 @@ public class MainActivity extends Activity {
     private Menu _menu;
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        SharedPreferences settings = getSharedPreferences(Basic.MAIN_PREFS, 0);
+        boolean appFirstRun = settings.getBoolean(Basic.FIRST_RUN, true);
+        if (appFirstRun) {
+            Intent i = new Intent(this, FirstRun.class);
+            startActivity(i);
+            finish();
+        }
+    }
+
+    private boolean isFirstRun() {
+        return getIntent().hasExtra(Basic.FIRST_RUN);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -74,9 +93,6 @@ public class MainActivity extends Activity {
                 }
             }
         }
-
-
-
         mTitle = getResources().getString(R.string.app_name);
         mDrawerTitle = mTitle;
         setTitle(getResources().getString(R.string.app_name));
@@ -116,10 +132,20 @@ public class MainActivity extends Activity {
 
         fetchMenuData(getApplicationContext(), mArchiveMenuAdapter);
 
-        if (savedInstanceState == null) {
-            //selectItem(0);
+        if(isFirstRun()) {
+            new Handler().postDelayed(openDrawerRunnable(), 200);
         }
 
+    }
+
+    private Runnable openDrawerRunnable() {
+        return new Runnable() {
+
+            @Override
+            public void run() {
+                mDrawerLayout.openDrawer(Gravity.LEFT);
+            }
+        };
     }
 
     /* Called whenever we call invalidateOptionsMenu() */

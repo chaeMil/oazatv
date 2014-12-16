@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/slide3"
+        android:visibility="visible">
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/bg3"
+            android:scaleType="centerCrop"
+            android:src="@drawable/title_bg_2" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/videoName"
+            android:textSize="40sp"
+            android:textColor="#FFFFFF"
+            android:shadowColor="@android:color/background_dark"
+            android:shadowRadius="6"
+            android:shadowDy="2"
+            android:text="@string/title_slide_3_onthego"
+            android:textAllCaps="true"
+            android:id="@+id/slideMainText3"
+            android:layout_above="@+id/slideText3"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_slide_3"
+            android:textSize="20sp"
+            android:layout_margin="10dp"
+            android:layout_marginTop="20dp"
+            android:textColor="#FFFFFF"
+            android:shadowColor="@android:color/background_dark"
+            android:shadowRadius="6"
+            android:shadowDy="2"
+            android:gravity="center"
+            android:id="@+id/slideText3"
+            android:lineSpacingMultiplier="1.2"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_horizontal">
+
+            <at.markushi.ui.CircleButton
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                app:cb_color="#22FFFFFF"
+                app:cb_pressedRingWidth="0.8dp"
+                android:src="@drawable/ic_stat_action_done"
+                android:id="@+id/slide3ButtonNext"
+
+                android:layout_marginLeft="10dp"
+                android:layout_centerHorizontal="true" />
+
+            <at.markushi.ui.CircleButton
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                app:cb_color="#22FFFFFF"
+                app:cb_pressedRingWidth="0.8dp"
+                android:src="@drawable/ic_action_cancel"
+                android:id="@+id/slide3ButtonPrev"
+                android:layout_toLeftOf="@+id/slide3ButtonNext" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/slide2"
+        android:visibility="visible">
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/bg2"
+            android:scaleType="centerCrop"
+            android:src="@drawable/title_bg_1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/videoName"
+            android:textSize="40sp"
+            android:textColor="#FFFFFF"
+            android:shadowColor="@android:color/background_dark"
+            android:shadowRadius="6"
+            android:shadowDy="2"
+            android:textAllCaps="true"
+            android:text="@string/title_slide_2_navigation"
+            android:id="@+id/slideMainText2"
+            android:layout_above="@+id/slideText2"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_slide_2"
+            android:textSize="20sp"
+            android:layout_margin="10dp"
+            android:layout_marginTop="20dp"
+            android:textColor="#FFFFFF"
+            android:shadowColor="@android:color/background_dark"
+            android:shadowRadius="6"
+            android:shadowDy="2"
+            android:gravity="center"
+            android:id="@+id/slideText2"
+            android:lineSpacingMultiplier="1.2"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_horizontal">
+
+            <at.markushi.ui.CircleButton
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                app:cb_color="#22FFFFFF"
+                app:cb_pressedRingWidth="0.8dp"
+                android:src="@drawable/ic_stat_action_done"
+                android:id="@+id/slide2ButtonNext"
+
+                android:layout_marginLeft="10dp"
+                android:layout_centerHorizontal="true" />
+
+            <at.markushi.ui.CircleButton
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                app:cb_color="#22FFFFFF"
+                app:cb_pressedRingWidth="0.8dp"
+                android:src="@drawable/ic_action_cancel"
+                android:id="@+id/slide2ButtonPrev"
+                android:layout_toLeftOf="@+id/slide2ButtonNext" />
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/slide1"
+        android:visibility="visible">
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/bg1"
+            android:scaleType="centerCrop"
+            android:src="@drawable/title_bg_3" />
+
+        <ImageView
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:id="@+id/logo"
+            android:src="@drawable/title_white_logo"
+            android:layout_above="@+id/logoText"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/videoName"
+            android:textSize="40sp"
+            android:layout_marginTop="10dp"
+            android:textColor="#FFFFFF"
+            android:shadowColor="@android:color/background_dark"
+            android:shadowRadius="6"
+            android:shadowDy="2"
+            android:text="@string/app_name"
+            android:textAllCaps="true"
+            android:id="@+id/logoText"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_slide_1"
+            android:textSize="20sp"
+            android:textColor="#FFFFFF"
+            android:shadowColor="@android:color/background_dark"
+            android:shadowRadius="6"
+            android:shadowDy="2"
+            android:layout_margin="15dp"
+            android:gravity="center"
+            android:id="@+id/slideText1"
+            android:lineSpacingMultiplier="1.2"
+            android:layout_below="@+id/logoText"
+            android:layout_centerHorizontal="true" />
+
+        <at.markushi.ui.CircleButton
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            app:cb_color="#22FFFFFF"
+            app:cb_pressedRingWidth="0.8dp"
+            android:src="@drawable/ic_stat_action_done"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/slide1ButtonNext"/>
+    </RelativeLayout>
+
+</RelativeLayout>
