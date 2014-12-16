@@ -1,4 +1,4 @@
-package com.chaemil.hgms;
+package com.chaemil.hgms.utils;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -6,6 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.widget.RemoteViews;
+
+import com.chaemil.hgms.AudioPlayer;
+import com.chaemil.hgms.R;
 
 /**
  * Created by chaemil on 8.12.14.
@@ -20,9 +23,19 @@ public class NotificationPanel {
     public NotificationPanel(Context context, String title) {
         this.context = context;
 
+        Intent resultIntent = new Intent(context, AudioPlayer.class);
+        PendingIntent resultPendingIntent =
+                PendingIntent.getActivity(
+                        context,
+                        0,
+                        resultIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+
         nBuilder = new NotificationCompat.Builder(context)
                 .setContentTitle(title)
                 .setSmallIcon(R.drawable.ic_white_logo)
+                .setContentIntent(resultPendingIntent)
                 .setOngoing(true);
 
         remoteView = new RemoteViews(context.getPackageName(), R.layout.audio_player_notification);

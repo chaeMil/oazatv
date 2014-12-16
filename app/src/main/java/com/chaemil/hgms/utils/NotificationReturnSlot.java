@@ -1,8 +1,10 @@
-package com.chaemil.hgms;
+package com.chaemil.hgms.utils;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+
+import com.chaemil.hgms.AudioPlayer;
 
 /**
  * Created by chaemil on 8.12.14.

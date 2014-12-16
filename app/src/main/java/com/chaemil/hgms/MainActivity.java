@@ -328,7 +328,7 @@ public class MainActivity extends Activity {
 
         if (!type.equals(Basic.JSON_MENU_TYPE_DOWNLOADED_AUDIO)
             || !type.equals(Basic.JSON_MENU_TYPE_LIVE_PLAYER)) {
-            mTitle = title;
+            mTitle = getResources().getString(R.string.app_name);
         }
 
 

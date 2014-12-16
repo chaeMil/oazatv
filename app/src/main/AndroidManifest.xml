@@ -59,19 +59,15 @@
         <activity
             android:name="com.chaemil.hgms.AudioPlayer"
             android:configChanges="orientation|screenSize"
+            android:launchMode="singleTask"
             android:label="@string/title_activity_audio_player" >
         </activity>
         <activity
             android:name="com.chaemil.hgms.LivePlayer"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="sensor" >
-
-            <!--
-            <meta-data android:name="@string/minVersion" android:value="8"/>
-            <meta-data android:name="@string/isLaunchableActivity" android:value="true"/>
-            -->
         </activity>
-        <activity android:name=".NotificationReturnSlot"
+        <activity android:name=".utils.NotificationReturnSlot"
             android:launchMode="singleTask"
             android:taskAffinity=""
             android:excludeFromRecents="true">

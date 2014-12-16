@@ -66,8 +66,8 @@ public class HomeFragment extends Fragment {
 
         Utils.submitStatistics(getActivity().getApplicationContext());
 
-        return frameLayout;
 
+        return frameLayout;
 
     }
 
