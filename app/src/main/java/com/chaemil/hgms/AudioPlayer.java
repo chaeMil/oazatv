@@ -225,7 +225,7 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
         mPlayer = MediaPlayer.create(this, Uri.parse(getExternalFilesDir(null) + "/" + file()));
         mPlayer.setOnPreparedListener(this);
         mPlayer.start();
-        mPlayer.seekTo(loadAudioTime(db,file()));
+        mPlayer.seekTo(loadAudioTime(db,file())-6000);
 
         Log.i("filePath", getExternalFilesDir(null) + "/" + file());
 
