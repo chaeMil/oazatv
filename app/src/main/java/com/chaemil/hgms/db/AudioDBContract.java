@@ -15,5 +15,6 @@ public final class AudioDBContract {
         public static final String COLUMN_NAME_AUDIO_THUMB = "audioThumb";
         public static final String COLUMN_NAME_AUDIO_NAME = "audioName";
         public static final String COLUMN_NAME_AUDIO_DATE = "audioDate";
+        public static final String COLUMN_NAME_AUDIO_TIME = "audioTime";
     }
 }

@@ -121,6 +121,14 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
         Log.i("mPlayer","play");
     }
 
+    public void saveAudioTime(SQLiteDatabase db, String fileName, int time) {
+        AudioDBHelper.saveAudioTime(db, fileName, time);
+    }
+
+    public int loadAudioTime(SQLiteDatabase db, String fileName) {
+        return AudioDBHelper.loadAudioTime(db, fileName);
+    }
+
     public void calculateAudioThumb() {
         if (getScreenHeight(getApplicationContext()) > getScreenWidth(getApplicationContext())) {
             audioThumbWidth = Integer.valueOf((int) (getScreenWidth(getApplicationContext()) * 0.8));
@@ -137,6 +145,9 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
     @Override
     protected void onPause() {
         super.onPause();
+        AudioDBHelper helper = new AudioDBHelper(getApplicationContext());
+        SQLiteDatabase db = helper.getWritableDatabase();
+        saveAudioTime(db,file(),mPlayer.getCurrentPosition());
         Utils.goBackwardAnimation(this);
         nPanel = new NotificationPanel(this, audioName());
     }
@@ -176,6 +187,10 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
 
         Utils.submitStatistics(getApplicationContext());
 
+        AudioDBHelper helper = new AudioDBHelper(getApplicationContext());
+        SQLiteDatabase db = helper.getWritableDatabase();
+        Log.d("loadAudioTime", String.valueOf(loadAudioTime(db,file())));
+
 
         mNoisyAudioStreamReceiver = new NoisyAudioStreamReceiver();
 
@@ -210,6 +225,7 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
         mPlayer = MediaPlayer.create(this, Uri.parse(getExternalFilesDir(null) + "/" + file()));
         mPlayer.setOnPreparedListener(this);
         mPlayer.start();
+        mPlayer.seekTo(loadAudioTime(db,file()));
 
         Log.i("filePath", getExternalFilesDir(null) + "/" + file());
 

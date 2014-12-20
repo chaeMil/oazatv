@@ -1,10 +1,13 @@
 package com.chaemil.hgms.db;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
 import com.chaemil.hgms.db.AudioDBContract.DownloadedAudio;
 
 /**
@@ -12,10 +15,11 @@ import com.chaemil.hgms.db.AudioDBContract.DownloadedAudio;
  */
 public class AudioDBHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 3;
+    public static final int DATABASE_VERSION = 4;
     public static final String DATABASE_NAME = "Audio.db";
 
     private static final String TEXT_TYPE = " TEXT";
+    private static final String INT_TYPE = " INT";
     private static final String COMMA_SEP = ",";
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + DownloadedAudio.TABLE_NAME + " (" +
@@ -23,6 +27,7 @@ public class AudioDBHelper extends SQLiteOpenHelper {
                     DownloadedAudio.COLUMN_NAME_AUDIO_FILE + TEXT_TYPE + COMMA_SEP +
                     DownloadedAudio.COLUMN_NAME_AUDIO_THUMB + TEXT_TYPE + COMMA_SEP +
                     DownloadedAudio.COLUMN_NAME_AUDIO_NAME + TEXT_TYPE + COMMA_SEP +
+                    DownloadedAudio.COLUMN_NAME_AUDIO_TIME + INT_TYPE + COMMA_SEP +
                     DownloadedAudio.COLUMN_NAME_AUDIO_DATE + TEXT_TYPE +
             " )";
 
@@ -56,8 +61,33 @@ public class AudioDBHelper extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
+    public static void saveAudioTime(SQLiteDatabase db, String fileName, int time) {
+        db.execSQL("update " + DownloadedAudio.TABLE_NAME +
+                " set " + DownloadedAudio.COLUMN_NAME_AUDIO_TIME + "=" +
+                time + " where " + DownloadedAudio.COLUMN_NAME_AUDIO_FILE +
+                " == '" + fileName + "';");
+        Log.d("saveAudioTime", String.valueOf(time));
+    }
+
+    public static int loadAudioTime(SQLiteDatabase db, String fileName) {
+        Cursor cursor = db.query(DownloadedAudio.TABLE_NAME,
+                new String[] { DownloadedAudio.COLUMN_NAME_AUDIO_TIME},
+                DownloadedAudio.COLUMN_NAME_AUDIO_FILE + "=?",
+                new String[] { fileName }, null, null, null, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        if (cursor != null) {
+            return cursor.getInt(0);
+        }
+        else {
+            return 0;
+        }
+    }
+
     public static void deleteAudioDBRecord(SQLiteDatabase db, String fileName) {
-        db.delete(DownloadedAudio.TABLE_NAME,DownloadedAudio.COLUMN_NAME_AUDIO_FILE + "= '" + fileName + "'", null);
+        db.delete(DownloadedAudio.TABLE_NAME,DownloadedAudio.COLUMN_NAME_AUDIO_FILE + "= '"
+                + fileName + "'", null);
     }
 
     public static boolean audioFileExists(SQLiteDatabase db, String audioFileName) {

@@ -213,7 +213,8 @@ public class MainActivity extends Activity {
         String link;
 
         if (query.startsWith("#")) {
-            link = Basic.MAIN_SERVER_JSON+"?page=archive&lang="+ Utils.lang+"&tagy="+query.replace("#","");
+            link = Basic.MAIN_SERVER_JSON+"?page=archive&lang="+ Utils.lang+"&tagy="+query
+                    .replace("#","");
         }
         else {
             link = Basic.MAIN_SERVER_JSON+"?page=archive&lang="+ Utils.lang+"&nazev="+query;
