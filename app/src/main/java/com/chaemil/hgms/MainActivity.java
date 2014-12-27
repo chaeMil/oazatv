@@ -116,12 +116,12 @@ public class MainActivity extends Activity {
                 R.string.drawer_close  /* "close drawer" description for accessibility */
         ) {
             public void onDrawerClosed(View view) {
-                getActionBar().setTitle(mTitle);
+                //getActionBar().setTitle(mTitle);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
             public void onDrawerOpened(View drawerView) {
-                getActionBar().setTitle(mDrawerTitle);
+                //getActionBar().setTitle(mDrawerTitle);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
         };
@@ -302,7 +302,14 @@ public class MainActivity extends Activity {
             } else if (type.equals(Basic.JSON_MENU_TYPE_ARCHIVE_LINK)) {
                 fragment = new ArchiveFragment();
                 isFragment = true;
-
+            } else if (type.equals(Basic.JSON_MENU_TYPE_REPORT_BUG)) {
+                fragment = new WebViewFragment();
+                args.putString(Basic.BUNDLE_LINK, Basic.REPORT_BUG_URL);
+                isFragment = true;
+            } else if (type.equals(Basic.JSON_MENU_TYPE_ABOUT_APP)) {
+                fragment = new WebViewFragment();
+                args.putString(Basic.BUNDLE_LINK, Basic.ABOUT_APP_URL);
+                isFragment = true;
             } else if (type.equals(Basic.JSON_MENU_TYPE_DOWNLOADED_AUDIO)) {
                 Intent i = new Intent(this, ListDownloadedAudio.class);
                 startActivity(i);
@@ -359,10 +366,11 @@ public class MainActivity extends Activity {
         }
 
 
-       Log.i("link",Basic.MAIN_SERVER_JSON+"?page=archive&lang="+ Utils.lang+link);
+        Log.i("link",Basic.MAIN_SERVER_JSON+"?page=archive&lang="+ Utils.lang+link);
 
         if(isFragment) {
             FragmentManager fragmentManager = getFragmentManager();
+
 
             fragment.setArguments(args);
 

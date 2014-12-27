@@ -13,7 +13,6 @@ import com.chaemil.hgms.adapters.ArchiveAdapter;
 import com.chaemil.hgms.utils.Basic;
 import com.chaemil.hgms.utils.Utils;
 
-import org.w3c.dom.Text;
 
 import static com.chaemil.hgms.utils.Basic.startPhotoalbumViewer;
 import static com.chaemil.hgms.utils.Basic.startVideoPlayer;

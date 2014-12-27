@@ -55,6 +55,8 @@ public class Basic {
     public static final String JSON_MENU_TYPE_DOWNLOADED_AUDIO = "downloadedAudio";
     public static final String JSON_MENU_TYPE_EXIT = "exitApp";
     public static final String JSON_MENU_TYPE_LIVE_PLAYER = "liveBroadcast";
+    public static final String JSON_MENU_TYPE_REPORT_BUG = "reportBug";
+    public static final String JSON_MENU_TYPE_ABOUT_APP = "aboutApp";
 
     public static final String JSON_ARCHIVE_TITLE = "title";
     public static final String JSON_ARCHIVE_DATE = "date";
@@ -101,6 +103,9 @@ public class Basic {
 
     public static final String MAIN_PREFS = "mainPrefs";
     public static final String FIRST_RUN = "firstRun";
+
+    public static final String REPORT_BUG_URL = MAIN_SERVER + "?page=bug-report&source=app";
+    public static final String ABOUT_APP_URL = MAIN_SERVER + "?page=about-app&source=app";
 
 
     public static void startVideoPlayer(View v, String videoURL, String videoName, String videoDate, String videoViews) {
