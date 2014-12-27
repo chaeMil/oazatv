@@ -51,6 +51,7 @@ public class VideoPlayer extends FragmentActivity {
     private LinearLayout videoInfo;
     private ProgressBar videoSpinner;
     private MediaController mediaController;
+    private int videoTime;
 
     private String getVideoId(Bundle b) {
         String s = b.getString(Basic.BUNDLE_VIDEO_LINK);
@@ -110,6 +111,19 @@ public class VideoPlayer extends FragmentActivity {
         share.putExtra(Intent.EXTRA_SUBJECT, getVideoName(bundle));
         share.putExtra(Intent.EXTRA_TEXT, Basic.MAIN_SERVER_VIDEO_LINK_PREFIX + getVideoId(bundle));
         startActivity(Intent.createChooser(share, getResources().getString(R.string.action_share)));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i("videoTime", String.valueOf(videoTime));
+        mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mediaPlayer) {
+                mVideoView.seekTo(videoTime);
+            }
+        });
+
     }
 
     @Override
@@ -334,7 +348,10 @@ public class VideoPlayer extends FragmentActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        videoTime = mVideoView.getCurrentPosition();
         mVideoView.pause();
+        mVideoView.suspend();
+
     }
 
     @Override
