@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
@@ -448,5 +449,11 @@ public class Utils extends Activity {
             Log.d("submitStatistics", toSubmit);
             sendGet(toSubmit, c);
         }
+    }
+
+    public static int dpToPx(int dp, Context c) {
+        DisplayMetrics displayMetrics = c.getResources().getDisplayMetrics();
+        int px = Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+        return px;
     }
 }
