@@ -3,8 +3,6 @@ package com.chaemil.hgms.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -26,21 +24,17 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.chaemil.hgms.MainActivity;
+import com.chaemil.hgms.R;
 import com.chaemil.hgms.adapters.ArchiveAdapter;
 import com.chaemil.hgms.adapters.ArchiveMenuAdapter;
 import com.chaemil.hgms.adapters.ArchiveMenuRecord;
 import com.chaemil.hgms.adapters.ArchiveRecord;
 import com.chaemil.hgms.adapters.PhotoalbumAdapter;
 import com.chaemil.hgms.adapters.PhotoalbumRecord;
-import com.chaemil.hgms.R;
 import com.koushikdutta.ion.Ion;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.wefika.flowlayout.FlowLayout;
@@ -49,19 +43,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * Created by chaemil on 17.10.14.
- */
+
 public class Utils extends Activity {
 
     public static String lang = Locale.getDefault().getLanguage();
@@ -300,7 +286,7 @@ public class Utils extends Activity {
     }
 
     // This snippet hides the system bars.
-    public static void hideSystemUI(Activity a, View v) {
+    public static void hideSystemUI(Activity a) {
         // Set the IMMERSIVE flag.
         // Set the content to appear under the system bars so that the content
         // doesn't resize when the system bars hide and show.
@@ -314,7 +300,7 @@ public class Utils extends Activity {
 
     // This snippet shows the system bars. It does this by removing all the flags
 // except for the ones that make the content appear under the system bars.
-    public static void showSystemUI(Activity a, View v) {
+    public static void showSystemUI(Activity a) {
         if (a.getActionBar() != null) {
             a.getActionBar().show();
         }
@@ -382,20 +368,14 @@ public class Utils extends Activity {
     /* Checks if external storage is available for read and write */
     public static boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state)) {
-            return true;
-        }
-        return false;
+        return Environment.MEDIA_MOUNTED.equals(state);
     }
 
     /* Checks if external storage is available to at least read */
     public static boolean isExternalStorageReadable() {
         String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state) ||
-                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-            return true;
-        }
-        return false;
+        return Environment.MEDIA_MOUNTED.equals(state) ||
+                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state);
     }
 
 
@@ -437,13 +417,7 @@ public class Utils extends Activity {
     public static boolean isOnline(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();
-        if (ni == null) {
-            // There are no active networks.
-            return false;
-        }
-        else {
-            return true;
-        }
+        return ni != null;
     }
 
     public static void goForwardAnimation(Activity a) {
@@ -460,16 +434,19 @@ public class Utils extends Activity {
 
 
     public static void sendGet(String url, Context c) {
-        Ion.with(c).load(url).asString();
+        if (!Basic.DEBUG) {
+            Ion.with(c).load(url).asString();
+        }
     }
 
     public static void submitStatistics(Context c) {
-        String toSubmit = Basic.MAIN_SERVER+"stats.php?osVersion="+Build.VERSION.RELEASE
-                +"&imei="+Build.SERIAL
-                +"&device="+Build.MODEL.replace(" ","%20")
-                +"&appVersion="+c.getResources().getString(R.string.app_version);
-        Log.d("submitStatistics",toSubmit);
-        sendGet(toSubmit, c);
-
+        if (!Basic.DEBUG) {
+            String toSubmit = Basic.MAIN_SERVER + "stats.php?osVersion=" + Build.VERSION.RELEASE
+                    + "&imei=" + Build.SERIAL
+                    + "&device=" + Build.MODEL.replace(" ", "%20")
+                    + "&appVersion=" + c.getResources().getString(R.string.app_version);
+            Log.d("submitStatistics", toSubmit);
+            sendGet(toSubmit, c);
+        }
     }
 }

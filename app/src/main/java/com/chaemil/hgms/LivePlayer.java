@@ -5,16 +5,13 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.chaemil.hgms.utils.Basic;
 import com.chaemil.hgms.utils.Utils;
@@ -25,13 +22,7 @@ import com.google.android.youtube.player.YouTubePlayerView;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
-import static com.chaemil.hgms.utils.Utils.getScreenWidth;
-import static com.chaemil.hgms.utils.Utils.hideSystemUI;
-import static com.chaemil.hgms.utils.Utils.showSystemUI;
 
-/**
- * Created by chaemil on 2.12.14.
- */
 public class LivePlayer extends YouTubeFailureRecoveryActivity implements
         View.OnClickListener,
         YouTubePlayer.OnFullscreenListener {

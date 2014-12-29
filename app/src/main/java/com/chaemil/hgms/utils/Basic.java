@@ -1,28 +1,14 @@
 package com.chaemil.hgms.utils;
 
-import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.chaemil.hgms.PhotoalbumActivity;
 import com.chaemil.hgms.VideoPlayer;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-
-/**
- * Created by chaemil on 27.10.14.
- */
 public class Basic {
+
+    public static final Boolean DEBUG = true;
 
     //konstanty
     public static final String MAIN_SERVER = "http://oaza.tv/";

@@ -24,33 +24,6 @@
 
     </com.chaemil.hgms.view.FixedAspectLayout>
 
-    <!--<RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center|center"
-        android:id="@+id/videoViewWrapper">
-
-
-        <VideoView
-            android:id="@+id/videoView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="false"
-            android:layout_alignParentTop="true"
-            android:maxHeight="150dp"/>
-
-        <ProgressBar
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/videoSpinner"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
-
-    </RelativeLayout>-->
-
 
     <ProgressBar
         style="?android:attr/progressBarStyleLarge"
@@ -95,5 +68,16 @@
             android:id="@+id/videoTags"/>
 
     </LinearLayout>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fullscreenButton"
+        android:visibility="gone"
+        android:layout_above="@+id/videoInfo"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_media_fullscreen_stretch"
+        android:background="@android:color/transparent" />
 
 </RelativeLayout>

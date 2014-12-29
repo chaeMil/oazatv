@@ -23,7 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
@@ -41,9 +41,6 @@ import static com.chaemil.hgms.utils.Utils.hideSystemUI;
 import static com.chaemil.hgms.utils.Utils.showSystemUI;
 
 
-/**
- * Created by chaemil on 23.10.14.
- */
 public class VideoPlayer extends FragmentActivity {
 
     private VideoView mVideoView;
@@ -52,6 +49,7 @@ public class VideoPlayer extends FragmentActivity {
     private ProgressBar videoSpinner;
     private MediaController mediaController;
     private int videoTime;
+    private ImageButton fullscreenButton;
 
     private String getVideoId(Bundle b) {
         String s = b.getString(Basic.BUNDLE_VIDEO_LINK);
@@ -176,6 +174,8 @@ public class VideoPlayer extends FragmentActivity {
         mVideoView = (VideoView) findViewById(R.id.videoView);
         mediaController = new MediaController(this);
 
+        fullscreenButton = (ImageButton) findViewById(R.id.fullscreenButton);
+
 
         Uri video;
 
@@ -242,14 +242,14 @@ public class VideoPlayer extends FragmentActivity {
             @Override
             public void onClick(View view) {
 
-                showSystemUI(getParent(), getCurrentFocus());
+                showSystemUI(getParent());
 
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
 
-                        hideSystemUI(getParent(), getCurrentFocus());
+                        hideSystemUI(getParent());
 
                         Log.i("screenOrientation","tappedVideo");
 
@@ -271,11 +271,38 @@ public class VideoPlayer extends FragmentActivity {
 
             fragment.setArguments(args);
 
+            //TODO tablet fullscreen video
+            /*fullscreenButton.setVisibility(View.VISIBLE);
+            fullscreenButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    FrameLayout rightFrag = (FrameLayout) findViewById(R.id.rightFrag);
+                    rightFrag.setVisibility(View.GONE);
+                    videoInfo.setVisibility(View.GONE);
+                    DisplayMetrics metrics = new DisplayMetrics(); getWindowManager()
+                            .getDefaultDisplay().getMetrics(metrics);
+                    FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)
+                            mVideoView.getLayoutParams();
+                    params.width =  metrics.widthPixels;
+                    params.height = metrics.heightPixels;
+                    params.leftMargin = 0;
+                    mVideoView.pause();
+                    videoTime = mVideoView.getCurrentPosition();
+                    mVideoView.setLayoutParams(params);
+                    mVideoView.invalidate();
+                    mVideoView.resume();
+                    mVideoView.seekTo(videoTime);
+                    View root = mVideoView.getRootView();
+                    root.setBackgroundColor(getResources().getColor(android.R.color.black));
+                    fullscreenButton.setImageDrawable(getResources()
+                            .getDrawable(R.drawable.ic_media_fullscreen_shrink));
+                }
+            });*/
+
             fragmentManager.beginTransaction()
                     .replace(R.id.rightFrag, fragment)
                     .addToBackStack(null)
                     .commit();
-
         }
 
         screenOrientation();
@@ -304,16 +331,18 @@ public class VideoPlayer extends FragmentActivity {
             if (getOrient.getWidth() == getOrient.getHeight()) {
             } else {
                 if (getOrient.getWidth() < getOrient.getHeight()) {
-                    showSystemUI(this, getCurrentFocus());
+                    showSystemUI(this);
                     videoInfo.setVisibility(View.VISIBLE);
                     mVideoView.getLayoutParams().width = getScreenWidth(getApplicationContext());
-
-
+                    View root = mVideoView.getRootView();
+                    root.setBackgroundColor(getResources().getColor(android.R.color.white));
                 } else {
-                        hideSystemUI(this, getCurrentFocus());
-                        videoInfo.setVisibility(View.GONE);
-                        mVideoView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-                        mVideoView.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+                    hideSystemUI(this);
+                    videoInfo.setVisibility(View.GONE);
+                    mVideoView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+                    mVideoView.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+                    View root = mVideoView.getRootView();
+                    root.setBackgroundColor(getResources().getColor(android.R.color.black));
                 }
             }
         } else {
