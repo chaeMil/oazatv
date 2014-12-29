@@ -2,8 +2,6 @@ package com.chaemil.hgms;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,14 +15,10 @@ import com.chaemil.hgms.utils.Utils;
 
 import static com.chaemil.hgms.utils.Basic.startVideoPlayer;
 
-/**
- * Created by chaemil on 23.10.14.
- */
 public class SimilarVideosFragment extends Fragment {
 
     private ArchiveAdapter similarVideosAdapter;
 
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_similar_videos, container, false);
@@ -32,7 +26,7 @@ public class SimilarVideosFragment extends Fragment {
         Bundle extras = getArguments();
         String videoURL = extras.getString(Basic.VIDEO_LINK);
         if (extras != null) {
-            Log.i("videoURLFrag",extras.getString(Basic.VIDEO_LINK));
+            Utils.log("videoURLFrag",extras.getString(Basic.VIDEO_LINK));
         }
         String videoID = videoURL.substring(videoURL.lastIndexOf("/") + 1, videoURL.lastIndexOf("."));
 
@@ -60,7 +54,7 @@ public class SimilarVideosFragment extends Fragment {
             }
         });
 
-        Log.i("similarVideos", similarVideosJSON);
+        Utils.log("similarVideos", similarVideosJSON);
 
 
         return rootView;

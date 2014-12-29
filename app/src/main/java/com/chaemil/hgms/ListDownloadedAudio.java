@@ -11,7 +11,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -172,7 +171,7 @@ public class ListDownloadedAudio extends Activity {
                                 // state
                                 mBuilder.setProgress(100, (int) percent, false);
                                 mNotifyManager.notify(NOTIFICATION_ID, mBuilder.build());
-                                Log.i("percent", String.valueOf(percent));
+                                Utils.log("percent", String.valueOf(percent));
                                 try {
                                     // Sleep for 3 seconds
                                     Thread.sleep(3 * 1000);
@@ -245,14 +244,14 @@ public class ListDownloadedAudio extends Activity {
                             }
 
 
-                            Log.i("filepath", String.valueOf(result.getAbsoluteFile()));
+                            Utils.log("filepath", String.valueOf(result.getAbsoluteFile()));
 
                             if (!AudioDBHelper.audioFileExists(db,
                                     getAudioFileName(getIntent().getExtras(), true))) {
-                                Log.i("audioFileExists", "false, saving new record");
+                                Utils.log("audioFileExists", "false, saving new record");
                                 saveAudioToDb();
                             } else {
-                                Log.i("audioFileExists", "true, doing nothing");
+                                Utils.log("audioFileExists", "true, doing nothing");
                             }
 
                             mBuilder.setContentText(getResources().getString(R.string.download_audiofile_completed))
@@ -320,7 +319,7 @@ public class ListDownloadedAudio extends Activity {
 
         r.run();
 
-        Log.i("MyApp.isDownloading", String.valueOf(App.isDownloadingAudio));
+        Utils.log("MyApp.isDownloading", String.valueOf(App.isDownloadingAudio));
 
         if (App.isDownloadingAudio) {
             downloadUI.setVisibility(View.VISIBLE);
@@ -382,7 +381,7 @@ public class ListDownloadedAudio extends Activity {
 
 
                 long fileSize = new File(Uri.parse(getExternalFilesDir(null) + "/") + audioFile).length();
-                Log.i("fileSize", String.valueOf(fileSize));
+                Utils.log("fileSize", String.valueOf(fileSize));
 
                 TextView fileSizeElement = (TextView) view.findViewById(R.id.videoViews);
                 fileSizeElement.setText(Utils.getStringWithRegularCustomFont(getApplicationContext(),

@@ -2,7 +2,6 @@ package com.chaemil.hgms;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +9,8 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
 import com.chaemil.hgms.utils.Basic;
+import com.chaemil.hgms.utils.Utils;
 
-/**
- * Created by chaemil on 27.12.14.
- */
 public class WebViewFragment extends Fragment {
 
     private WebView webview;
@@ -28,7 +25,7 @@ public class WebViewFragment extends Fragment {
             link = bundle.getString(Basic.BUNDLE_LINK);
         }
 
-        Log.d("WebViewFragmentLink", link);
+        Utils.log("WebViewFragmentLink", link);
 
         webview = (WebView) rootView.findViewById(R.id.webview);
         webview.setWebChromeClient(new WebChromeClient());

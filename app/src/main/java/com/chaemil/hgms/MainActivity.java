@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -220,7 +219,7 @@ public class MainActivity extends Activity {
             link = Basic.MAIN_SERVER_JSON+"?page=archive&lang="+ Utils.lang+"&nazev="+query;
         }
 
-        Log.i("submitSearch",link);
+        Utils.log("submitSearch",link);
 
         args.putString(Basic.BUNDLE_LINK, link);
 
@@ -328,7 +327,7 @@ public class MainActivity extends Activity {
 
                             @Override
                             public void onResponse(String s) {
-                                Log.i("request", s);
+                                Utils.log("request", s);
                                 if(!s.trim().replaceAll("\n", "").equals("null")) {
                                     youtubeVideoId = s.trim().replaceAll("\n", "");
                                 }
@@ -350,7 +349,7 @@ public class MainActivity extends Activity {
                         new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError volleyError) {
-                                Log.i("VolleyError.error", volleyError.toString());
+                                Utils.log("VolleyError.error", volleyError.toString());
                             }
                         }
                 );
@@ -366,7 +365,7 @@ public class MainActivity extends Activity {
         }
 
 
-        Log.i("link",Basic.MAIN_SERVER_JSON+"?page=archive&lang="+ Utils.lang+link);
+        Utils.log("link",Basic.MAIN_SERVER_JSON+"?page=archive&lang="+ Utils.lang+link);
 
         if(isFragment) {
             FragmentManager fragmentManager = getFragmentManager();

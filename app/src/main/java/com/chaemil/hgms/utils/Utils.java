@@ -357,8 +357,8 @@ public class Utils extends Activity {
             //status bar height
             int actionBarHeight = getActionBarHeight(a);
             int statusBarHeight = getStatusBarHeight(a);
-            Log.i("statusBarHeight", Integer.toString(statusBarHeight));
-            Log.i("actionBarHeight", Integer.toString(actionBarHeight));
+            Utils.log("statusBarHeight", Integer.toString(statusBarHeight));
+            Utils.log("actionBarHeight", Integer.toString(actionBarHeight));
             //action bar height
             //statusBar.getLayoutParams().height = actionBarHeight + statusBarHeight;
             statusBar.setBackgroundColor(color);
@@ -446,7 +446,7 @@ public class Utils extends Activity {
                     + "&imei=" + Build.SERIAL
                     + "&device=" + Build.MODEL.replace(" ", "%20")
                     + "&appVersion=" + c.getResources().getString(R.string.app_version);
-            Log.d("submitStatistics", toSubmit);
+            Utils.log("submitStatistics", toSubmit);
             sendGet(toSubmit, c);
         }
     }

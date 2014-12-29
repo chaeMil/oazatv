@@ -4,13 +4,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import com.chaemil.hgms.utils.Utils;
 
-/**
- * Created by chaemil on 29.12.14.
- */
 public class ArchiveDBHelper extends SQLiteOpenHelper {
 
     public static final int DATABASE_VERSION = 1;
@@ -63,7 +59,7 @@ public class ArchiveDBHelper extends SQLiteOpenHelper {
                 + "'" + videoId + "'), '" + videoId + "', " + time + ");";
         Utils.log("saveVideoTime",sql);
         db.execSQL(sql);
-        Log.d("saveVideoTime", String.valueOf(time));
+        Utils.log("saveVideoTime", String.valueOf(time));
     }
 
     public static int loadVideoTime(SQLiteDatabase db, String fileName) {

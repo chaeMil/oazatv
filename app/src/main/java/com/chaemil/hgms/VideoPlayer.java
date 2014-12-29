@@ -19,7 +19,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -59,20 +58,6 @@ public class VideoPlayer extends FragmentActivity {
     private String getVideoName(Bundle b) {
         return b.getString(Basic.VIDEO_NAME);
     }
-
-    /*private String getAudioFileName(Bundle b, boolean fake) {
-        if (fake) {
-            return getVideoId(b)+Basic.EXTENSION_AUDIO;
-        }
-        else {
-            return getVideoId(b)+Basic.EXTENSION_MP3;
-        }
-
-    }
-
-    private String getAudioThumbFileName(Bundle b) {
-        return getVideoId(b)+Basic.EXTENSION_JPG;
-    }*/
 
     private void pause() {
         mVideoView.pause();
@@ -220,7 +205,7 @@ public class VideoPlayer extends FragmentActivity {
 
                         hideSystemUI(getParent());
 
-                        Log.i("screenOrientation", "tappedVideo");
+                        Utils.log("screenOrientation", "tappedVideo");
 
                     }
                 }, 1000);
@@ -390,7 +375,7 @@ public class VideoPlayer extends FragmentActivity {
                     i.putExtra(Basic.VIDEO_LINK, getVideoUrl(extras));
                     i.putExtra(Basic.VIDEO_DATE, getVideoDate(extras));
                     i.putExtra(Basic.VIDEO_NAME, getVideoName(extras));
-                    Log.i(Basic.VIDEO_NAME, getVideoName(extras));
+                    Utils.log(Basic.VIDEO_NAME, getVideoName(extras));
                     startActivity(i);
                 }
                 return true;

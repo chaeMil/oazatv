@@ -2,11 +2,11 @@ package com.chaemil.hgms;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ListView;
 
 import com.chaemil.hgms.adapters.PhotoalbumAdapter;
 import com.chaemil.hgms.utils.Basic;
+import com.chaemil.hgms.utils.Utils;
 
 import static com.chaemil.hgms.utils.Utils.fetchPhotoalbum;
 
@@ -24,7 +24,7 @@ public class PhotoalbumSlideshow extends Activity {
         final ListView slideshow = (ListView) findViewById(R.id.slideshow);
         PhotoalbumAdapter slideshowAdapter = new PhotoalbumAdapter(getApplicationContext(),R.layout.photoalbum_photo);
 
-        Log.i("scrollTo",photoId);
+        Utils.log("scrollTo", photoId);
         fetchPhotoalbum(getApplicationContext(), slideshowAdapter, albumId);
 
         slideshow.setAdapter(slideshowAdapter);

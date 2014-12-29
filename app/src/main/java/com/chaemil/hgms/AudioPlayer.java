@@ -3,9 +3,6 @@ package com.chaemil.hgms;
 
 
 
-import java.io.File;
-import java.io.IOException;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
@@ -20,7 +17,6 @@ import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnPreparedListener;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,12 +27,14 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
-
 import com.chaemil.hgms.db.AudioDBHelper;
-import com.chaemil.hgms.utils.MusicController;
 import com.chaemil.hgms.utils.Basic;
+import com.chaemil.hgms.utils.MusicController;
 import com.chaemil.hgms.utils.NotificationPanel;
 import com.chaemil.hgms.utils.Utils;
+
+import java.io.File;
+import java.io.IOException;
 
 import static com.chaemil.hgms.db.AudioDBHelper.deleteAudioDBRecord;
 import static com.chaemil.hgms.utils.Utils.getScreenHeight;
@@ -113,12 +111,12 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
 
     public static void pause() {
         mPlayer.pause();
-        Log.i("mPlayer","pause");
+        Utils.log("mPlayer", "pause");
     }
 
     public static void play() {
         mPlayer.start();
-        Log.i("mPlayer","play");
+        Utils.log("mPlayer", "play");
     }
 
     public void saveAudioTime(SQLiteDatabase db, String fileName, int time) {
@@ -131,12 +129,12 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
 
     public void calculateAudioThumb() {
         if (getScreenHeight(getApplicationContext()) > getScreenWidth(getApplicationContext())) {
-            audioThumbWidth = Integer.valueOf((int) (getScreenWidth(getApplicationContext()) * 0.8));
-            audioThumbHeight = Integer.valueOf((int) (audioThumbWidth * 0.5625));
+            audioThumbWidth = (int) (getScreenWidth(getApplicationContext()) * 0.8);
+            audioThumbHeight = (int) (audioThumbWidth * 0.5625);
         }
         else {
-            audioThumbWidth = Integer.valueOf((int) (getScreenHeight(getApplicationContext()) * 0.4));
-            audioThumbHeight = Integer.valueOf((int) (audioThumbWidth * 0.5625));
+            audioThumbWidth = (int) (getScreenHeight(getApplicationContext()) * 0.4);
+            audioThumbHeight = (int) (audioThumbWidth * 0.5625);
         }
         audioThumb.getLayoutParams().width = audioThumbWidth;
         audioThumb.getLayoutParams().height = audioThumbHeight;
@@ -189,7 +187,7 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
 
         AudioDBHelper helper = new AudioDBHelper(getApplicationContext());
         SQLiteDatabase db = helper.getWritableDatabase();
-        Log.d("loadAudioTime", String.valueOf(loadAudioTime(db,file())));
+        Utils.log("loadAudioTime", String.valueOf(loadAudioTime(db, file())));
 
 
         mNoisyAudioStreamReceiver = new NoisyAudioStreamReceiver();
@@ -200,8 +198,8 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
             nPanel.notificationCancel();
         }
 
-        Log.i(Basic.AUDIO_FILE_THUMB, audioThumb().substring(audioThumb().lastIndexOf("/") + 1));
-        Log.i(Basic.AUDIO_FILE, file());
+        Utils.log(Basic.AUDIO_FILE_THUMB, audioThumb().substring(audioThumb().lastIndexOf("/") + 1));
+        Utils.log(Basic.AUDIO_FILE, file());
 
         if (getActionBar() != null) {
             getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -227,7 +225,7 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
         mPlayer.start();
         mPlayer.seekTo(loadAudioTime(db,file())-6000);
 
-        Log.i("filePath", getExternalFilesDir(null) + "/" + file());
+        Utils.log("filePath", getExternalFilesDir(null) + "/" + file());
 
         mSeekBarPlayer.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
             @Override
@@ -349,11 +347,11 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
             }
 
             try{
-                Log.d("Value: ", String.valueOf((int) (current * 100 / duration)));
+                Utils.log("Value: ", String.valueOf(current * 100 / duration));
                 if(mSeekBarPlayer.getProgress() >= 100){
                     break;
                 }
-            }catch (Exception e) {}
+            }catch (Exception ignored) {}
         }while (mSeekBarPlayer.getProgress() <= 100);
     }
 

@@ -1,18 +1,14 @@
 package com.chaemil.hgms.db;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import com.chaemil.hgms.db.AudioDBContract.DownloadedAudio;
+import com.chaemil.hgms.utils.Utils;
 
-/**
- * Created by chaemil on 26.11.14.
- */
+
 public class AudioDBHelper extends SQLiteOpenHelper {
 
     public static final int DATABASE_VERSION = 4;
@@ -64,7 +60,7 @@ public class AudioDBHelper extends SQLiteOpenHelper {
                 " set " + DownloadedAudio.COLUMN_NAME_AUDIO_TIME + "=" +
                 time + " where " + DownloadedAudio.COLUMN_NAME_AUDIO_FILE +
                 " == '" + fileName + "';");
-        Log.d("saveAudioTime", String.valueOf(time));
+        Utils.log("saveAudioTime", String.valueOf(time));
     }
 
     public static int loadAudioTime(SQLiteDatabase db, String fileName) {
