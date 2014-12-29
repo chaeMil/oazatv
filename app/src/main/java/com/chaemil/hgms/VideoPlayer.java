@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
@@ -26,11 +27,12 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.chaemil.hgms.db.ArchiveDBContract;
+import com.chaemil.hgms.db.ArchiveDBHelper;
 import com.chaemil.hgms.utils.Basic;
 import com.chaemil.hgms.utils.Utils;
 import com.wefika.flowlayout.FlowLayout;
@@ -46,9 +48,7 @@ public class VideoPlayer extends FragmentActivity {
     private VideoView mVideoView;
     private Fragment fragment;
     private LinearLayout videoInfo;
-    private ProgressBar videoSpinner;
     private MediaController mediaController;
-    private int videoTime;
     private ImageButton fullscreenButton;
 
     private String getVideoId(Bundle b) {
@@ -111,17 +111,20 @@ public class VideoPlayer extends FragmentActivity {
         startActivity(Intent.createChooser(share, getResources().getString(R.string.action_share)));
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.i("videoTime", String.valueOf(videoTime));
-        mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mediaPlayer) {
-                mVideoView.seekTo(videoTime);
-            }
-        });
+    private int loadVideoTimeFromDB(SQLiteDatabase db, String videoId) {
+        if (ArchiveDBHelper.videoRecordExists(db,videoId)) {
+            Utils.log("loadVideoTimeFromDB",
+                    String.valueOf(ArchiveDBHelper.loadVideoTime(db, videoId)));
+            return ArchiveDBHelper.loadVideoTime(db,videoId);
 
+        }
+        else {
+            return 0;
+        }
+    }
+
+    private void saveVideoTimeToDB(SQLiteDatabase db, String videoId, int videoTime) {
+        ArchiveDBHelper.saveVideoTime(db,videoId,videoTime);
     }
 
     @Override
@@ -133,13 +136,17 @@ public class VideoPlayer extends FragmentActivity {
             getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#000000")));
         }
 
+        ArchiveDBHelper helper = new ArchiveDBHelper(getApplicationContext());
+        final SQLiteDatabase db = helper.getReadableDatabase();
+
+
         //if (!LibsChecker.checkVitamioLibs(this))
         //    return;
 
         registerReceiver(new NoisyAudioStreamReceiver(), intentFilter);
 
         Bundle extras = getIntent().getExtras();
-        String videoID = getVideoId(extras);
+        final String videoID = getVideoId(extras);
         String videoName = getVideoName(extras);
         String videoViews = getVideoViews(extras);
         String videoDate = getVideoDate(extras);
@@ -165,7 +172,6 @@ public class VideoPlayer extends FragmentActivity {
         TextView videoDateElement = (TextView) findViewById(R.id.videoDate);
         videoDateElement.setText(videoDate);
         videoInfo = (LinearLayout) findViewById(R.id.videoInfo);
-        videoSpinner = (ProgressBar) findViewById(R.id.videoSpinner);
 
         FlowLayout videoTags = (FlowLayout) findViewById(R.id.videoTags);
 
@@ -190,53 +196,16 @@ public class VideoPlayer extends FragmentActivity {
         //Uri video = Uri.parse("http://oaza.tv/root/db/2014-11-23-lxaAhP.webm");
         mVideoView.setMediaController(mediaController);
         mVideoView.setVideoURI(video);
-        mVideoView.start();
 
 
-        if (currentapiVersion >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            mVideoView.setOnInfoListener(new MediaPlayer.OnInfoListener() {
-                @Override
-                public boolean onInfo(MediaPlayer mp, int what, int extra) {
-                    if (MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START == what) {
-                        videoSpinner.setVisibility(View.GONE);
-                    }
-                    if (MediaPlayer.MEDIA_INFO_BUFFERING_START == what) {
-                        videoSpinner.setVisibility(View.VISIBLE);
-                    }
-                    if (MediaPlayer.MEDIA_INFO_BUFFERING_END == what) {
-                        videoSpinner.setVisibility(View.VISIBLE);
-                    }
-                    return false;
-                }
-            });
-        }
-        else {
-            mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                @Override
-                public void onPrepared(MediaPlayer mp) {
-                    videoSpinner.setVisibility(View.GONE);
-                    mp.setOnVideoSizeChangedListener(new MediaPlayer.OnVideoSizeChangedListener() {
-                        @Override
-                        public void onVideoSizeChanged(MediaPlayer mediaPlayer, int i, int i2) {
-                            mVideoView.setMediaController(mediaController);
-                            mediaController.setAnchorView(mVideoView);
-                        }
-                    });
-                    mp.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
-                        @Override
-                        public void onBufferingUpdate(MediaPlayer mp, int percent) {
-                            Log.i("percent", String.valueOf(percent));
-                            if (percent < 50) {
-                                videoSpinner.setVisibility(View.VISIBLE);
-                            }
-                            else {
-                                videoSpinner.setVisibility(View.GONE);
-                            }
-                        }
-                    });
-                }
-            });
-        }
+        mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mediaPlayer) {
+                mVideoView.seekTo(loadVideoTimeFromDB(db, videoID));
+                mVideoView.start();
+            }
+        });
+
 
         mVideoView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -251,7 +220,7 @@ public class VideoPlayer extends FragmentActivity {
 
                         hideSystemUI(getParent());
 
-                        Log.i("screenOrientation","tappedVideo");
+                        Log.i("screenOrientation", "tappedVideo");
 
                     }
                 }, 1000);
@@ -307,21 +276,6 @@ public class VideoPlayer extends FragmentActivity {
 
         screenOrientation();
 
-
-
-        /*mVideoView = (VideoView) findViewById(R.id.videoView);
-        mVideoView.setBufferSize(1024*1024*8);
-        mVideoView.setVideoURI(Uri.parse(videoURL));
-        mVideoView.setMediaController(new MediaController(this));
-        mVideoView.requestFocus();
-
-        mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mediaPlayer) {
-                mediaPlayer.setPlaybackSpeed(1.0f);
-                setProgressBarIndeterminateVisibility(false);
-            }
-        });*/
     }
 
     public void screenOrientation()
@@ -373,14 +327,26 @@ public class VideoPlayer extends FragmentActivity {
     }
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ArchiveDBHelper helper = new ArchiveDBHelper(getApplicationContext());
+        SQLiteDatabase db = helper.getReadableDatabase();
+        mVideoView.start();
+        mVideoView.seekTo(loadVideoTimeFromDB(db, getVideoId(getIntent().getExtras())));
+        if(loadVideoTimeFromDB(db,getVideoId(getIntent().getExtras())) != 0) {
+            Toast.makeText(getApplicationContext(),
+                    getString(R.string.resuming_playback),Toast.LENGTH_LONG).show();
+        }
+    }
 
     @Override
     protected void onPause() {
-        super.onPause();
-        videoTime = mVideoView.getCurrentPosition();
-        mVideoView.pause();
+        ArchiveDBHelper helper = new ArchiveDBHelper(getApplicationContext());
+        SQLiteDatabase db = helper.getReadableDatabase();
+        saveVideoTimeToDB(db,getVideoId(getIntent().getExtras()),mVideoView.getCurrentPosition());
         mVideoView.suspend();
-
+        super.onPause();
     }
 
     @Override
@@ -405,8 +371,8 @@ public class VideoPlayer extends FragmentActivity {
 
         switch(id) {
             case android.R.id.home:
-                finish();
                 Utils.goBackwardAnimation(this);
+                finish();
                 return true;
             case R.id.action_download_audio:
                 if (isDownloadingAudio()) {
@@ -435,5 +401,6 @@ public class VideoPlayer extends FragmentActivity {
     public void onBackPressed() {
         super.onBackPressed();
         Utils.goBackwardAnimation(this);
+        finish();
     }
 }

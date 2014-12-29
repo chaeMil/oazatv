@@ -456,4 +456,10 @@ public class Utils extends Activity {
         int px = Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
         return px;
     }
+
+    public static void log(String tag, String sql) {
+        if(Basic.DEBUG) {
+            Log.i(tag, sql);
+        }
+    }
 }

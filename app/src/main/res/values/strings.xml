@@ -46,5 +46,6 @@
     <string name="title_slide_2">Veškerý obsah naleznete v levém menu.\n\n Vyhledávat můžete i pomocí tagů: #svoboda</string>
     <string name="title_slide_3_onthego">Na cestách...</string>
     <string name="title_slide_3">Stáhněte si audio záznamy\n a poslouchejte kdekoliv!</string>
+    <string name="resuming_playback">Pokračuje se v přehrávání od poslední uložené pozice</string>
 
 </resources>

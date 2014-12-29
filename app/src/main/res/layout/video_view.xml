@@ -25,14 +25,6 @@
     </com.chaemil.hgms.view.FixedAspectLayout>
 
 
-    <ProgressBar
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/videoSpinner"
-        android:layout_alignBottom="@+id/videoViewWrapper"
-        android:layout_centerHorizontal="true"/>
-
     <LinearLayout
         android:id="@+id/videoInfo"
         android:layout_width="match_parent"
