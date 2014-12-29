@@ -17,6 +17,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PowerManager;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Display;
@@ -31,7 +32,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
-import com.chaemil.hgms.db.ArchiveDBContract;
 import com.chaemil.hgms.db.ArchiveDBHelper;
 import com.chaemil.hgms.utils.Basic;
 import com.chaemil.hgms.utils.Utils;
@@ -99,7 +99,7 @@ public class VideoPlayer extends FragmentActivity {
         }
     }
 
-    private IntentFilter intentFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
+    private IntentFilter headphonesListener = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
 
 
     private void shareLink() {
@@ -143,7 +143,7 @@ public class VideoPlayer extends FragmentActivity {
         //if (!LibsChecker.checkVitamioLibs(this))
         //    return;
 
-        registerReceiver(new NoisyAudioStreamReceiver(), intentFilter);
+        registerReceiver(new NoisyAudioStreamReceiver(), headphonesListener);
 
         Bundle extras = getIntent().getExtras();
         final String videoID = getVideoId(extras);
@@ -342,10 +342,15 @@ public class VideoPlayer extends FragmentActivity {
 
     @Override
     protected void onPause() {
+        PowerManager pm =(PowerManager) getSystemService(Context.POWER_SERVICE);
         ArchiveDBHelper helper = new ArchiveDBHelper(getApplicationContext());
         SQLiteDatabase db = helper.getReadableDatabase();
-        saveVideoTimeToDB(db,getVideoId(getIntent().getExtras()),mVideoView.getCurrentPosition());
-        mVideoView.suspend();
+        saveVideoTimeToDB(db, getVideoId(getIntent().getExtras()), mVideoView.getCurrentPosition());
+        if (pm.isScreenOn()) {
+            mVideoView.suspend();
+        } else {
+            mVideoView.pause();
+        }
         super.onPause();
     }
 
