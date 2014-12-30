@@ -74,10 +74,13 @@ public class ArchiveAdapter extends ArrayAdapter<ArchiveRecord> {
                 .animateIn(fadeInAnimation)
                 .load(rec.getThumb());*/
 
-        videoName.setText(Utils.getStringWithRegularCustomFont(getContext(),rec.getTitle(), Basic.FONT_BOLD_UPRIGHT));
-        videoDate.setText(Utils.getStringWithRegularCustomFont(getContext(), rec.getVideoDate(), Basic.FONT_REGULAR_UPRIGHT));
+        videoName.setText(Utils.getStringWithRegularCustomFont(getContext(),
+                rec.getTitle(), Basic.FONT_BOLD_UPRIGHT));
+        videoDate.setText(Utils.getStringWithRegularCustomFont(getContext(),
+                rec.getVideoDate(), Basic.FONT_REGULAR_UPRIGHT));
         videoURL.setText(rec.getVideoUrl());
-        videoViews.setText(Utils.getStringWithRegularCustomFont(getContext(),rec.getVideoViews(),Basic.FONT_REGULAR_UPRIGHT));
+        videoViews.setText(Utils.getStringWithRegularCustomFont(getContext(),
+                rec.getVideoViews(),Basic.FONT_REGULAR_UPRIGHT));
         albumId.setText(rec.getAlbumId());
         type.setText(rec.getType());
 

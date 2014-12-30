@@ -14,7 +14,8 @@ public class Basic {
     public static final String MAIN_SERVER = "http://oaza.tv/";
     public static final String MAIN_SERVER_JSON = MAIN_SERVER + "json.php";
     public static final String MAIN_SERVER_VIDEO_LINK_PREFIX = MAIN_SERVER + "?page=vp&v=";
-    public static final String MAIN_SERVER_PHOTOALBUM_LINK_PREFIX = MAIN_SERVER + "?page=photo-album&album=";
+    public static final String MAIN_SERVER_PHOTOALBUM_LINK_PREFIX
+            = MAIN_SERVER + "?page=photo-album&album=";
 
     public static final String BUNDLE_TAG = "tag";
 
@@ -94,7 +95,8 @@ public class Basic {
     public static final String ABOUT_APP_URL = MAIN_SERVER + "?page=about-app&source=app";
 
 
-    public static void startVideoPlayer(View v, String videoURL, String videoName, String videoDate, String videoViews) {
+    public static void startVideoPlayer(View v, String videoURL, String videoName,
+                                        String videoDate, String videoViews) {
         Intent a = new Intent(v.getContext(), VideoPlayer.class);
         a.putExtra(VIDEO_LINK, videoURL);
         a.putExtra(VIDEO_NAME, videoName);
@@ -103,7 +105,8 @@ public class Basic {
         v.getContext().startActivity(a);
     }
 
-    public static void startPhotoalbumViewer(View v, String albumId, String albumName, String albumDate) {
+    public static void startPhotoalbumViewer(View v, String albumId,
+                                             String albumName, String albumDate) {
         Intent a = new Intent(v.getContext(), PhotoalbumActivity.class);
         a.putExtra(ALBUM_ID, albumId);
         a.putExtra(ALBUM_NAME, albumName);

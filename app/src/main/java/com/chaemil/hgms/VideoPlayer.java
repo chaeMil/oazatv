@@ -160,7 +160,7 @@ public class VideoPlayer extends FragmentActivity {
 
         FlowLayout videoTags = (FlowLayout) findViewById(R.id.videoTags);
 
-        displayVideoTags(getApplicationContext(), videoID, videoTags);
+        displayVideoTags(getApplicationContext(), this, videoID, videoTags);
 
         mVideoView = (VideoView) findViewById(R.id.videoView);
         mediaController = new MediaController(this);

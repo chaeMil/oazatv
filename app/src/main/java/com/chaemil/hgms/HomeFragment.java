@@ -96,10 +96,16 @@ public class HomeFragment extends Fragment {
         mFirstVideoDataAdapter = new ArchiveAdapter(getActivity(),R.layout.home_first_video);
 
         newVideosTitle = (TextView) rootView.findViewById(R.id.newVideosTitle);
-        newVideosTitle.setText(Utils.getStringWithRegularCustomFont(getActivity(),getResources().getString(R.string.newVideos), "Titillium-BoldUpright.otf"));
+        newVideosTitle.setText(Utils.
+                getStringWithRegularCustomFont(getActivity(),
+                        getResources().getString(R.string.newVideos),
+                        Basic.FONT_BOLD_UPRIGHT));
 
         photoalbumsTitle = (TextView) rootView.findViewById(R.id.photoalbumsTitle);
-        photoalbumsTitle.setText(Utils.getStringWithRegularCustomFont(getActivity(),getResources().getString(R.string.photoalbums), "Titillium-BoldUpright.otf"));
+        photoalbumsTitle.setText(Utils.
+                getStringWithRegularCustomFont(getActivity(),
+                        getResources().getString(R.string.photoalbums),
+                        Basic.FONT_BOLD_UPRIGHT));
 
         homeFirstVideo = (ListView) rootView.findViewById(R.id.firstVideo);
         homeFirstVideo.setAdapter(mFirstVideoDataAdapter);
@@ -125,7 +131,8 @@ public class HomeFragment extends Fragment {
 
         newVideos = (ExpandedListView) rootView.findViewById(R.id.newVideos);
         newVideos.setExpanded(true);
-        mNewVideosAdapter = new NewVideosAdapter(getActivity().getApplicationContext(),R.layout.home_block);
+        mNewVideosAdapter = new NewVideosAdapter(getActivity().getApplicationContext(),
+                R.layout.home_block);
         newVideos.setAdapter(mNewVideosAdapter);
         fetchArchive(
                 getActivity(),
@@ -151,7 +158,8 @@ public class HomeFragment extends Fragment {
 
         photoAlbums = (ExpandedListView) rootView.findViewById(R.id.photoAlbums);
         photoAlbums.setExpanded(true);
-        mPhotoalbumsAdapter = new PhotoalbumsAdapter(getActivity().getApplicationContext(),R.layout.home_block);
+        mPhotoalbumsAdapter = new PhotoalbumsAdapter(getActivity().getApplicationContext(),
+                R.layout.home_block);
         photoAlbums.setAdapter(mPhotoalbumsAdapter);
         fetchArchive(
                 getActivity().getApplicationContext(),

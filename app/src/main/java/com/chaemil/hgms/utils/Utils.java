@@ -67,22 +67,26 @@ public class Utils extends Activity {
 
                         }
                         catch(JSONException e) {
-                            Toast.makeText(c.getApplicationContext(), "Unable to parse data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(c.getApplicationContext(),
+                                    "Unable to parse data: " + e.getMessage(),
+                                    Toast.LENGTH_SHORT).show();
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-                        //Toast.makeText(getApplicationContext(), "Unable to fetch data: " + volleyError.getMessage(), Toast.LENGTH_SHORT).show();
-                        Toast.makeText(c.getApplicationContext(), c.getResources().getString(R.string.connection_problem), Toast.LENGTH_LONG).show();
+                        Toast.makeText(c.getApplicationContext(),
+                                c.getResources().getString(R.string.connection_problem),
+                                Toast.LENGTH_LONG).show();
                     }
                 });
 
         VolleyApplication.getInstance().getRequestQueue().add(request);
     }
 
-    public static void fetchArchive(final Context c, String url, final ArchiveAdapter adapter, final String jsonArray) {
+    public static void fetchArchive(final Context c, String url,
+                                    final ArchiveAdapter adapter, final String jsonArray) {
         JsonObjectRequest request = new JsonObjectRequest(
                 url,
                 null,
@@ -96,22 +100,27 @@ public class Utils extends Activity {
 
                         }
                         catch(JSONException e) {
-                            Toast.makeText(c.getApplicationContext(), "Unable to parse data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(c.getApplicationContext(),
+                                    "Unable to parse data: " + e.getMessage(),
+                                    Toast.LENGTH_SHORT).show();
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-                        //Toast.makeText(getApplicationContext(), "Unable to fetch data: " + volleyError.getMessage(), Toast.LENGTH_SHORT).show();
-                        Toast.makeText(c.getApplicationContext(), c.getResources().getString(R.string.connection_problem), Toast.LENGTH_LONG).show();
+
+                        Toast.makeText(c.getApplicationContext(),
+                                c.getResources().getString(R.string.connection_problem),
+                                Toast.LENGTH_LONG).show();
                     }
                 });
 
         VolleyApplication.getInstance().getRequestQueue().add(request);
     }
 
-    public static void fetchPhotoalbum(final Context c, final PhotoalbumAdapter adapter,String albumId) {
+    public static void fetchPhotoalbum(final Context c, final PhotoalbumAdapter adapter,
+                                       String albumId) {
         JsonObjectRequest request = new JsonObjectRequest(
                 Basic.MAIN_SERVER_JSON+"?page=photoalbum&albumId="+albumId+"&lang="+Utils.lang,
                 null,
@@ -125,15 +134,18 @@ public class Utils extends Activity {
 
                         }
                         catch(JSONException e) {
-                            Toast.makeText(c.getApplicationContext(), "Unable to parse data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(c.getApplicationContext(), "Unable to parse data: "
+                                    + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-                        //Toast.makeText(getApplicationContext(), "Unable to fetch data: " + volleyError.getMessage(), Toast.LENGTH_SHORT).show();
-                        Toast.makeText(c.getApplicationContext(), c.getResources().getString(R.string.connection_problem), Toast.LENGTH_LONG).show();
+
+                        Toast.makeText(c.getApplicationContext(),
+                                c.getResources().getString(R.string.connection_problem),
+                                Toast.LENGTH_LONG).show();
                     }
                 });
 
@@ -159,7 +171,8 @@ public class Utils extends Activity {
         return records;
     }
 
-    static private List<ArchiveRecord> parseArchive(JSONObject json, String jsonArray) throws JSONException {
+    static private List<ArchiveRecord> parseArchive(JSONObject json, String jsonArray)
+            throws JSONException {
         ArrayList<ArchiveRecord> records = new ArrayList<ArchiveRecord>();
 
         JSONArray jsonImages = json.getJSONArray(jsonArray);
@@ -176,7 +189,8 @@ public class Utils extends Activity {
             String videoURL = jsonImage.getString(Basic.JSON_ARCHIVE_VIDEO_URL);
             String albumId = jsonImage.getString(Basic.JSON_ARCHIVE_ALBUM_ID);
 
-            ArchiveRecord record = new ArchiveRecord(type, title, date, playCount, thumb, thumbBlur, videoURL, albumId);
+            ArchiveRecord record = new ArchiveRecord(type, title, date, playCount,
+                    thumb, thumbBlur, videoURL, albumId);
             records.add(record);
 
         }
@@ -196,14 +210,16 @@ public class Utils extends Activity {
             String label = jsonImage.getString(Basic.JSON_PHOTOALBUM_LABEL);
             String photoId = jsonImage.getString(Basic.JSON_PHOTOALBUM_PHOTO_ID);
 
-            PhotoalbumRecord record = new PhotoalbumRecord(thumb, photoLarge, photoBig, label, photoId);
+            PhotoalbumRecord record = new PhotoalbumRecord(thumb, photoLarge, photoBig,
+                    label, photoId);
             records.add(record);
         }
 
         return records;
     }
 
-    public static void displayVideoTags(final Context c, String videoId, final FlowLayout layout) {
+    public static void displayVideoTags(final Context c, final Activity a,
+                                        String videoId, final FlowLayout layout) {
         JsonObjectRequest request = new JsonObjectRequest(
                 Basic.MAIN_SERVER_JSON+"?page=videoTags&video="+videoId+"&lang="+ Utils.lang,
                 null,
@@ -211,12 +227,14 @@ public class Utils extends Activity {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         try {
-                            JSONArray jsonImages = jsonObject.getJSONArray(Basic.JSON_ARRAY_VIDEO_TAGS);
+                            JSONArray jsonImages = jsonObject
+                                    .getJSONArray(Basic.JSON_ARRAY_VIDEO_TAGS);
 
                             for(int i =0; i < jsonImages.length(); i++) {
                                 JSONObject jsonImage = jsonImages.getJSONObject(i);
                                 String tag = jsonImage.getString(Basic.JSON_VIDEO_TAGS_TAG);
-                                final String tagText = jsonImage.getString(Basic.JSON_VIDEO_TAGS_TAG_TEXT);
+                                final String tagText = jsonImage
+                                        .getString(Basic.JSON_VIDEO_TAGS_TAG_TEXT);
 
                                 LayoutInflater inflater = LayoutInflater.from(c);
                                 View view  = inflater.inflate(R.layout.tag, layout, false);
@@ -225,15 +243,20 @@ public class Utils extends Activity {
                                 tagElement.setText(tag);
 
                                 TextView tagTextElement = (TextView) view.findViewById(R.id.tagText);
-                                tagTextElement.setText(Utils.getStringWithRegularCustomFont(c,tagText,"Titillium-BoldUpright.otf"));
+                                tagTextElement.setText(Utils
+                                        .getStringWithRegularCustomFont(c,
+                                                tagText,Basic.FONT_BOLD_UPRIGHT));
 
                                 tagTextElement.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        Intent i = new Intent(c.getApplicationContext(), MainActivity.class);
+                                        Intent i = new Intent(c.getApplicationContext(),
+                                                MainActivity.class);
                                         i.putExtra(Basic.BUNDLE_TAG,tagText);
                                         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                         c.getApplicationContext().startActivity(i);
+                                        //a.finish();
+                                        Utils.goBackwardAnimation(a);
                                     }
                                 });
 
@@ -241,15 +264,18 @@ public class Utils extends Activity {
                             }
                         }
                         catch(JSONException e) {
-                            Toast.makeText(c.getApplicationContext(), "Unable to parse data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(c.getApplicationContext(), "Unable to parse data: "
+                                    + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-                        //Toast.makeText(getApplicationContext(), "Unable to fetch data: " + volleyError.getMessage(), Toast.LENGTH_SHORT).show();
-                        Toast.makeText(c.getApplicationContext(), c.getResources().getString(R.string.connection_problem), Toast.LENGTH_LONG).show();
+
+                        Toast.makeText(c.getApplicationContext(),
+                                c.getResources().getString(R.string.connection_problem),
+                                Toast.LENGTH_LONG).show();
                     }
                 });
 
@@ -317,7 +343,8 @@ public class Utils extends Activity {
         TypedValue tv = new TypedValue();
         if (a.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
         {
-            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,a.getResources().getDisplayMetrics());
+            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,
+                    a.getResources().getDisplayMetrics());
         }
         return actionBarHeight;
     }
@@ -335,7 +362,8 @@ public class Utils extends Activity {
         Resources resources = context.getResources();
 
         int id = resources.getIdentifier(
-                orientation == Configuration.ORIENTATION_PORTRAIT ? "navigation_bar_height" : "navigation_bar_height_landscape",
+                orientation == Configuration.ORIENTATION_PORTRAIT
+                        ? "navigation_bar_height" : "navigation_bar_height_landscape",
                 "dimen", "android");
         if (id > 0) {
             return resources.getDimensionPixelSize(id);
@@ -353,7 +381,8 @@ public class Utils extends Activity {
     public static void setStatusBarColor(Activity a, View statusBar, int color){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window w = a.getWindow();
-            w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             //status bar height
             int actionBarHeight = getActionBarHeight(a);
             int statusBarHeight = getStatusBarHeight(a);
@@ -380,7 +409,8 @@ public class Utils extends Activity {
     }
 
 
-    public static Spannable getStringWithRegularCustomFont(Context context, String text, String font) {
+    public static Spannable getStringWithRegularCustomFont(Context context,
+                                                           String text, String font) {
         if (text != null) {
             SpannableString spannableString = new SpannableString(text);
             spannableString.setSpan(new TypefaceSpan(context, font), 0, spannableString.length(),
@@ -390,11 +420,13 @@ public class Utils extends Activity {
         return null;
     }
 
-    public static void setActionStatusBarTint(Window w, Activity a, String statusBarColor,  String actionBarColor) {
+    public static void setActionStatusBarTint(Window w, Activity a, String statusBarColor,
+                                              String actionBarColor) {
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
         if (a.getActionBar() != null) {
             if (actionBarColor != null) {
-                a.getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor(actionBarColor)));
+                a.getActionBar().setBackgroundDrawable(
+                        new ColorDrawable(Color.parseColor(actionBarColor)));
             }
         }
         if (currentapiVersion >= Build.VERSION_CODES.KITKAT) {
@@ -416,7 +448,8 @@ public class Utils extends Activity {
     }
 
     public static boolean isOnline(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context
+                .CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();
         return ni != null;
     }

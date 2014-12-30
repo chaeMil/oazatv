@@ -31,7 +31,8 @@ public class ArchiveDBHelper extends SQLiteOpenHelper {
     }
 
     public static int count (SQLiteDatabase db) {
-        Cursor mCount= db.rawQuery("select count(*) from " + ArchiveDBContract.Archive.TABLE_NAME , null);
+        Cursor mCount= db.rawQuery("select count(*) from "
+                + ArchiveDBContract.Archive.TABLE_NAME , null);
         mCount.moveToFirst();
         int count= mCount.getInt(0);
         mCount.close();
@@ -79,7 +80,8 @@ public class ArchiveDBHelper extends SQLiteOpenHelper {
     }
 
     public static void deleteVideoDBRecord(SQLiteDatabase db, String fileName) {
-        db.delete(ArchiveDBContract.Archive.TABLE_NAME, ArchiveDBContract.Archive.COLUMN_NAME_VIDEO_ID + "= '"
+        db.delete(ArchiveDBContract.Archive.TABLE_NAME,
+                ArchiveDBContract.Archive.COLUMN_NAME_VIDEO_ID + "= '"
                 + fileName + "'", null);
     }
 

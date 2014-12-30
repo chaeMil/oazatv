@@ -33,7 +33,8 @@ public class SimilarVideosFragment extends Fragment {
         similarVideosAdapter = new ArchiveAdapter(getActivity(),R.layout.archive_block);
         ListView similarVideos = (ListView) rootView.findViewById(R.id.similarVideos);
         similarVideos.setAdapter(similarVideosAdapter);
-        String similarVideosJSON = Basic.MAIN_SERVER_JSON + "?page=similarVideos&video=" + videoID + "&lang=" + Utils.lang;
+        String similarVideosJSON = Basic.MAIN_SERVER_JSON + "?page=similarVideos&video="
+                + videoID + "&lang=" + Utils.lang;
         com.chaemil.hgms.utils.Utils.fetchArchive(
                 getActivity().getApplicationContext(),
                 similarVideosJSON,

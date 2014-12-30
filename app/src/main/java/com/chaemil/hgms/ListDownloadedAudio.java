@@ -158,7 +158,8 @@ public class ListDownloadedAudio extends Activity {
                     .setProgress(100, 0, false)
                     .setOngoing(true)
                     .setSmallIcon(R.drawable.ic_stat_file_download)
-                    .setContentIntent(PendingIntent.getActivity(getApplicationContext(), 0, intent, 0));
+                    .setContentIntent(PendingIntent.getActivity(getApplicationContext(), 0,
+                            intent, 0));
             mNotifyManager.notify(NOTIFICATION_ID, mBuilder.build());
 
             new Thread(
@@ -372,20 +373,22 @@ public class ListDownloadedAudio extends Activity {
                         DownloadedAudio.COLUMN_NAME_AUDIO_FILE));
 
                 TextView audioFileNameElement = (TextView) view.findViewById(R.id.videoName);
-                audioFileNameElement.setText(Utils.getStringWithRegularCustomFont(getApplicationContext(),
-                        audioFileName, "Titillium-BoldUpright.otf"));
+                audioFileNameElement.setText(Utils.
+                        getStringWithRegularCustomFont(getApplicationContext(),
+                        audioFileName, Basic.FONT_BOLD_UPRIGHT));
 
                 TextView dateElement = (TextView) view.findViewById(R.id.videoDate);
                 dateElement.setText(Utils.getStringWithRegularCustomFont(getApplicationContext(),
-                        audioDate, "Titillium-RegularUpright.otf"));
+                        audioDate, Basic.FONT_BOLD_UPRIGHT));
 
 
-                long fileSize = new File(Uri.parse(getExternalFilesDir(null) + "/") + audioFile).length();
+                long fileSize = new File(Uri.parse(getExternalFilesDir(null) + "/")
+                        + audioFile).length();
                 Utils.log("fileSize", String.valueOf(fileSize));
 
                 TextView fileSizeElement = (TextView) view.findViewById(R.id.videoViews);
                 fileSizeElement.setText(Utils.getStringWithRegularCustomFont(getApplicationContext(),
-                        String.valueOf(fileSize / 1024 / 1024) + " Mb", "Titillium-RegularUpright.otf"));
+                        String.valueOf(fileSize / 1024 / 1024) + " Mb", Basic.FONT_REGULAR_UPRIGHT));
 
                 ImageView thumb = (ImageView) view.findViewById(R.id.thumb);
                 thumb.setImageURI(Uri.parse(thumbFileName));
@@ -409,7 +412,8 @@ public class ListDownloadedAudio extends Activity {
         }
     }
 
-    public void openAudioPlayer(String audioFile, String audioFileName, String thumbFileName, String audioDate) {
+    public void openAudioPlayer(String audioFile, String audioFileName,
+                                String thumbFileName, String audioDate) {
         Intent audioPlayer = new Intent(ListDownloadedAudio.this, AudioPlayer.class);
         audioPlayer.putExtra(Basic.AUDIO_FILE, audioFile);
         audioPlayer.putExtra(Basic.AUDIO_FILE_NAME, audioFileName);

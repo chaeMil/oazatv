@@ -41,7 +41,7 @@ import static com.chaemil.hgms.utils.Utils.getScreenHeight;
 import static com.chaemil.hgms.utils.Utils.getScreenWidth;
 import static com.chaemil.hgms.utils.Utils.setActionStatusBarTint;
 
-public class AudioPlayer extends Activity implements OnPreparedListener/*, MediaPlayerControl TODO*/ {
+public class AudioPlayer extends Activity implements OnPreparedListener {
 
     private at.markushi.ui.CircleButton btnPlay;
     private at.markushi.ui.CircleButton btnPause;
@@ -385,7 +385,6 @@ public class AudioPlayer extends Activity implements OnPreparedListener/*, Media
                         File audioFile = new File(getExternalFilesDir(null), file());
                         File audioThumb = new File(getExternalFilesDir(null),
                                 audioThumb().substring(audioThumb().lastIndexOf("/") + 1));
-                        //Toast.makeText(getApplicationContext(), file.toString(), Toast.LENGTH_LONG).show();
                         audioFile.delete();
                         audioThumb.delete();
                         AudioDBHelper helper = new AudioDBHelper(getApplicationContext());

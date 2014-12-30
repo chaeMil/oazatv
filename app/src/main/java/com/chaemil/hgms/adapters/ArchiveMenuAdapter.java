@@ -36,7 +36,8 @@ public class ArchiveMenuAdapter extends ArrayAdapter<ArchiveMenuRecord> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if(convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.archive_menu_item, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.archive_menu_item,
+                    parent, false);
         }
 
         // NOTE: You would normally use the ViewHolder pattern here
@@ -47,7 +48,8 @@ public class ArchiveMenuAdapter extends ArrayAdapter<ArchiveMenuRecord> {
 
         ArchiveMenuRecord archiveMenuRecord = getItem(position);
 
-        menuItem.setText(Utils.getStringWithRegularCustomFont(getContext(), archiveMenuRecord.getLabel(), Basic.FONT_REGULAR_UPRIGHT));
+        menuItem.setText(Utils.getStringWithRegularCustomFont(getContext(),
+                archiveMenuRecord.getLabel(), Basic.FONT_REGULAR_UPRIGHT));
         type.setText(archiveMenuRecord.getType());
         content.setText(archiveMenuRecord.getContent());
         titleToShow.setText(archiveMenuRecord.getTitleToShow());

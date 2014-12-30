@@ -22,7 +22,8 @@ public class PhotoalbumSlideshow extends Activity {
         final String photoId = extras.getString(Basic.PHOTO_ID);
 
         final ListView slideshow = (ListView) findViewById(R.id.slideshow);
-        PhotoalbumAdapter slideshowAdapter = new PhotoalbumAdapter(getApplicationContext(),R.layout.photoalbum_photo);
+        PhotoalbumAdapter slideshowAdapter = new PhotoalbumAdapter(
+                getApplicationContext(),R.layout.photoalbum_photo);
 
         Utils.log("scrollTo", photoId);
         fetchPhotoalbum(getApplicationContext(), slideshowAdapter, albumId);

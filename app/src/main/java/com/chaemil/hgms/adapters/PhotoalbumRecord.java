@@ -10,7 +10,8 @@ public class PhotoalbumRecord {
     public String label;
     public String photoId;
 
-    public PhotoalbumRecord(String thumb, String photoLarge, String photoBig, String label, String photoId) {
+    public PhotoalbumRecord(String thumb, String photoLarge, String photoBig, String label,
+                            String photoId) {
         this.thumb = thumb;
         this.photoLarge = photoLarge;
         this.photoBig = photoBig;

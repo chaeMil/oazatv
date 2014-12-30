@@ -42,21 +42,25 @@
                 android:id="@+id/videoDate"
                 android:text="videoDate"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:gravity="center_vertical" />
 
             <TextView
                 android:id="@+id/videoViews"
                 android:text="videoViews"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_gravity="right" />
+                android:layout_gravity="right"
+                android:layout_marginRight="8dp"
+                android:gravity="center_vertical" />
 
         </FrameLayout>
 
         <com.wefika.flowlayout.FlowLayout
+            android:layout_margin="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:gravity="start|top"
             android:id="@+id/videoTags"/>
 

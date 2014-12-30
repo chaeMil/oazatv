@@ -86,9 +86,9 @@ public class MainActivity extends Activity {
 
 
         if (extras != null) {
-            if (extras.containsKey("tag")) {
-                if(extras.getString("tag") != null) {
-                    submitSearch(extras.getString("tag"), true);
+            if (extras.containsKey(Basic.BUNDLE_TAG)) {
+                if(extras.getString(Basic.BUNDLE_TAG) != null) {
+                    submitSearch(extras.getString(Basic.BUNDLE_TAG), true);
                 }
             }
         }
