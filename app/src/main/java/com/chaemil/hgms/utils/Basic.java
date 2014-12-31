@@ -10,7 +10,7 @@ public class Basic {
 
     /* zapnout DEBUG, aplikace neodesílá data o zhlédnutí na server,
     loguje do konzole a živý přenos je pouze testovací video */
-    public static final Boolean DEBUG = true;
+    public static final Boolean DEBUG = false;
 
     //konstanty
     public static final String MAIN_SERVER = "http://oaza.tv/";
