@@ -422,9 +422,9 @@ public class AudioPlayer extends Activity implements OnPreparedListener {
                 exitPlayer();
                 Utils.goBackwardAnimation(this);
                 return true;
-            case R.id.show_video:
+            /*case R.id.show_video:
                 goToVideo();
-                return true;
+                return true;*/
             case R.id.delete_action:
                 deleteAudio();
                 return true;

@@ -73,6 +73,12 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if(Basic.DEBUG) {
+            Toast.makeText(getApplicationContext(),
+                    "you are using debug version of the app [utils.Basic.DEBUG = true]",
+                    Toast.LENGTH_LONG).show();
+        }
+
         setActionStatusBarTint(getWindow(),this,Basic.MAIN_ACTIVITY_STATUSBAR_COLOR,
                 Basic.MAIN_ACTIVITY_STATUSBAR_COLOR);
 
@@ -328,8 +334,16 @@ public class MainActivity extends Activity {
                             @Override
                             public void onResponse(String s) {
                                 Utils.log("request", s);
-                                if(!s.trim().replaceAll("\n", "").equals("null")) {
-                                    youtubeVideoId = s.trim().replaceAll("\n", "");
+                                if(Basic.DEBUG) {
+                                    youtubeVideoId = "NF1OdLMTDEc";
+                                    Toast.makeText(getApplicationContext(),
+                                            "you are using debug version of the app, this is just a test video",
+                                            Toast.LENGTH_LONG).show();
+                                }
+                                else {
+                                    if (!s.trim().replaceAll("\n", "").equals("null")) {
+                                        youtubeVideoId = s.trim().replaceAll("\n", "");
+                                    }
                                 }
                                 if(youtubeVideoId != null) {
                                     Intent i = new Intent(getApplicationContext(), LivePlayer.class);

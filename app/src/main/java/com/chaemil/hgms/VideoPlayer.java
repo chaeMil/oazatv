@@ -84,7 +84,8 @@ public class VideoPlayer extends FragmentActivity {
         }
     }
 
-    private IntentFilter headphonesListener = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
+    private IntentFilter headphonesListener = new IntentFilter(AudioManager
+            .ACTION_AUDIO_BECOMING_NOISY);
 
 
     private void shareLink() {
@@ -93,7 +94,7 @@ public class VideoPlayer extends FragmentActivity {
         share.setType("text/plain");
         share.putExtra(Intent.EXTRA_SUBJECT, getVideoName(bundle));
         share.putExtra(Intent.EXTRA_TEXT, Basic.MAIN_SERVER_VIDEO_LINK_PREFIX + getVideoId(bundle));
-        startActivity(Intent.createChooser(share, getResources().getString(R.string.action_share)));
+        startActivity(Intent.createChooser(share, getString(R.string.action_share)));
     }
 
     private int loadVideoTimeFromDB(SQLiteDatabase db, String videoId) {
@@ -285,23 +286,11 @@ public class VideoPlayer extends FragmentActivity {
                 }
             }
         } else {
-            mVideoView.getLayoutParams().width = (int) (Utils.getScreenWidth(getApplicationContext()) * 0.68);
+            mVideoView.getLayoutParams().width = (int) (Utils
+                    .getScreenWidth(getApplicationContext()) * 0.68);
             mVideoView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
         }
     }
-
-    /*@Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus) {
-            getCurrentFocus().setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
-    }*/
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -366,7 +355,9 @@ public class VideoPlayer extends FragmentActivity {
                 return true;
             case R.id.action_download_audio:
                 if (isDownloadingAudio()) {
-                    Toast.makeText(getApplicationContext(),getResources().getString(R.string.already_downloading),Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),
+                            getResources().getString(R.string.already_downloading),
+                            Toast.LENGTH_LONG).show();
                 }
                 else {
                     Bundle extras = getIntent().getExtras();

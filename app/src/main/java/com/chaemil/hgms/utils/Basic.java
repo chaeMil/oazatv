@@ -8,6 +8,8 @@ import com.chaemil.hgms.VideoPlayer;
 
 public class Basic {
 
+    /* zapnout DEBUG, aplikace neodesílá data o zhlédnutí na server,
+    loguje do konzole a živý přenos je pouze testovací video */
     public static final Boolean DEBUG = true;
 
     //konstanty
@@ -16,8 +18,6 @@ public class Basic {
     public static final String MAIN_SERVER_VIDEO_LINK_PREFIX = MAIN_SERVER + "?page=vp&v=";
     public static final String MAIN_SERVER_PHOTOALBUM_LINK_PREFIX
             = MAIN_SERVER + "?page=photo-album&album=";
-
-    public static final String BUNDLE_TAG = "tag";
 
     public static final String VIDEO_LINK = "videoLink";
     public static final String VIDEO_NAME = "videoName";
@@ -70,6 +70,8 @@ public class Basic {
     public static final String BUNDLE_TITLE = "title";
     public static final String BUNDLE_LINK = "link";
     public static final String BUNDLE_VIDEO_LINK = "videoLink";
+    public static final String BUNDLE_TAG = "tag";
+
 
     public static final String EXTENSION_AUDIO = ".audio";
     public static final String EXTENSION_MP3 = ".mp3";

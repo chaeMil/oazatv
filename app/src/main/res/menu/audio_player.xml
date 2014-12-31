@@ -7,10 +7,10 @@
         android:showAsAction="always"
         android:title="@string/deleteAudio" />
 
-    <item
+    <!--<item
         android:id="@+id/show_video"
         android:icon="@drawable/ic_show_video"
         android:showAsAction="ifRoom|withText"
-        android:title="@string/showOnlineVideo" />
+        android:title="@string/showOnlineVideo" />-->
 
 </menu>
