@@ -1,6 +1,7 @@
 package com.chaemil.hgms;
 
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 
 import java.io.File;
@@ -11,8 +12,8 @@ import java.io.File;
 public class App extends Application {
     public static boolean isDownloadingAudio = false;
 
-    public void clearApplicationData() {
-        File cache = getCacheDir();
+    public static void clearApplicationData(Context c) {
+        File cache = c.getCacheDir();
         File appDir = new File(cache.getParent());
         if(appDir.exists()){
             String[] children = appDir.list();
