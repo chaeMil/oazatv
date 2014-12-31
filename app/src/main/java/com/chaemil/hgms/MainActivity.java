@@ -139,7 +139,6 @@ public class MainActivity extends Activity {
 
         if(isFirstRun()) {
             new Handler().postDelayed(openDrawerRunnable(), 200);
-            App.clearApplicationData(getApplicationContext());
         }
 
     }
