@@ -28,14 +28,14 @@
     <string name="landscape_fullscreen">Always fullscreen in landscape</string>
     <string name="already_downloading">Already withdraws another audio recording</string>
     <string name="connection_problem_home_title">There wa a problem connection to the internet</string>
-    <string name="offline_but_have_audio">...don't worry we have already downloaded some audio records!</string>
+    <string name="offline_but_have_audio">...don\'t worry we have already downloaded some audio records!</string>
     <string name="offline_but_have_no_audio">...next time, download the audio recordings for listening offline.</string>
     <string name="no_downloaded_audio">You do not have downloaded any audio recordings, we should correct it!</string>
     <string name="no_downloaded_audio_help">Audio recordings can be downloaded in video player by clicking this icon:</string>
     <string name="no_broadcats_message">Now there are no pending broadcast, try again later.</string>
     <string name="share_live_player">Oáza.tv - live broadcast</string>
     <string name="share_live_player_message">For more information visit http://oaza.tv</string>
-    <string name="title_slide_1">Welcome!\nLet's go over a few basic things...\nReady?</string>
+    <string name="title_slide_1">Welcome!\nLet\'s go over a few basic things...\nReady?</string>
     <string name="title_slide_2_navigation">Navigation</string>
     <string name="title_slide_2">All content can be found in the left menu.\n\nYou can search using the tags: #freedom</string>
     <string name="title_slide_3_onthego">On the way...</string>
