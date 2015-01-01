@@ -3,7 +3,6 @@ package com.chaemil.hgms;
 
 
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -17,6 +16,7 @@ import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnPreparedListener;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,7 +41,7 @@ import static com.chaemil.hgms.utils.Utils.getScreenHeight;
 import static com.chaemil.hgms.utils.Utils.getScreenWidth;
 import static com.chaemil.hgms.utils.Utils.setActionStatusBarTint;
 
-public class AudioPlayer extends Activity implements OnPreparedListener {
+public class AudioPlayer extends ActionBarActivity implements OnPreparedListener {
 
     private at.markushi.ui.CircleButton btnPlay;
     private at.markushi.ui.CircleButton btnPause;
@@ -201,8 +201,8 @@ public class AudioPlayer extends Activity implements OnPreparedListener {
         Utils.log(Basic.AUDIO_FILE_THUMB, audioThumb().substring(audioThumb().lastIndexOf("/") + 1));
         Utils.log(Basic.AUDIO_FILE, file());
 
-        if (getActionBar() != null) {
-            getActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         }
 

@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,7 +38,7 @@ import java.util.concurrent.Future;
 import static com.chaemil.hgms.utils.Utils.setActionStatusBarTint;
 
 
-public class ListDownloadedAudio extends Activity {
+public class ListDownloadedAudio extends ActionBarActivity {
 
     private LinearLayout audioGrid;
     private at.markushi.ui.CircleButton download;
@@ -294,8 +295,8 @@ public class ListDownloadedAudio extends Activity {
         setActionStatusBarTint(getWindow(), this, Basic.AUDIOPLAYER_STATUSBAR_COLOR,
                 Basic.AUDIOPLAYER_ACTIONBAR_COLOR);
 
-        if(getActionBar() !=null) {
-            getActionBar().setDisplayHomeAsUpEnabled(true);
+        if(getSupportActionBar() !=null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
         Bundle extras = getIntent().getExtras();

@@ -1,40 +1,27 @@
 package com.chaemil.hgms;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.content.Context;
-import android.content.Intent;
+
 import android.content.res.Configuration;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.chaemil.hgms.adapters.ArchiveAdapter;
 import com.chaemil.hgms.adapters.home_page_adapters.NewVideosAdapter;
 import com.chaemil.hgms.adapters.home_page_adapters.PhotoalbumsAdapter;
-import com.chaemil.hgms.db.AudioDBHelper;
 import com.chaemil.hgms.utils.Basic;
 import com.chaemil.hgms.utils.Utils;
 import com.chaemil.hgms.view.ExpandedListView;
 
-import java.util.ResourceBundle;
-
-import at.markushi.ui.CircleButton;
-
 import static com.chaemil.hgms.utils.Basic.startPhotoalbumViewer;
 import static com.chaemil.hgms.utils.Basic.startVideoPlayer;
 import static com.chaemil.hgms.utils.Utils.fetchArchive;
-import static com.chaemil.hgms.utils.Utils.setActionStatusBarTint;
 
 /**
  * Created by chaemil on 17.10.14.
@@ -85,7 +72,7 @@ public class HomeFragment extends Fragment {
         //View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
 
-        FragmentManager fragmentManager = getFragmentManager();
+        android.support.v4.app.FragmentManager fragmentManager = getFragmentManager();
 
         if(!Utils.isOnline(getActivity().getApplicationContext())) {
             fragmentManager.beginTransaction()
@@ -191,7 +178,8 @@ public class HomeFragment extends Fragment {
         if (bundle != null) {
             title = bundle.getString(Basic.BUNDLE_TITLE);
         }
-        getActivity().getActionBar().setTitle(title);
+        getActivity().setTitle(title);
+        //getActivity().getActionBar().setTitle(title);
     }
 
 

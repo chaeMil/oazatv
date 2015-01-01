@@ -1,10 +1,11 @@
 package com.chaemil.hgms;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +45,7 @@ public class OfflineFragment extends Fragment {
         refreshButton = (CircleButton) rootView.findViewById(R.id.refresh);
         goToAudioPlayer = (CircleButton) rootView.findViewById(R.id.goToAudioPlayer);
 
-        setActionStatusBarTint(getActivity().getWindow(),getActivity(), "#000000", "#550000");
+        setActionStatusBarTint(getActivity().getWindow(), (ActionBarActivity)getActivity(), "#000000", "#550000");
 
         refreshButton.setOnClickListener(new View.OnClickListener() {
             @Override

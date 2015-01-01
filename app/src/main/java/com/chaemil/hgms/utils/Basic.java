@@ -10,7 +10,7 @@ public class Basic {
 
     /* zapnout DEBUG, aplikace neodesílá data o zhlédnutí na server,
     loguje do konzole a živý přenos je pouze testovací video */
-    public static final Boolean DEBUG = false;
+    public static final Boolean DEBUG = true;
 
     //konstanty
     public static final String MAIN_SERVER = "http://oaza.tv/";
@@ -84,7 +84,7 @@ public class Basic {
 
     public static final String AUDIOPLAYER_STATUSBAR_COLOR = "#FF6D3679";
     public static final String AUDIOPLAYER_ACTIONBAR_COLOR = "#FF894C96";
-    public static final String MAIN_ACTIVITY_STATUSBAR_COLOR = "#FF58C2FB";
+    public static final String MAIN_ACTIVITY_STATUSBAR_COLOR = "#FF4285F4";
 
     public static final String FONT_REGULAR_UPRIGHT = "Titillium-RegularUpright.otf";
     public static final String FONT_BOLD_UPRIGHT = "Titillium-BoldUpright.otf";

@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion '19.1.0'
+    compileSdkVersion 21
+    buildToolsVersion '21.0.1'
 
     defaultConfig {
         applicationId "com.chaemil.hgms"
@@ -31,4 +31,5 @@ dependencies {
     compile 'com.google.apis:google-api-services-youtube:v3-rev120-1.19.0'
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
     compile 'com.github.markushi:circlebutton:1.1'
+    compile 'com.android.support:appcompat-v7:21.+'
 }

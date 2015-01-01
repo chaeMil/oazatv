@@ -1,8 +1,8 @@
 package com.chaemil.hgms;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,7 +19,7 @@ import static com.chaemil.hgms.utils.Utils.getScreenWidth;
 import static com.chaemil.hgms.utils.Utils.setActionStatusBarTint;
 
 
-public class PhotoalbumActivity extends Activity {
+public class PhotoalbumActivity extends ActionBarActivity {
 
     private String getAlbumId() {
         Bundle bundle = getIntent().getExtras();
@@ -56,10 +56,10 @@ public class PhotoalbumActivity extends Activity {
         PhotoalbumAdapter mPhotoalbumAdapter = new PhotoalbumAdapter(getApplicationContext(),
                 R.layout.photo_thumb);
 
-        if(getActionBar() != null) {
-            getActionBar().setTitle(getAlbumName());
-            getActionBar().setSubtitle(getAlbumDate());
-            getActionBar().setDisplayHomeAsUpEnabled(true);
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(getAlbumName());
+            getSupportActionBar().setSubtitle(getAlbumDate());
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
         fetchPhotoalbum(getApplicationContext(),mPhotoalbumAdapter,albumId);

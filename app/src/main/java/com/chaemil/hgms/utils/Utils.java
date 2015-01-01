@@ -12,6 +12,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Environment;
+import android.support.v7.app.ActionBarActivity;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.util.DisplayMetrics;
@@ -313,12 +314,12 @@ public class Utils extends Activity {
     }
 
     // This snippet hides the system bars.
-    public static void hideSystemUI(Activity a) {
+    public static void hideSystemUI(ActionBarActivity a) {
         // Set the IMMERSIVE flag.
         // Set the content to appear under the system bars so that the content
         // doesn't resize when the system bars hide and show.
-        if (a.getActionBar() != null) {
-            a.getActionBar().hide();
+        if (a.getSupportActionBar() != null) {
+            a.getSupportActionBar().hide();
         }
         a.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         a.getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
@@ -327,9 +328,9 @@ public class Utils extends Activity {
 
     // This snippet shows the system bars. It does this by removing all the flags
 // except for the ones that make the content appear under the system bars.
-    public static void showSystemUI(Activity a) {
-        if (a.getActionBar() != null) {
-            a.getActionBar().show();
+    public static void showSystemUI(ActionBarActivity a) {
+        if (a.getSupportActionBar() != null) {
+            a.getSupportActionBar().show();
         }
         a.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         /*v.setSystemUiVisibility(
@@ -338,7 +339,7 @@ public class Utils extends Activity {
     }
 
 
-    public static int getActionBarHeight(Activity a) {
+    public static int getActionBarHeight(ActionBarActivity a) {
         int actionBarHeight = 0;
         TypedValue tv = new TypedValue();
         if (a.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
@@ -349,7 +350,7 @@ public class Utils extends Activity {
         return actionBarHeight;
     }
 
-    public static int getStatusBarHeight(Activity a) {
+    public static int getStatusBarHeight(ActionBarActivity a) {
         int result = 0;
         int resourceId = a.getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (resourceId > 0) {
@@ -378,7 +379,7 @@ public class Utils extends Activity {
         window.setStatusBarColor(activity.getResources().getColor(R.color.example_color));
     }*/
 
-    public static void setStatusBarColor(Activity a, View statusBar, int color){
+    public static void setStatusBarColor(ActionBarActivity a, View statusBar, int color){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window w = a.getWindow();
             w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
@@ -420,12 +421,12 @@ public class Utils extends Activity {
         return null;
     }
 
-    public static void setActionStatusBarTint(Window w, Activity a, String statusBarColor,
+    public static void setActionStatusBarTint(Window w, ActionBarActivity a, String statusBarColor,
                                               String actionBarColor) {
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
-        if (a.getActionBar() != null) {
+        if (a.getSupportActionBar() != null) {
             if (actionBarColor != null) {
-                a.getActionBar().setBackgroundDrawable(
+                a.getSupportActionBar().setBackgroundDrawable(
                         new ColorDrawable(Color.parseColor(actionBarColor)));
             }
         }

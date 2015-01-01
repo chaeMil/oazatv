@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="tag">
+        <item name="android:textColor">#ff2581d6</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:layout_margin">2dp</item>
+    </style>
+
+    <style name="offlineAudioName" parent="firstVideoName">
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_marginRight">5dp</item>
+    </style>
+
+    <style name="homeNetworkProblemTitle">
+        <item name="android:textColor">#db0000</item>
+        <item name="android:textSize">25sp</item>
+    </style>
+
+    <style name="homeNetworkProblemText">
+        <item name="android:textColor">#db0000</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="firstVideoName" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">8</item>
+    </style>
+
+    <style name="firstVideoDetails" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">8</item>
+    </style>
+
+    <style name="homeScreenTitles" parent="@android:style/TextAppearance.Large">
+        <item name="android:textSize">27sp</item>
+        <item name="android:textColor">#ff2581d6</item>
+        <item name="android:shadowColor">#ffababab</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">5</item>
+        <item name="android:shadowRadius">0</item>
+        <item name="android:padding">15dp</item>
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+
+    <style name="videoName" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#a8181818</item>
+    </style>
+
+    <style name="videoProperties">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#000000</item>
+    </style>
+
+    <style name="SeekBarOaza" parent="android:Widget.SeekBar">
+        <item name="android:progressDrawable">@drawable/oaza_scrubber_progress_horizontal_holo_light</item>
+        <item name="android:indeterminateDrawable">@drawable/oaza_scrubber_progress_horizontal_holo_light</item>
+        <item name="android:minHeight">13dip</item>
+        <item name="android:maxHeight">13dip</item>
+        <item name="android:thumb">@drawable/oaza_scrubber_control_selector_holo_light</item>
+        <item name="android:thumbOffset">16dip</item>
+        <item name="android:paddingLeft">16dip</item>
+        <item name="android:paddingRight">16dip</item>
+    </style>
+
+    <style name="notificationButton">
+        <item name="android:layout_margin">8dp</item>
+    </style>
+</resources>

@@ -1,8 +1,8 @@
 package com.chaemil.hgms;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
+
+
+
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -10,8 +10,10 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.SearchView;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,7 +21,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,9 +35,10 @@ import com.chaemil.hgms.utils.Utils;
 
 import static com.chaemil.hgms.utils.Utils.fetchMenuData;
 import static com.chaemil.hgms.utils.Utils.setActionStatusBarTint;
+import static com.chaemil.hgms.utils.Utils.setStatusBarColor;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends ActionBarActivity {
 
     private ArchiveMenuAdapter mArchiveMenuAdapter;
     private DrawerLayout mDrawerLayout;
@@ -46,7 +48,7 @@ public class MainActivity extends Activity {
     private CharSequence mDrawerTitle;
     private TextView emptyText;
     private ListView menuList;
-    private Fragment fragment;
+    private android.support.v4.app.Fragment fragment;
     private String youtubeVideoId;
     private MenuItem searchMenuItem;
     private SearchView searchView;
@@ -84,9 +86,12 @@ public class MainActivity extends Activity {
 
         Bundle extras = getIntent().getExtras();
 
+        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+        android.support.v4.app.FragmentTransaction fragmentTransaction =
+                fragmentManager.beginTransaction();
+
         if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction()
-                    .add(R.id.content_frame, new HomeFragment())
+            fragmentTransaction.add(R.id.content_frame, new HomeFragment())
                     .commit();
         }
 
@@ -110,15 +115,15 @@ public class MainActivity extends Activity {
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
         mArchiveMenuAdapter = new ArchiveMenuAdapter(this);
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
 
         mDrawerToggle = new ActionBarDrawerToggle(
-                this,                  /* host Activity */
-                mDrawerLayout,         /* DrawerLayout object */
-                R.drawable.ic_drawer,  /* nav drawer image to replace 'Up' caret */
-                R.string.drawer_open,  /* "open drawer" description for accessibility */
-                R.string.drawer_close  /* "close drawer" description for accessibility */
+                this,
+                mDrawerLayout,
+                R.string.drawer_open,
+                R.string.drawer_close
         ) {
             public void onDrawerClosed(View view) {
                 //getActionBar().setTitle(mTitle);
@@ -229,7 +234,9 @@ public class MainActivity extends Activity {
 
         args.putString(Basic.BUNDLE_LINK, link);
 
-        FragmentManager fragmentManager = getFragmentManager();
+
+        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+
         fragment.setArguments(args);
         fragmentManager.beginTransaction()
                 .replace(R.id.content_frame, fragment)
@@ -382,8 +389,7 @@ public class MainActivity extends Activity {
         Utils.log("link",Basic.MAIN_SERVER_JSON+"?page=archive&lang="+ Utils.lang+link);
 
         if(isFragment) {
-            FragmentManager fragmentManager = getFragmentManager();
-
+            android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
 
             fragment.setArguments(args);
 
@@ -402,8 +408,8 @@ public class MainActivity extends Activity {
     @Override
     public void setTitle(CharSequence title) {
         mTitle = title;
-        if (getActionBar() != null) {
-            getActionBar().setTitle(mTitle);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(mTitle);
         }
     }
 }

@@ -1,7 +1,8 @@
 package com.chaemil.hgms;
 
-import android.app.Fragment;
+
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,7 +98,7 @@ public class ArchiveFragment extends Fragment {
         if (bundle != null) {
             title = bundle.getString(Basic.BUNDLE_TITLE);
         }
-        getActivity().getActionBar().setTitle(title);
+        getActivity().setTitle(title);
     }
 
 

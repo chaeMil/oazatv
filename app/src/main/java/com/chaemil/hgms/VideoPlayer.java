@@ -18,7 +18,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -42,7 +42,7 @@ import static com.chaemil.hgms.utils.Utils.hideSystemUI;
 import static com.chaemil.hgms.utils.Utils.showSystemUI;
 
 
-public class VideoPlayer extends FragmentActivity {
+public class VideoPlayer extends ActionBarActivity {
 
     private VideoView mVideoView;
     private Fragment fragment;
@@ -118,8 +118,9 @@ public class VideoPlayer extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.video_player);
 
-        if(getActionBar() != null) {
-            getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#000000")));
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setBackgroundDrawable(
+                    new ColorDrawable(Color.parseColor("#000000")));
         }
 
         ArchiveDBHelper helper = new ArchiveDBHelper(getApplicationContext());
@@ -138,9 +139,9 @@ public class VideoPlayer extends FragmentActivity {
         String videoDate = getVideoDate(extras);
         String videoURL = getVideoUrl(extras);
 
-        if(getActionBar() != null) {
-            getActionBar().setTitle(videoName);
-            getActionBar().setDisplayHomeAsUpEnabled(true);
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(videoName);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
         String idToSubmitViews = getVideoUrl(getIntent().getExtras());
@@ -197,14 +198,14 @@ public class VideoPlayer extends FragmentActivity {
             @Override
             public void onClick(View view) {
 
-                showSystemUI(getParent());
+                showSystemUI((ActionBarActivity)getParent());
 
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
 
-                        hideSystemUI(getParent());
+                        hideSystemUI((ActionBarActivity)getParent());
 
                         Utils.log("screenOrientation", "tappedVideo");
 
@@ -350,8 +351,8 @@ public class VideoPlayer extends FragmentActivity {
 
         switch(id) {
             case android.R.id.home:
-                Utils.goBackwardAnimation(this);
                 finish();
+                Utils.goBackwardAnimation(this);
                 return true;
             case R.id.action_download_audio:
                 if (isDownloadingAudio()) {
