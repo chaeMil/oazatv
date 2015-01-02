@@ -44,8 +44,6 @@ public class MainActivity extends ActionBarActivity {
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private ListView mDrawerList;
-    private CharSequence mTitle;
-    private CharSequence mDrawerTitle;
     private TextView emptyText;
     private ListView menuList;
     private android.support.v4.app.Fragment fragment;
@@ -95,17 +93,15 @@ public class MainActivity extends ActionBarActivity {
                     .commit();
         }
 
+        setActionBarTitle(this, getString(R.string.app_name));
 
         if (extras != null) {
             if (extras.containsKey(Basic.BUNDLE_TAG)) {
                 if(extras.getString(Basic.BUNDLE_TAG) != null) {
-                    submitSearch(extras.getString(Basic.BUNDLE_TAG), true);
+                    submitSearch(MainActivity.this, extras.getString(Basic.BUNDLE_TAG), true);
                 }
             }
         }
-        mTitle = getResources().getString(R.string.app_name);
-        mDrawerTitle = mTitle;
-        setTitle(getResources().getString(R.string.app_name));
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -205,7 +201,7 @@ public class MainActivity extends ActionBarActivity {
             public boolean onQueryTextSubmit(String query) {
 
 
-                submitSearch(query, false);
+                submitSearch(MainActivity.this, query, false);
 
                 return false;
             }
@@ -216,7 +212,8 @@ public class MainActivity extends ActionBarActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    public void submitSearch(String query, boolean calledExternally) {
+    public void submitSearch(ActionBarActivity actionBarActivity,
+                             String query, boolean calledExternally) {
         fragment = new ArchiveFragment();
         Bundle args = new Bundle();
 
@@ -249,7 +246,8 @@ public class MainActivity extends ActionBarActivity {
             mDrawerLayout.closeDrawers();
         }
 
-        setTitle(getResources().getString(R.string.action_search)+": "+query);
+        setActionBarTitle(actionBarActivity,
+                getResources().getString(R.string.action_search)+": "+query);
 
 
     }
@@ -380,11 +378,6 @@ public class MainActivity extends ActionBarActivity {
             }
         }
 
-        if (!type.equals(Basic.JSON_MENU_TYPE_DOWNLOADED_AUDIO)
-            || !type.equals(Basic.JSON_MENU_TYPE_LIVE_PLAYER)) {
-            mTitle = getResources().getString(R.string.app_name);
-        }
-
 
         Utils.log("link",Basic.MAIN_SERVER_JSON+"?page=archive&lang="+ Utils.lang+link);
 
@@ -405,11 +398,7 @@ public class MainActivity extends ActionBarActivity {
         mDrawerLayout.closeDrawer(mDrawerList);
     }
 
-    @Override
-    public void setTitle(CharSequence title) {
-        mTitle = title;
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(mTitle);
-        }
+    public static void setActionBarTitle(ActionBarActivity a, CharSequence title) {
+        a.getSupportActionBar().setTitle(title);
     }
 }

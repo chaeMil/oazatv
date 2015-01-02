@@ -3,6 +3,7 @@ package com.chaemil.hgms;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,16 +15,14 @@ import com.chaemil.hgms.adapters.ArchiveAdapter;
 import com.chaemil.hgms.utils.Basic;
 import com.chaemil.hgms.utils.Utils;
 
-
 import static com.chaemil.hgms.utils.Basic.startPhotoalbumViewer;
 import static com.chaemil.hgms.utils.Basic.startVideoPlayer;
 import static com.chaemil.hgms.utils.Utils.fetchArchive;
 
-/**
- * Created by chaemil on 17.10.14.
- */
+
 public class ArchiveFragment extends Fragment {
 
+    private String title;
     public ArchiveFragment() {
     }
 
@@ -39,6 +38,7 @@ public class ArchiveFragment extends Fragment {
         String link = "";
         if (bundle != null) {
             link = bundle.getString(Basic.BUNDLE_LINK);
+            title = bundle.getString(Basic.BUNDLE_TITLE);
         }
 
         Utils.submitStatistics(getActivity().getApplicationContext());
@@ -84,6 +84,8 @@ public class ArchiveFragment extends Fragment {
                         +Utils.lang+link,mArchiveAdapter,"archive");
 
 
+
+        MainActivity.setActionBarTitle((ActionBarActivity) getActivity(), title);
         return rootView;
 
 
@@ -98,7 +100,7 @@ public class ArchiveFragment extends Fragment {
         if (bundle != null) {
             title = bundle.getString(Basic.BUNDLE_TITLE);
         }
-        getActivity().setTitle(title);
+        //getActivity().setTitle(title);
     }
 
 

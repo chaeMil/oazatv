@@ -4,6 +4,7 @@ package com.chaemil.hgms;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import com.chaemil.hgms.utils.Basic;
 import com.chaemil.hgms.utils.Utils;
 import com.chaemil.hgms.view.ExpandedListView;
 
+import static com.chaemil.hgms.MainActivity.setActionBarTitle;
 import static com.chaemil.hgms.utils.Basic.startPhotoalbumViewer;
 import static com.chaemil.hgms.utils.Basic.startVideoPlayer;
 import static com.chaemil.hgms.utils.Utils.fetchArchive;
@@ -53,6 +55,7 @@ public class HomeFragment extends Fragment {
 
         Utils.submitStatistics(getActivity().getApplicationContext());
 
+        setActionBarTitle((ActionBarActivity) getActivity(), getString(R.string.app_name));
 
         return frameLayout;
 

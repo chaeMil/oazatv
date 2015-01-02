@@ -2,6 +2,7 @@ package com.chaemil.hgms;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.chaemil.hgms.utils.Utils;
 public class WebViewFragment extends Fragment {
 
     private WebView webview;
+    private String title;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -23,6 +25,7 @@ public class WebViewFragment extends Fragment {
         String link = "";
         if (bundle != null) {
             link = bundle.getString(Basic.BUNDLE_LINK);
+            title = bundle.getString(Basic.BUNDLE_TITLE);
         }
 
         Utils.log("WebViewFragmentLink", link);
@@ -31,6 +34,8 @@ public class WebViewFragment extends Fragment {
         webview.setWebChromeClient(new WebChromeClient());
         webview.getSettings().setJavaScriptEnabled(true);
         webview.loadUrl(link);
+
+        MainActivity.setActionBarTitle((ActionBarActivity) getActivity(), title);
 
         return rootView;
     }
