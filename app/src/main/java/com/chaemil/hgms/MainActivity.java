@@ -132,23 +132,29 @@ public class MainActivity extends ActionBarActivity {
                 //getActionBar().setTitle(mDrawerTitle);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
 
-                CircleButton liveBroadcastButton = (CircleButton) findViewById(R.id.liveBroadcastButton);
-                liveBroadcastButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        launchLivePlayer();
-                    }
-                });
+                CircleButton liveBroadcastButton = (CircleButton)
+                        findViewById(R.id.liveBroadcastButton);
+                if (liveBroadcastButton != null) {
+                    liveBroadcastButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            launchLivePlayer();
+                        }
+                    });
+                }
 
-                CircleButton downloadedAudioButton = (CircleButton) findViewById(R.id.downloadedAudioButton);
-                downloadedAudioButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent i = new Intent(MainActivity.this, ListDownloadedAudio.class);
-                        startActivity(i);
-                        Utils.goForwardAnimation(MainActivity.this);
-                    }
-                });
+                CircleButton downloadedAudioButton = (CircleButton)
+                        findViewById(R.id.downloadedAudioButton);
+                if (downloadedAudioButton != null) {
+                    downloadedAudioButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent i = new Intent(MainActivity.this, ListDownloadedAudio.class);
+                            startActivity(i);
+                            Utils.goForwardAnimation(MainActivity.this);
+                        }
+                    });
+                }
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
