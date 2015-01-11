@@ -33,9 +33,10 @@ import com.chaemil.hgms.adapters.ArchiveMenuAdapter;
 import com.chaemil.hgms.utils.Basic;
 import com.chaemil.hgms.utils.Utils;
 
+import at.markushi.ui.CircleButton;
+
 import static com.chaemil.hgms.utils.Utils.fetchMenuData;
 import static com.chaemil.hgms.utils.Utils.setActionStatusBarTint;
-import static com.chaemil.hgms.utils.Utils.setStatusBarColor;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -79,7 +80,8 @@ public class MainActivity extends ActionBarActivity {
                     Toast.LENGTH_LONG).show();
         }
 
-        setActionStatusBarTint(getWindow(),this,Basic.MAIN_ACTIVITY_STATUSBAR_COLOR,
+
+        setActionStatusBarTint(getWindow(), this, Basic.MAIN_ACTIVITY_STATUSBAR_COLOR,
                 Basic.MAIN_ACTIVITY_STATUSBAR_COLOR);
 
         Bundle extras = getIntent().getExtras();
@@ -129,6 +131,24 @@ public class MainActivity extends ActionBarActivity {
             public void onDrawerOpened(View drawerView) {
                 //getActionBar().setTitle(mDrawerTitle);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+
+                CircleButton liveBroadcastButton = (CircleButton) findViewById(R.id.liveBroadcastButton);
+                liveBroadcastButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        launchLivePlayer();
+                    }
+                });
+
+                CircleButton downloadedAudioButton = (CircleButton) findViewById(R.id.downloadedAudioButton);
+                downloadedAudioButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent i = new Intent(MainActivity.this, ListDownloadedAudio.class);
+                        startActivity(i);
+                        Utils.goForwardAnimation(MainActivity.this);
+                    }
+                });
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
@@ -269,6 +289,13 @@ public class MainActivity extends ActionBarActivity {
                 startActivity(i);
                 Utils.goForwardAnimation(this);
             return true;
+            case android.R.id.home:
+                if(!mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
+                    mDrawerLayout.openDrawer(Gravity.LEFT);
+                } else {
+                    mDrawerLayout.closeDrawer(Gravity.LEFT);
+                }
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -277,13 +304,17 @@ public class MainActivity extends ActionBarActivity {
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView parent, View view, int position, long id) {
-            TextView titleElement = (TextView) view.findViewById(R.id.titleToShow);
-            String title = titleElement.getText().toString();
-            TextView typeElement = (TextView) view.findViewById(R.id.type);
-            String type = typeElement.getText().toString();
-            TextView linkElement = (TextView) view.findViewById(R.id.content);
-            String link = linkElement.getText().toString();
-            selectItem(position, type, link, title);
+            if (position != 0) {
+                TextView titleElement = (TextView) view.findViewById(R.id.titleToShow);
+                String title = titleElement.getText().toString();
+                TextView typeElement = (TextView) view.findViewById(R.id.type);
+                String type = typeElement.getText().toString();
+                TextView linkElement = (TextView) view.findViewById(R.id.content);
+                String link = linkElement.getText().toString();
+                selectItem(position, type, link, title);
+            } else {
+
+            }
         }
     }
 
@@ -329,56 +360,11 @@ public class MainActivity extends ActionBarActivity {
                 Utils.goForwardAnimation(this);
             } else if (type.equals(Basic.JSON_MENU_TYPE_EXIT)) {
                 finish();
-            } else if (type.equals(Basic.JSON_MENU_TYPE_LIVE_PLAYER)) {
-
-                RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-
-                String url = Basic.MAIN_SERVER_JSON + "?page=live";
-
-                StringRequest request = new StringRequest(
-                        url,
-                        new Response.Listener<String>() {
-
-                            @Override
-                            public void onResponse(String s) {
-                                Utils.log("request", s);
-                                if(Basic.DEBUG) {
-                                    youtubeVideoId = "NF1OdLMTDEc";
-                                    Toast.makeText(getApplicationContext(),
-                                            "you are using debug version of the app, this is just a test video",
-                                            Toast.LENGTH_LONG).show();
-                                }
-                                else {
-                                    if (!s.trim().replaceAll("\n", "").equals("null")) {
-                                        youtubeVideoId = s.trim().replaceAll("\n", "");
-                                    }
-                                }
-                                if(youtubeVideoId != null) {
-                                    Intent i = new Intent(getApplicationContext(), LivePlayer.class);
-                                    i.putExtra(Basic.YOUTUBE_VIDEO_ID, youtubeVideoId);
-                                    startActivity(i);
-                                    //Utils.goForwardAnimation(getParent());
-                                }
-                                else {
-                                    Toast.makeText(getApplicationContext(),
-                                            getResources().getString(R.string.no_broadcats_message),
-                                            Toast.LENGTH_LONG).show();
-                                }
+            } /*else if (type.equals(Basic.JSON_MENU_TYPE_LIVE_PLAYER)) {
 
 
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError volleyError) {
-                                Utils.log("VolleyError.error", volleyError.toString());
-                            }
-                        }
-                );
 
-                queue.add(request);
-
-            }
+            }*/
         }
 
 
@@ -403,5 +389,63 @@ public class MainActivity extends ActionBarActivity {
 
     public static void setActionBarTitle(ActionBarActivity a, CharSequence title) {
         a.getSupportActionBar().setTitle(title);
+    }
+
+    public void launchLivePlayer() {
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+
+        String url = Basic.MAIN_SERVER_JSON + "?page=live";
+
+        StringRequest request = new StringRequest(
+                url,
+                new Response.Listener<String>() {
+
+                    @Override
+                    public void onResponse(String s) {
+                        Utils.log("request", s);
+                        if(Basic.DEBUG) {
+                            youtubeVideoId = "NF1OdLMTDEc";
+                            Toast.makeText(getApplicationContext(),
+                                    "you are using debug version of the app, this is just a test video",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            if (!s.trim().replaceAll("\n", "").equals("null")) {
+                                youtubeVideoId = s.trim().replaceAll("\n", "");
+                            }
+                        }
+                        if(youtubeVideoId != null) {
+                            Intent i = new Intent(getApplicationContext(), LivePlayer.class);
+                            i.putExtra(Basic.YOUTUBE_VIDEO_ID, youtubeVideoId);
+                            startActivity(i);
+                            //Utils.goForwardAnimation(getParent());
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(),
+                                    getResources().getString(R.string.no_broadcats_message),
+                                    Toast.LENGTH_LONG).show();
+                        }
+
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        Utils.log("VolleyError.error", volleyError.toString());
+                    }
+                }
+        );
+
+        queue.add(request);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
+            mDrawerLayout.closeDrawer(Gravity.LEFT);
+        } else {
+            super.onBackPressed();
+        }
     }
 }

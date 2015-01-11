@@ -48,5 +48,6 @@
     <string name="title_slide_3">Download audio recordings\nto listen anywhere</string>
     <string name="resuming_playback">Continue playback from the last saved position</string>
     <string name="downloaded_audio">Downloaded audio</string>
+    <string name="live_broadcast">Live broadcast</string>
 
 </resources>

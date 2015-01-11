@@ -48,5 +48,6 @@
     <string name="title_slide_3">Stáhněte si audio záznamy\n a poslouchejte kdekoliv!</string>
     <string name="resuming_playback">Pokračuje se v přehrávání od poslední uložené pozice</string>
     <string name="downloaded_audio">Stažené audio</string>
+    <string name="live_broadcast">Živý přenos</string>
 
 </resources>

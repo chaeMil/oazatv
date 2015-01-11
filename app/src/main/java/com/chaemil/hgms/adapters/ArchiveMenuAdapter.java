@@ -35,12 +35,18 @@ public class ArchiveMenuAdapter extends ArrayAdapter<ArchiveMenuRecord> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if(convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.archive_menu_item,
-                    parent, false);
-        }
+        //if(convertView == null) {
+            if (position == 0) {
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.archive_menu_main,
+                        parent, false);
+            } else {
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.archive_menu_item,
+                        parent, false);
+            }
 
-        // NOTE: You would normally use the ViewHolder pattern here
+        //}
+
+        //standard menu items
         TextView menuItem = (TextView) convertView.findViewById(R.id.menuItem);
         TextView type = (TextView) convertView.findViewById(R.id.type);
         TextView content = (TextView) convertView.findViewById(R.id.content);
@@ -48,11 +54,21 @@ public class ArchiveMenuAdapter extends ArrayAdapter<ArchiveMenuRecord> {
 
         ArchiveMenuRecord archiveMenuRecord = getItem(position);
 
-        menuItem.setText(Utils.getStringWithRegularCustomFont(getContext(),
-                archiveMenuRecord.getLabel(), Basic.FONT_REGULAR_UPRIGHT));
-        type.setText(archiveMenuRecord.getType());
-        content.setText(archiveMenuRecord.getContent());
-        titleToShow.setText(archiveMenuRecord.getTitleToShow());
+        if (menuItem != null) {
+            menuItem.setText(Utils.getStringWithRegularCustomFont(getContext(),
+                    archiveMenuRecord.getLabel(), Basic.FONT_REGULAR_UPRIGHT));
+        }
+        if (type != null) {
+            type.setText(archiveMenuRecord.getType());
+        }
+
+        if (content != null) {
+            content.setText(archiveMenuRecord.getContent());
+        }
+
+        if (titleToShow != null) {
+            titleToShow.setText(archiveMenuRecord.getTitleToShow());
+        }
 
         return convertView;
     }
