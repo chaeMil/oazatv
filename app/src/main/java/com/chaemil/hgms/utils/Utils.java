@@ -86,39 +86,39 @@ public class Utils extends Activity {
         VolleyApplication.getInstance().getRequestQueue().add(request);
     }
 
-    public static void fetchArchive(final Context c, String url,
-                                    final ArchiveAdapter adapter, final String jsonArray) {
-        JsonObjectRequest request = new JsonObjectRequest(
-                url,
-                null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject jsonObject) {
-                        try {
-                            List<ArchiveRecord> archiveRecords = parseArchive(jsonObject, jsonArray);
+        public static void fetchArchive(final Context c, String url,
+                                        final ArchiveAdapter adapter, final String jsonArray) {
+            JsonObjectRequest request = new JsonObjectRequest(
+                    url,
+                    null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject jsonObject) {
+                            try {
+                                List<ArchiveRecord> archiveRecords = parseArchive(jsonObject, jsonArray);
 
-                            adapter.swapImageRecords(archiveRecords);
+                                adapter.swapImageRecords(archiveRecords);
 
+                            }
+                            catch(JSONException e) {
+                                Toast.makeText(c.getApplicationContext(),
+                                        "Unable to parse data: " + e.getMessage(),
+                                        Toast.LENGTH_SHORT).show();
+                            }
                         }
-                        catch(JSONException e) {
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError volleyError) {
+
                             Toast.makeText(c.getApplicationContext(),
-                                    "Unable to parse data: " + e.getMessage(),
-                                    Toast.LENGTH_SHORT).show();
+                                    c.getResources().getString(R.string.connection_problem),
+                                    Toast.LENGTH_LONG).show();
                         }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
+                    });
 
-                        Toast.makeText(c.getApplicationContext(),
-                                c.getResources().getString(R.string.connection_problem),
-                                Toast.LENGTH_LONG).show();
-                    }
-                });
-
-        VolleyApplication.getInstance().getRequestQueue().add(request);
-    }
+            VolleyApplication.getInstance().getRequestQueue().add(request);
+        }
 
     public static void fetchPhotoalbum(final Context c, final PhotoalbumAdapter adapter,
                                        String albumId) {

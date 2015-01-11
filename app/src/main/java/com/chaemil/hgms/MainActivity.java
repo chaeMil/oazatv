@@ -261,12 +261,15 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        // Pass the event to ActionBarDrawerToggle, if it returns
-        // true, then it has handled the app icon touch event
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
+        int id = item.getItemId();
+
+        switch(id) {
+            case R.id.downloadedAudio:
+                Intent i = new Intent(this, ListDownloadedAudio.class);
+                startActivity(i);
+                Utils.goForwardAnimation(this);
             return true;
         }
-        // Handle your other action bar items...
 
         return super.onOptionsItemSelected(item);
     }
