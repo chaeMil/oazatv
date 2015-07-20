@@ -1,13 +1,11 @@
 package com.chaemil.hgms.activity;
 
-
-
-
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;
@@ -19,11 +17,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -31,31 +31,41 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.chaemil.hgms.R;
 import com.chaemil.hgms.adapters.ArchiveMenuAdapter;
+import com.chaemil.hgms.adapters.HomepageAdapter;
+import com.chaemil.hgms.factory.RequestFactory;
+import com.chaemil.hgms.factory.RequestFactoryListener;
+import com.chaemil.hgms.factory.ResponseFactory;
 import com.chaemil.hgms.fragment.ArchiveFragment;
 import com.chaemil.hgms.fragment.HomeFragment;
 import com.chaemil.hgms.fragment.OfflineFragment;
 import com.chaemil.hgms.fragment.WebViewFragment;
+import com.chaemil.hgms.model.ArchiveMenu;
+import com.chaemil.hgms.model.RequestType;
+import com.chaemil.hgms.service.MyRequestService;
 import com.chaemil.hgms.utils.Constants;
 import com.chaemil.hgms.utils.SmartLog;
 import com.chaemil.hgms.utils.Utils;
 
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 import at.markushi.ui.CircleButton;
 import static com.chaemil.hgms.utils.Utils.setActionStatusBarTint;
 
+public class MainActivity extends ActionBarActivity implements RequestFactoryListener {
 
-public class MainActivity extends ActionBarActivity {
-
-    private ArchiveMenuAdapter mArchiveMenuAdapter;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private ListView mDrawerList;
     private TextView emptyText;
-    private ListView menuList;
     private android.support.v4.app.Fragment fragment;
     private String youtubeVideoId;
     private MenuItem searchMenuItem;
     private SearchView searchView;
     private Menu _menu;
+    private ArrayList<ArchiveMenu> menuItems;
+    private ArchiveMenuAdapter menuItemsAdapter;
 
     @Override
     protected void onStart() {
@@ -84,12 +94,6 @@ public class MainActivity extends ActionBarActivity {
                     Toast.LENGTH_LONG).show();
         }
 
-
-        setActionStatusBarTint(getWindow(), this, Constants.MAIN_ACTIVITY_STATUSBAR_COLOR,
-                Constants.MAIN_ACTIVITY_STATUSBAR_COLOR);
-
-        Bundle extras = getIntent().getExtras();
-
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction fragmentTransaction =
                 fragmentManager.beginTransaction();
@@ -98,6 +102,25 @@ public class MainActivity extends ActionBarActivity {
             fragmentTransaction.add(R.id.content_frame, new HomeFragment())
                     .commit();
         }
+
+        getUI();
+        setupUI();
+        getData();
+
+    }
+
+    private void getData() {
+        Request menuRequest = RequestFactory.getMenu(this);
+        MyRequestService.getRequestQueue().add(menuRequest);
+    }
+
+    private void setupUI() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getWindow().setStatusBarColor(getResources().getColor(R.color.primary_dark));
+        }
+
+        Bundle extras = getIntent().getExtras();
 
         setActionBarTitle(this, getString(R.string.app_name));
 
@@ -109,17 +132,10 @@ public class MainActivity extends ActionBarActivity {
             }
         }
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
-        emptyText = (TextView) findViewById(android.R.id.empty);
-        menuList = (ListView) findViewById(R.id.left_drawer);
-
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-        mArchiveMenuAdapter = new ArchiveMenuAdapter(this);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,
@@ -161,15 +177,18 @@ public class MainActivity extends ActionBarActivity {
                 }
             }
         };
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-        menuList.setEmptyView(emptyText);
-        menuList.setAdapter(mArchiveMenuAdapter);
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         if(isFirstRun()) {
             new Handler().postDelayed(openDrawerRunnable(), 200);
         }
+    }
 
+    private void getUI() {
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        emptyText = (TextView) findViewById(android.R.id.empty);
     }
 
     private Runnable openDrawerRunnable() {
@@ -307,6 +326,27 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onSuccessResponse(JSONObject response, RequestType requestType) {
+        SmartLog.log("MainActivity response", String.valueOf(response));
+
+        switch (requestType) {
+            case MENU:
+                SmartLog.log("requestType", "MENU");
+                menuItems = ResponseFactory.parseMenu(response);
+                menuItemsAdapter = new ArchiveMenuAdapter(this, menuItems);
+                mDrawerList.setAdapter(menuItemsAdapter);
+                break;
+        }
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError exception) {
+        Toast.makeText(this, getString(R.string.something_went_wrong),
+                Toast.LENGTH_SHORT).show();
+        SmartLog.log("errorResponse", String.valueOf(exception));
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {

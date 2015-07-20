@@ -24,9 +24,6 @@ public class HomepageAdapter extends ArrayAdapter<ArchiveItem> {
 
     Context context;
     ArrayList<ArchiveItem> homePage;
-    boolean newVideosHeaderAdded;
-    boolean newAlbumsHeaderAdded;
-    boolean popularVideosHeaderAdded;
 
     public HomepageAdapter(Context context, ArrayList<ArchiveItem> homePage, int resource) {
         super(context, resource);
@@ -59,7 +56,7 @@ public class HomepageAdapter extends ArrayAdapter<ArchiveItem> {
     public View getView(int position, View convertView, ViewGroup parent) {
         Holder holder;
 
-        SmartLog.log("position", String.valueOf(position));
+        //SmartLog.log("position", String.valueOf(position));
 
         if (convertView == null) {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
@@ -86,10 +83,11 @@ public class HomepageAdapter extends ArrayAdapter<ArchiveItem> {
         holder.title.setText(getItem(position).getTitle());
         holder.playCount.setText(getItem(position).getVideoViews());
         holder.date.setText(getItem(position).getVideoDate());
-        Picasso.with(context).load(getItem(position).getThumb()).into(holder.thumb);
+        Picasso.with(context).load(getItem(position).getThumb()).resize(320, 180).into(holder.thumb);
         if (position == 0) {
+            Picasso.with(context).load(getItem(position).getThumb()).into(holder.thumb);
             if (holder.thumbBlur != null) {
-                Picasso.with(context).load(getItem(position).getThumbBlur()).into(holder.thumbBlur);
+                Picasso.with(context).load(getItem(position).getThumbBlur()).resize(320, 180).into(holder.thumbBlur);
             }
         }
 

@@ -1,6 +1,8 @@
 package com.chaemil.hgms.fragment;
 
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
@@ -70,7 +72,8 @@ public class HomeFragment extends Fragment implements RequestFactoryListener {
     }
 
     private void setupUI() {
-
+        homeList.setDivider(new ColorDrawable(getResources().getColor(R.color.white)));
+        homeList.setDividerHeight(8);
     }
 
     @Override

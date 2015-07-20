@@ -3,14 +3,17 @@ package com.chaemil.hgms.factory;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.chaemil.hgms.model.ArchiveItem;
+import com.chaemil.hgms.model.ArchiveMenu;
 import com.chaemil.hgms.model.HomePage;
 import com.chaemil.hgms.model.RequestType;
+import com.chaemil.hgms.utils.Constants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ResponseFactory {
 
@@ -63,22 +66,26 @@ public class ResponseFactory {
         return archiveItem;
     }
 
-    private static Response.Listener<JSONObject> createMyReqSuccessListener(
-            final RequestFactoryListener listener, final RequestType requestType) {
-        return new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                listener.onSuccessResponse(response, requestType);
-            }
-        };
-    }
+    public static ArrayList<ArchiveMenu> parseMenu(JSONObject json) {
+        ArrayList<ArchiveMenu> menu = new ArrayList<>();
 
-    private static Response.ErrorListener createMyReqErrorListener(final RequestFactoryListener listener) {
-        return new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                listener.onErrorResponse(error);
+        try {
+            JSONArray jsonMenu = json.getJSONArray(Constants.JSON_ARRAY_MENU);
+
+            for (int i = 0; i < jsonMenu.length(); i++) {
+                JSONObject jsonItem = jsonMenu.getJSONObject(i);
+                String label = jsonItem.getString(Constants.JSON_MENU_LABEL);
+                String type = jsonItem.getString(Constants.JSON_MENU_TYPE);
+                String content = jsonItem.getString(Constants.JSON_MENU_CONTENT);
+                String titleToShow = jsonItem.getString(Constants.JSON_MENU_TITLE_TO_SHOW);
+
+                ArchiveMenu item = new ArchiveMenu(type, content, label, titleToShow);
+                menu.add(item);
             }
-        };
+        }catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return menu;
     }
 }
