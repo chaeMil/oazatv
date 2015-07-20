@@ -49,5 +49,7 @@
     <string name="resuming_playback">Pokračuje se v přehrávání od poslední uložené pozice</string>
     <string name="downloaded_audio">Stažené audio</string>
     <string name="live_broadcast">Živý přenos</string>
+    <string name="something_went_wrong">Něco se pokazilo</string>
+    <string name="popularVideos">Populární videa</string>
 
 </resources>

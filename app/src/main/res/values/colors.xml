@@ -3,5 +3,9 @@
 
     <color name="actionbar_touch">#ffffc200</color>
     <color name="black_overlay">#66000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="primary">#4184F2</color>
+    <color name="primary_dark">#5641f2</color>
+    <color name="primary_text">#222222</color>
 
 </resources>

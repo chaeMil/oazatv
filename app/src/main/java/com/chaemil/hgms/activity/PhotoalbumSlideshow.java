@@ -9,8 +9,6 @@ import com.chaemil.hgms.adapters.PhotoalbumAdapter;
 import com.chaemil.hgms.utils.Constants;
 import com.chaemil.hgms.utils.SmartLog;
 
-import static com.chaemil.hgms.utils.Utils.fetchPhotoalbum;
-
 
 public class PhotoalbumSlideshow extends Activity {
     @Override
@@ -27,7 +25,6 @@ public class PhotoalbumSlideshow extends Activity {
                 getApplicationContext(),R.layout.photoalbum_photo);
 
         SmartLog.log("scrollTo", photoId);
-        fetchPhotoalbum(getApplicationContext(), slideshowAdapter, albumId);
 
         slideshow.setAdapter(slideshowAdapter);
 

@@ -37,11 +37,7 @@ public class SimilarVideosFragment extends Fragment {
         similarVideos.setAdapter(similarVideosAdapter);
         String similarVideosJSON = Constants.MAIN_SERVER_JSON + "?page=similarVideos&video="
                 + videoID + "&lang=" + Utils.lang;
-        com.chaemil.hgms.utils.Utils.fetchArchive(
-                getActivity().getApplicationContext(),
-                similarVideosJSON,
-                similarVideosAdapter,
-                "similarVideos");
+
         similarVideos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View v, int i, long l) {

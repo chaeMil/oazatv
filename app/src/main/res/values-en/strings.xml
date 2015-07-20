@@ -49,5 +49,7 @@
     <string name="resuming_playback">Continue playback from the last saved position</string>
     <string name="downloaded_audio">Downloaded audio</string>
     <string name="live_broadcast">Live broadcast</string>
+    <string name="something_went_wrong">Something wen wrong</string>
+    <string name="popularVideos">Popular videos</string>
 
 </resources>

@@ -28,7 +28,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 tools:text="videoName"
-                android:id="@+id/videoName"
+                android:id="@+id/title"
                 style="@style/videoName"
                 android:ellipsize="none"
                 android:layout_gravity="left|top"
@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="neděle 14.září 2014"
-                android:id="@+id/videoDate"
+                android:id="@+id/date"
                 style="@style/videoProperties"
                 android:layout_weight="1"/>
 
@@ -47,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 tools:text="240 zhlédnutí"
-                android:id="@+id/videoViews"
+                android:id="@+id/views"
                 style="@style/videoProperties"
                 android:layout_above="@+id/videoDate"
                 android:gravity="center_vertical"/>

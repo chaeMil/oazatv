@@ -16,7 +16,6 @@ import com.chaemil.hgms.utils.Constants;
 import com.chaemil.hgms.utils.SmartLog;
 import com.chaemil.hgms.utils.Utils;
 
-import static com.chaemil.hgms.utils.Utils.fetchPhotoalbum;
 import static com.chaemil.hgms.utils.Utils.getScreenWidth;
 import static com.chaemil.hgms.utils.Utils.setActionStatusBarTint;
 
@@ -63,8 +62,6 @@ public class PhotoalbumActivity extends ActionBarActivity {
             getSupportActionBar().setSubtitle(getAlbumDate());
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-
-        fetchPhotoalbum(getApplicationContext(), mPhotoalbumAdapter,albumId);
 
         SmartLog.log("count", String.valueOf(mPhotoalbumAdapter.getCount()));
 

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/home_firstvideo_frame"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/background"
+        android:id="@+id/thumbBlur"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="#ff959595"
@@ -47,13 +48,13 @@
                 android:layout_marginTop="10dp">
 
                 <TextView
-                    android:id="@id/videoName"
+                    android:id="@+id/title"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top|center"
                     android:ellipsize="none"
                     android:gravity="center_horizontal"
-                    android:text="videoName"
+                    tools:text="videoName"
                     style="@style/firstVideoName"/>
 
                 <LinearLayout
@@ -64,46 +65,26 @@
                     android:layout_gravity="center_horizontal">
 
                     <TextView
-                        android:id="@id/videoDate"
+                        android:id="@+id/date"
                         style="@style/firstVideoDetails"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text="neděle 14.září 2014"
+                        tools:text="neděle 14.září 2014"
                         android:gravity="center_horizontal"
                         android:layout_marginBottom="8dp" />
 
                     <TextView
-                        android:id="@id/videoViews"
+                        android:id="@+id/views"
                         style="@style/firstVideoDetails"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_above="@id/videoDate"
-                        android:text="240 zhlédnutí"
+                        tools:text="240 zhlédnutí"
                         android:gravity="center_horizontal" />
 
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 
-        <TextView
-            android:id="@id/type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="type"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@id/albumId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="albumId"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@id/videoURL"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="videoURL"
-            android:visibility="gone" />
     </RelativeLayout>
 </FrameLayout>

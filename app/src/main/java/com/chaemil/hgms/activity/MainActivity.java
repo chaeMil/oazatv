@@ -40,8 +40,6 @@ import com.chaemil.hgms.utils.SmartLog;
 import com.chaemil.hgms.utils.Utils;
 
 import at.markushi.ui.CircleButton;
-
-import static com.chaemil.hgms.utils.Utils.fetchMenuData;
 import static com.chaemil.hgms.utils.Utils.setActionStatusBarTint;
 
 
@@ -167,8 +165,6 @@ public class MainActivity extends ActionBarActivity {
 
         menuList.setEmptyView(emptyText);
         menuList.setAdapter(mArchiveMenuAdapter);
-
-        fetchMenuData(getApplicationContext(), mArchiveMenuAdapter);
 
         if(isFirstRun()) {
             new Handler().postDelayed(openDrawerRunnable(), 200);

@@ -53,105 +53,6 @@ public class Utils {
 
     public static String lang = Locale.getDefault().getLanguage();
 
-    public static void fetchMenuData(final Context c, final ArchiveMenuAdapter adapter) {
-        JsonObjectRequest request = new JsonObjectRequest(
-                Constants.MAIN_SERVER_JSON+"?page=menu&lang="+Utils.lang,
-                null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject jsonObject) {
-                        try {
-                            List<ArchiveMenu> archiveMenus = parseMenu(jsonObject);
-
-                            adapter.swapImageRecords(archiveMenus);
-
-                        }
-                        catch(JSONException e) {
-                            Toast.makeText(c.getApplicationContext(),
-                                    "Unable to parse data: " + e.getMessage(),
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        Toast.makeText(c.getApplicationContext(),
-                                c.getResources().getString(R.string.connection_problem),
-                                Toast.LENGTH_LONG).show();
-                    }
-                });
-
-        VolleyApplication.getInstance().getRequestQueue().add(request);
-    }
-
-        public static void fetchArchive(final Context c, String url,
-                                        final ArchiveAdapter adapter, final String jsonArray) {
-            JsonObjectRequest request = new JsonObjectRequest(
-                    url,
-                    null,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject jsonObject) {
-                            try {
-                                List<ArchiveItem> archiveItems = parseArchive(jsonObject, jsonArray);
-
-                                adapter.swapImageRecords(archiveItems);
-
-                            }
-                            catch(JSONException e) {
-                                Toast.makeText(c.getApplicationContext(),
-                                        "Unable to parse data: " + e.getMessage(),
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError volleyError) {
-
-                            Toast.makeText(c.getApplicationContext(),
-                                    c.getResources().getString(R.string.connection_problem),
-                                    Toast.LENGTH_LONG).show();
-                        }
-                    });
-
-            VolleyApplication.getInstance().getRequestQueue().add(request);
-        }
-
-    public static void fetchPhotoalbum(final Context c, final PhotoalbumAdapter adapter,
-                                       String albumId) {
-        JsonObjectRequest request = new JsonObjectRequest(
-                Constants.MAIN_SERVER_JSON+"?page=photoalbum&albumId="+albumId+"&lang="+Utils.lang,
-                null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject jsonObject) {
-                        try {
-                            List<Photo> photos = parsePhotoalbum(jsonObject);
-
-                            adapter.swapImageRecords(photos);
-
-                        }
-                        catch(JSONException e) {
-                            Toast.makeText(c.getApplicationContext(), "Unable to parse data: "
-                                    + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-
-                        Toast.makeText(c.getApplicationContext(),
-                                c.getResources().getString(R.string.connection_problem),
-                                Toast.LENGTH_LONG).show();
-                    }
-                });
-
-        VolleyApplication.getInstance().getRequestQueue().add(request);
-    }
-
     static private List<ArchiveMenu> parseMenu(JSONObject json) throws JSONException {
         ArrayList<ArchiveMenu> records = new ArrayList<ArchiveMenu>();
 
@@ -189,7 +90,7 @@ public class Utils {
             String videoURL = jsonImage.getString(Constants.JSON_ARCHIVE_VIDEO_URL);
             String albumId = jsonImage.getString(Constants.JSON_ARCHIVE_ALBUM_ID);
 
-            ArchiveItem record = new ArchiveItem(type, title, date, playCount,
+            ArchiveItem record = new ArchiveItem(false, type, title, date, playCount,
                     thumb, thumbBlur, videoURL, albumId);
             records.add(record);
 

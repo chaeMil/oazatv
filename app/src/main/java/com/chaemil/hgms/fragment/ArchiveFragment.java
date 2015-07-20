@@ -19,7 +19,6 @@ import com.chaemil.hgms.utils.Utils;
 
 import static com.chaemil.hgms.utils.IntentUtils.startPhotoalbumViewer;
 import static com.chaemil.hgms.utils.IntentUtils.startVideoPlayer;
-import static com.chaemil.hgms.utils.Utils.fetchArchive;
 
 
 public class ArchiveFragment extends Fragment {
@@ -79,12 +78,6 @@ public class ArchiveFragment extends Fragment {
                 }
             }
         });
-
-
-        fetchArchive(getActivity().getApplicationContext(),
-                Constants.MAIN_SERVER_JSON+"?page=archive&lang="
-                        +Utils.lang+link,mArchiveAdapter,"archive");
-
 
 
         MainActivity.setActionBarTitle((ActionBarActivity) getActivity(), title);

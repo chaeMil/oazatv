@@ -45,7 +45,7 @@ public class ArchiveAdapter extends ArrayAdapter<ArchiveItem> {
             convertView = LayoutInflater.from(getContext()).inflate(layout, parent, false);
         }
         ImageView background = null;
-        if(convertView.findViewById(R.id.background) != null) {
+        /*if(convertView.findViewById(R.id.background) != null) {
             background = (ImageView) convertView.findViewById(R.id.background);
         }
         ImageView videoThumb = (ImageView) convertView.findViewById(R.id.thumb);
@@ -71,7 +71,7 @@ public class ArchiveAdapter extends ArrayAdapter<ArchiveItem> {
         videoViews.setText(Utils.getStringWithRegularCustomFont(getContext(),
                 rec.getVideoViews(), Constants.FONT_REGULAR_UPRIGHT));
         albumId.setText(rec.getAlbumId());
-        type.setText(rec.getType());
+        type.setText(rec.getType());*/
 
         return convertView;
     }
