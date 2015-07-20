@@ -35,7 +35,7 @@ import com.chaemil.hgms.App;
 import com.chaemil.hgms.R;
 import com.chaemil.hgms.db.ArchiveDBHelper;
 import com.chaemil.hgms.fragment.SimilarVideosFragment;
-import com.chaemil.hgms.utils.Basic;
+import com.chaemil.hgms.utils.Constants;
 import com.chaemil.hgms.utils.SmartLog;
 import com.chaemil.hgms.utils.Utils;
 import com.wefika.flowlayout.FlowLayout;
@@ -55,12 +55,12 @@ public class VideoPlayer extends ActionBarActivity {
     private ImageButton fullscreenButton;
 
     private String getVideoId(Bundle b) {
-        String s = b.getString(Basic.BUNDLE_VIDEO_LINK);
+        String s = b.getString(Constants.BUNDLE_VIDEO_LINK);
         return s.substring(s.lastIndexOf("/") + 1, s.lastIndexOf("."));
     }
 
     private String getVideoName(Bundle b) {
-        return b.getString(Basic.VIDEO_NAME);
+        return b.getString(Constants.VIDEO_NAME);
     }
 
     private void pause() {
@@ -68,15 +68,15 @@ public class VideoPlayer extends ActionBarActivity {
     }
 
     private String getVideoUrl(Bundle b) {
-        return b.getString(Basic.VIDEO_LINK);
+        return b.getString(Constants.VIDEO_LINK);
     }
 
     private String getVideoDate(Bundle b) {
-        return b.getString(Basic.VIDEO_DATE);
+        return b.getString(Constants.VIDEO_DATE);
     }
 
     private String getVideoViews(Bundle b) {
-        return b.getString(Basic.VIDEO_VIEWS);
+        return b.getString(Constants.VIDEO_VIEWS);
     }
 
     private class NoisyAudioStreamReceiver extends BroadcastReceiver {
@@ -97,7 +97,7 @@ public class VideoPlayer extends ActionBarActivity {
         Intent share = new Intent(android.content.Intent.ACTION_SEND);
         share.setType("text/plain");
         share.putExtra(Intent.EXTRA_SUBJECT, getVideoName(bundle));
-        share.putExtra(Intent.EXTRA_TEXT, Basic.MAIN_SERVER_VIDEO_LINK_PREFIX + getVideoId(bundle));
+        share.putExtra(Intent.EXTRA_TEXT, Constants.MAIN_SERVER_VIDEO_LINK_PREFIX + getVideoId(bundle));
         startActivity(Intent.createChooser(share, getString(R.string.action_share)));
     }
 
@@ -153,7 +153,7 @@ public class VideoPlayer extends ActionBarActivity {
                 .substring(idToSubmitViews.lastIndexOf("/")+1,idToSubmitViews.lastIndexOf("."));
 
         //submit video view
-        Utils.sendGet(Basic.MAIN_SERVER+"?page=vp-stats&source=app&video="+idToSubmitViews,
+        Utils.sendGet(Constants.MAIN_SERVER+"?page=vp-stats&source=app&video="+idToSubmitViews,
                 getApplicationContext());
         Utils.submitStatistics(getApplicationContext());
 
@@ -181,7 +181,7 @@ public class VideoPlayer extends ActionBarActivity {
         if (currentapiVersion <= Build.VERSION_CODES.KITKAT){
             video = Uri.parse(videoURL);
         } else{
-            video = Uri.parse(videoURL.replace(Basic.EXTENSION_WEBM, Basic.EXTENSION_MP4));
+            video = Uri.parse(videoURL.replace(Constants.EXTENSION_WEBM, Constants.EXTENSION_MP4));
         }
 
         //Uri video = Uri.parse("http://oaza.tv/root/db/2014-11-23-lxaAhP.webm");
@@ -227,7 +227,7 @@ public class VideoPlayer extends ActionBarActivity {
             fragment = new SimilarVideosFragment();
 
             Bundle args = new Bundle();
-            args.putString(Basic.VIDEO_LINK, getVideoUrl(extras));
+            args.putString(Constants.VIDEO_LINK, getVideoUrl(extras));
 
             fragment.setArguments(args);
 
@@ -368,10 +368,10 @@ public class VideoPlayer extends ActionBarActivity {
                     Bundle extras = getIntent().getExtras();
                     Intent i = new Intent(this,ListDownloadedAudio.class);
                     i.putExtra("download",true);
-                    i.putExtra(Basic.VIDEO_LINK, getVideoUrl(extras));
-                    i.putExtra(Basic.VIDEO_DATE, getVideoDate(extras));
-                    i.putExtra(Basic.VIDEO_NAME, getVideoName(extras));
-                    SmartLog.log(Basic.VIDEO_NAME, getVideoName(extras));
+                    i.putExtra(Constants.VIDEO_LINK, getVideoUrl(extras));
+                    i.putExtra(Constants.VIDEO_DATE, getVideoDate(extras));
+                    i.putExtra(Constants.VIDEO_NAME, getVideoName(extras));
+                    SmartLog.log(Constants.VIDEO_NAME, getVideoName(extras));
                     startActivity(i);
                 }
                 return true;

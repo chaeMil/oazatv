@@ -28,7 +28,7 @@ import com.chaemil.hgms.R;
 import com.chaemil.hgms.db.AudioDBContract;
 import com.chaemil.hgms.db.AudioDBContract.DownloadedAudio;
 import com.chaemil.hgms.db.AudioDBHelper;
-import com.chaemil.hgms.utils.Basic;
+import com.chaemil.hgms.utils.Constants;
 import com.chaemil.hgms.utils.SmartLog;
 import com.chaemil.hgms.utils.Utils;
 import com.koushikdutta.async.future.FutureCallback;
@@ -62,33 +62,33 @@ public class ListDownloadedAudio extends ActionBarActivity {
     Future<File> downloading;
 
     private String getVideoId(Bundle b) {
-        String s = b.getString(Basic.BUNDLE_VIDEO_LINK);
+        String s = b.getString(Constants.BUNDLE_VIDEO_LINK);
         return s.substring(s.lastIndexOf("/") + 1, s.lastIndexOf("."));
     }
 
     private String getVideoName(Bundle b) {
-        return b.getString(Basic.VIDEO_NAME);
+        return b.getString(Constants.VIDEO_NAME);
     }
 
     private String getAudioFileName(Bundle b, boolean fake) {
         if (fake) {
-            return getVideoId(b) + Basic.EXTENSION_AUDIO;
+            return getVideoId(b) + Constants.EXTENSION_AUDIO;
         } else {
-            return getVideoId(b) + Basic.EXTENSION_MP3;
+            return getVideoId(b) + Constants.EXTENSION_MP3;
         }
 
     }
 
     private String getAudioThumbFileName(Bundle b) {
-        return getVideoId(b) + Basic.EXTENSION_JPG;
+        return getVideoId(b) + Constants.EXTENSION_JPG;
     }
 
     private String getVideoUrl(Bundle b) {
-        return b.getString(Basic.VIDEO_LINK);
+        return b.getString(Constants.VIDEO_LINK);
     }
 
     private String getVideoDate(Bundle b) {
-        return b.getString(Basic.VIDEO_DATE);
+        return b.getString(Constants.VIDEO_DATE);
     }
 
     void resetDownload() {
@@ -117,7 +117,7 @@ public class ListDownloadedAudio extends ActionBarActivity {
                 getVideoName(extras));
         values.put(DownloadedAudio.COLUMN_NAME_AUDIO_THUMB,
                 getAudioThumbFileName(extras)
-                        .replace(Basic.EXTENSION_JPG, Basic.EXTENSION_THUMB));
+                        .replace(Constants.EXTENSION_JPG, Constants.EXTENSION_THUMB));
         values.put(DownloadedAudio.COLUMN_NAME_AUDIO_DATE,
                 getVideoDate(extras));
 
@@ -127,15 +127,15 @@ public class ListDownloadedAudio extends ActionBarActivity {
     private void downloadAudio() {
         Bundle extras = getIntent().getExtras();
         String audioUrl = getVideoUrl(extras)
-                .replace(Basic.EXTENSION_MP4, Basic.EXTENSION_MP3)
-                .replace(Basic.EXTENSION_WEBM, Basic.EXTENSION_MP3);
+                .replace(Constants.EXTENSION_MP4, Constants.EXTENSION_MP3)
+                .replace(Constants.EXTENSION_WEBM, Constants.EXTENSION_MP3);
         String thumbUrl = audioUrl
-                .replace(Basic.EXTENSION_MP3, Basic.EXTENSION_JPG);
+                .replace(Constants.EXTENSION_MP3, Constants.EXTENSION_JPG);
         String filename = audioUrl
                 .substring(audioUrl.lastIndexOf("/") + 1, audioUrl.length())
-                .replace(Basic.EXTENSION_MP3, Basic.EXTENSION_AUDIO);
+                .replace(Constants.EXTENSION_MP3, Constants.EXTENSION_AUDIO);
         String thumbFilename = filename
-                .replace(Basic.EXTENSION_AUDIO, Basic.EXTENSION_THUMB);
+                .replace(Constants.EXTENSION_AUDIO, Constants.EXTENSION_THUMB);
 
         helper = new AudioDBHelper(getApplicationContext());
         db = helper.getWritableDatabase();
@@ -146,8 +146,8 @@ public class ListDownloadedAudio extends ActionBarActivity {
 
             downloadedAudioName = (TextView) findViewById(R.id.downloadedAudioName);
             downloadedAudioName.setText(Utils.getStringWithRegularCustomFont(getApplicationContext(),
-                    getIntent().getExtras().getString(Basic.VIDEO_NAME),
-                    Basic.FONT_REGULAR_UPRIGHT));
+                    getIntent().getExtras().getString(Constants.VIDEO_NAME),
+                    Constants.FONT_REGULAR_UPRIGHT));
 
             Toast.makeText(getApplicationContext(),
                     getResources().getString(R.string.downloading_audio_in_background),
@@ -295,8 +295,8 @@ public class ListDownloadedAudio extends ActionBarActivity {
         downloadUI = (LinearLayout) findViewById(R.id.downloadUI);
         activity = this;
 
-        setActionStatusBarTint(getWindow(), this, Basic.AUDIOPLAYER_STATUSBAR_COLOR,
-                Basic.AUDIOPLAYER_ACTIONBAR_COLOR);
+        setActionStatusBarTint(getWindow(), this, Constants.AUDIOPLAYER_STATUSBAR_COLOR,
+                Constants.AUDIOPLAYER_ACTIONBAR_COLOR);
 
         if(getSupportActionBar() !=null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -379,11 +379,11 @@ public class ListDownloadedAudio extends ActionBarActivity {
                 TextView audioFileNameElement = (TextView) view.findViewById(R.id.videoName);
                 audioFileNameElement.setText(Utils.
                         getStringWithRegularCustomFont(getApplicationContext(),
-                        audioFileName, Basic.FONT_BOLD_UPRIGHT));
+                        audioFileName, Constants.FONT_BOLD_UPRIGHT));
 
                 TextView dateElement = (TextView) view.findViewById(R.id.videoDate);
                 dateElement.setText(Utils.getStringWithRegularCustomFont(getApplicationContext(),
-                        audioDate, Basic.FONT_BOLD_UPRIGHT));
+                        audioDate, Constants.FONT_BOLD_UPRIGHT));
 
 
                 long fileSize = new File(Uri.parse(getExternalFilesDir(null) + "/")
@@ -392,7 +392,7 @@ public class ListDownloadedAudio extends ActionBarActivity {
 
                 TextView fileSizeElement = (TextView) view.findViewById(R.id.videoViews);
                 fileSizeElement.setText(Utils.getStringWithRegularCustomFont(getApplicationContext(),
-                        String.valueOf(fileSize / 1024 / 1024) + " Mb", Basic.FONT_REGULAR_UPRIGHT));
+                        String.valueOf(fileSize / 1024 / 1024) + " Mb", Constants.FONT_REGULAR_UPRIGHT));
 
                 ImageView thumb = (ImageView) view.findViewById(R.id.thumb);
                 thumb.setImageURI(Uri.parse(thumbFileName));
@@ -419,10 +419,10 @@ public class ListDownloadedAudio extends ActionBarActivity {
     public void openAudioPlayer(String audioFile, String audioFileName,
                                 String thumbFileName, String audioDate) {
         Intent audioPlayer = new Intent(ListDownloadedAudio.this, AudioPlayer.class);
-        audioPlayer.putExtra(Basic.AUDIO_FILE, audioFile);
-        audioPlayer.putExtra(Basic.AUDIO_FILE_NAME, audioFileName);
-        audioPlayer.putExtra(Basic.AUDIO_FILE_THUMB, thumbFileName);
-        audioPlayer.putExtra(Basic.AUDIO_FILE_DATE, audioDate);
+        audioPlayer.putExtra(Constants.AUDIO_FILE, audioFile);
+        audioPlayer.putExtra(Constants.AUDIO_FILE_NAME, audioFileName);
+        audioPlayer.putExtra(Constants.AUDIO_FILE_THUMB, thumbFileName);
+        audioPlayer.putExtra(Constants.AUDIO_FILE_DATE, audioDate);
         if(App.isDownloadingAudio) {
             moveTaskToBack(true);
             startActivity(audioPlayer);

@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.chaemil.hgms.R;
 import com.chaemil.hgms.model.ArchiveItem;
-import com.chaemil.hgms.utils.Basic;
+import com.chaemil.hgms.utils.Constants;
 import com.chaemil.hgms.utils.Utils;
 import com.squareup.picasso.Picasso;
 
@@ -64,12 +64,12 @@ public class ArchiveAdapter extends ArrayAdapter<ArchiveItem> {
         Picasso.with(getContext()).load(rec.getThumb()).into(videoThumb);
 
         videoName.setText(Utils.getStringWithRegularCustomFont(getContext(),
-                rec.getTitle(), Basic.FONT_BOLD_UPRIGHT));
+                rec.getTitle(), Constants.FONT_BOLD_UPRIGHT));
         videoDate.setText(Utils.getStringWithRegularCustomFont(getContext(),
-                rec.getVideoDate(), Basic.FONT_REGULAR_UPRIGHT));
+                rec.getVideoDate(), Constants.FONT_REGULAR_UPRIGHT));
         videoURL.setText(rec.getVideoUrl());
         videoViews.setText(Utils.getStringWithRegularCustomFont(getContext(),
-                rec.getVideoViews(),Basic.FONT_REGULAR_UPRIGHT));
+                rec.getVideoViews(), Constants.FONT_REGULAR_UPRIGHT));
         albumId.setText(rec.getAlbumId());
         type.setText(rec.getType());
 

@@ -7,7 +7,7 @@ import android.util.Log;
  */
 public class SmartLog {
     public static void log(String tag, String sql) {
-        if(Basic.DEBUG) {
+        if(Constants.DEBUG) {
             Log.i(tag, sql);
         }
     }

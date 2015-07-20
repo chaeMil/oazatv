@@ -11,7 +11,7 @@ import android.webkit.WebView;
 
 import com.chaemil.hgms.activity.MainActivity;
 import com.chaemil.hgms.R;
-import com.chaemil.hgms.utils.Basic;
+import com.chaemil.hgms.utils.Constants;
 import com.chaemil.hgms.utils.SmartLog;
 
 public class WebViewFragment extends Fragment {
@@ -26,8 +26,8 @@ public class WebViewFragment extends Fragment {
         Bundle bundle = this.getArguments();
         String link = "";
         if (bundle != null) {
-            link = bundle.getString(Basic.BUNDLE_LINK);
-            title = bundle.getString(Basic.BUNDLE_TITLE);
+            link = bundle.getString(Constants.BUNDLE_LINK);
+            title = bundle.getString(Constants.BUNDLE_TITLE);
         }
 
         SmartLog.log("WebViewFragmentLink", link);

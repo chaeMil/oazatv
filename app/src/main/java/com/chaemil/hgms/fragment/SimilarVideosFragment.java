@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.chaemil.hgms.R;
 import com.chaemil.hgms.adapters.ArchiveAdapter;
-import com.chaemil.hgms.utils.Basic;
+import com.chaemil.hgms.utils.Constants;
 import com.chaemil.hgms.utils.SmartLog;
 import com.chaemil.hgms.utils.Utils;
 
@@ -26,16 +26,16 @@ public class SimilarVideosFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment_similar_videos, container, false);
 
         Bundle extras = getArguments();
-        String videoURL = extras.getString(Basic.VIDEO_LINK);
+        String videoURL = extras.getString(Constants.VIDEO_LINK);
         if (extras != null) {
-            SmartLog.log("videoURLFrag", extras.getString(Basic.VIDEO_LINK));
+            SmartLog.log("videoURLFrag", extras.getString(Constants.VIDEO_LINK));
         }
         String videoID = videoURL.substring(videoURL.lastIndexOf("/") + 1, videoURL.lastIndexOf("."));
 
         similarVideosAdapter = new ArchiveAdapter(getActivity(),R.layout.archive_block);
         ListView similarVideos = (ListView) rootView.findViewById(R.id.similarVideos);
         similarVideos.setAdapter(similarVideosAdapter);
-        String similarVideosJSON = Basic.MAIN_SERVER_JSON + "?page=similarVideos&video="
+        String similarVideosJSON = Constants.MAIN_SERVER_JSON + "?page=similarVideos&video="
                 + videoID + "&lang=" + Utils.lang;
         com.chaemil.hgms.utils.Utils.fetchArchive(
                 getActivity().getApplicationContext(),

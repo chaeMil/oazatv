@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.chaemil.hgms.R;
-import com.chaemil.hgms.utils.Basic;
+import com.chaemil.hgms.utils.Constants;
 import com.chaemil.hgms.utils.Utils;
 import com.chaemil.hgms.youtube.DeveloperKey;
 import com.chaemil.hgms.youtube.YouTubeFailureRecoveryActivity;
@@ -66,7 +66,7 @@ public class LivePlayer extends YouTubeFailureRecoveryActivity implements
 
         fullscreenButton.setOnClickListener(this);
 
-        videoId = getIntent().getExtras().getString(Basic.YOUTUBE_VIDEO_ID);
+        videoId = getIntent().getExtras().getString(Constants.YOUTUBE_VIDEO_ID);
 
 
         playerView.initialize(DeveloperKey.DEVELOPER_KEY, this);

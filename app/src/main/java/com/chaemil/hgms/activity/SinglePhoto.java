@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.widget.ImageView;
 
 import com.chaemil.hgms.R;
-import com.chaemil.hgms.utils.Basic;
+import com.chaemil.hgms.utils.Constants;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -18,7 +18,7 @@ public class SinglePhoto extends Activity {
         setContentView(R.layout.single_photo);
 
         Bundle extras = getIntent().getExtras();
-        String photoUrl = extras.getString(Basic.PHOTO_URL);
+        String photoUrl = extras.getString(Constants.PHOTO_URL);
 
         ImageView photo = (ImageView) findViewById(R.id.photo);
         Picasso.with(getApplicationContext()).load(photoUrl).into(photo);

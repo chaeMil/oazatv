@@ -1,6 +1,6 @@
 package com.chaemil.hgms.utils;
 
-public class Basic {
+public class Constants {
 
     /* zapnout DEBUG, aplikace neodesílá data o zhlédnutí na server,
     loguje do konzole a živý přenos je pouze testovací video */

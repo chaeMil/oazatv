@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.chaemil.hgms.R;
 import com.chaemil.hgms.adapters.ArchiveAdapter;
-import com.chaemil.hgms.utils.Basic;
+import com.chaemil.hgms.utils.Constants;
 import com.chaemil.hgms.utils.Utils;
 import com.chaemil.hgms.view.ExpandedListView;
 
@@ -84,19 +84,19 @@ public class HomeFragment extends Fragment {
         newVideosTitle.setText(Utils.
                 getStringWithRegularCustomFont(getActivity(),
                         getResources().getString(R.string.newVideos),
-                        Basic.FONT_BOLD_UPRIGHT));
+                        Constants.FONT_BOLD_UPRIGHT));
 
         photoalbumsTitle = (TextView) rootView.findViewById(R.id.photoalbumsTitle);
         photoalbumsTitle.setText(Utils.
                 getStringWithRegularCustomFont(getActivity(),
                         getResources().getString(R.string.photoalbums),
-                        Basic.FONT_BOLD_UPRIGHT));
+                        Constants.FONT_BOLD_UPRIGHT));
 
         homeFirstVideo = (ListView) rootView.findViewById(R.id.firstVideo);
         homeFirstVideo.setAdapter(mFirstVideoDataAdapter);
         fetchArchive(
                 getActivity().getApplicationContext(),
-                Basic.MAIN_SERVER_JSON + "?page=home&lang=" + Utils.lang,
+                Constants.MAIN_SERVER_JSON + "?page=home&lang=" + Utils.lang,
                 mFirstVideoDataAdapter,
                 "mainVideo");
         homeFirstVideo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -121,7 +121,7 @@ public class HomeFragment extends Fragment {
         newVideos.setAdapter(mNewVideosAdapter);
         fetchArchive(
                 getActivity(),
-                Basic.MAIN_SERVER_JSON + "?page=home&lang=" + Utils.lang,
+                Constants.MAIN_SERVER_JSON + "?page=home&lang=" + Utils.lang,
                 mNewVideosAdapter,
                 "newVideos"
         );
@@ -148,7 +148,7 @@ public class HomeFragment extends Fragment {
         photoAlbums.setAdapter(mPhotoalbumsAdapter);
         fetchArchive(
                 getActivity().getApplicationContext(),
-                Basic.MAIN_SERVER_JSON + "?page=home&lang=" + Utils.lang,
+                Constants.MAIN_SERVER_JSON + "?page=home&lang=" + Utils.lang,
                 mPhotoalbumsAdapter,
                 "photoAlbums"
         );
@@ -174,7 +174,7 @@ public class HomeFragment extends Fragment {
         Bundle bundle = this.getArguments();
         String title = "";
         if (bundle != null) {
-            title = bundle.getString(Basic.BUNDLE_TITLE);
+            title = bundle.getString(Constants.BUNDLE_TITLE);
         }
         getActivity().setTitle(title);
         //getActivity().getActionBar().setTitle(title);

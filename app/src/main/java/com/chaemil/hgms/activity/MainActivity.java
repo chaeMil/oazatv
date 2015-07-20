@@ -35,7 +35,7 @@ import com.chaemil.hgms.fragment.ArchiveFragment;
 import com.chaemil.hgms.fragment.HomeFragment;
 import com.chaemil.hgms.fragment.OfflineFragment;
 import com.chaemil.hgms.fragment.WebViewFragment;
-import com.chaemil.hgms.utils.Basic;
+import com.chaemil.hgms.utils.Constants;
 import com.chaemil.hgms.utils.SmartLog;
 import com.chaemil.hgms.utils.Utils;
 
@@ -62,8 +62,8 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        SharedPreferences settings = getSharedPreferences(Basic.MAIN_PREFS, 0);
-        boolean appFirstRun = settings.getBoolean(Basic.FIRST_RUN, true);
+        SharedPreferences settings = getSharedPreferences(Constants.MAIN_PREFS, 0);
+        boolean appFirstRun = settings.getBoolean(Constants.FIRST_RUN, true);
         if (appFirstRun) {
             Intent i = new Intent(this, FirstRun.class);
             startActivity(i);
@@ -72,7 +72,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private boolean isFirstRun() {
-        return getIntent().hasExtra(Basic.FIRST_RUN);
+        return getIntent().hasExtra(Constants.FIRST_RUN);
     }
 
     @Override
@@ -80,15 +80,15 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if(Basic.DEBUG) {
+        if(Constants.DEBUG) {
             Toast.makeText(getApplicationContext(),
-                    "you are using debug version of the app [utils.Basic.DEBUG = true]",
+                    "you are using debug version of the app [utils.Constants.DEBUG = true]",
                     Toast.LENGTH_LONG).show();
         }
 
 
-        setActionStatusBarTint(getWindow(), this, Basic.MAIN_ACTIVITY_STATUSBAR_COLOR,
-                Basic.MAIN_ACTIVITY_STATUSBAR_COLOR);
+        setActionStatusBarTint(getWindow(), this, Constants.MAIN_ACTIVITY_STATUSBAR_COLOR,
+                Constants.MAIN_ACTIVITY_STATUSBAR_COLOR);
 
         Bundle extras = getIntent().getExtras();
 
@@ -104,9 +104,9 @@ public class MainActivity extends ActionBarActivity {
         setActionBarTitle(this, getString(R.string.app_name));
 
         if (extras != null) {
-            if (extras.containsKey(Basic.BUNDLE_TAG)) {
-                if(extras.getString(Basic.BUNDLE_TAG) != null) {
-                    submitSearch(MainActivity.this, extras.getString(Basic.BUNDLE_TAG), true);
+            if (extras.containsKey(Constants.BUNDLE_TAG)) {
+                if(extras.getString(Constants.BUNDLE_TAG) != null) {
+                    submitSearch(MainActivity.this, extras.getString(Constants.BUNDLE_TAG), true);
                 }
             }
         }
@@ -252,16 +252,16 @@ public class MainActivity extends ActionBarActivity {
         String link;
 
         if (query.startsWith("#")) {
-            link = Basic.MAIN_SERVER_JSON+"?page=archive&lang="+ Utils.lang+"&tagy="+query
+            link = Constants.MAIN_SERVER_JSON+"?page=archive&lang="+ Utils.lang+"&tagy="+query
                     .replace("#","");
         }
         else {
-            link = Basic.MAIN_SERVER_JSON+"?page=archive&lang="+ Utils.lang+"&nazev="+query;
+            link = Constants.MAIN_SERVER_JSON+"?page=archive&lang="+ Utils.lang+"&nazev="+query;
         }
 
         SmartLog.log("submitSearch", link);
 
-        args.putString(Basic.BUNDLE_LINK, link);
+        args.putString(Constants.BUNDLE_LINK, link);
 
 
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
@@ -336,8 +336,8 @@ public class MainActivity extends ActionBarActivity {
 
 
         Bundle args = new Bundle();
-        args.putString(Basic.BUNDLE_LINK, link);
-        args.putString(Basic.BUNDLE_TITLE, title);
+        args.putString(Constants.BUNDLE_LINK, link);
+        args.putString(Constants.BUNDLE_TITLE, title);
 
 
 
@@ -350,29 +350,29 @@ public class MainActivity extends ActionBarActivity {
             isFragment = true;
         }
         else {
-            setActionStatusBarTint(getWindow(),this,Basic.MAIN_ACTIVITY_STATUSBAR_COLOR,
-                    Basic.MAIN_ACTIVITY_STATUSBAR_COLOR);
-            if (type.equals(Basic.JSON_MENU_TYPE_HOME_LINK)) {
+            setActionStatusBarTint(getWindow(),this, Constants.MAIN_ACTIVITY_STATUSBAR_COLOR,
+                    Constants.MAIN_ACTIVITY_STATUSBAR_COLOR);
+            if (type.equals(Constants.JSON_MENU_TYPE_HOME_LINK)) {
                 fragment = new HomeFragment();
                 isFragment = true;
-            } else if (type.equals(Basic.JSON_MENU_TYPE_ARCHIVE_LINK)) {
+            } else if (type.equals(Constants.JSON_MENU_TYPE_ARCHIVE_LINK)) {
                 fragment = new ArchiveFragment();
                 isFragment = true;
-            } else if (type.equals(Basic.JSON_MENU_TYPE_REPORT_BUG)) {
+            } else if (type.equals(Constants.JSON_MENU_TYPE_REPORT_BUG)) {
                 fragment = new WebViewFragment();
-                args.putString(Basic.BUNDLE_LINK, Basic.REPORT_BUG_URL);
+                args.putString(Constants.BUNDLE_LINK, Constants.REPORT_BUG_URL);
                 isFragment = true;
-            } else if (type.equals(Basic.JSON_MENU_TYPE_ABOUT_APP)) {
+            } else if (type.equals(Constants.JSON_MENU_TYPE_ABOUT_APP)) {
                 fragment = new WebViewFragment();
-                args.putString(Basic.BUNDLE_LINK, Basic.ABOUT_APP_URL);
+                args.putString(Constants.BUNDLE_LINK, Constants.ABOUT_APP_URL);
                 isFragment = true;
-            } else if (type.equals(Basic.JSON_MENU_TYPE_DOWNLOADED_AUDIO)) {
+            } else if (type.equals(Constants.JSON_MENU_TYPE_DOWNLOADED_AUDIO)) {
                 Intent i = new Intent(this, ListDownloadedAudio.class);
                 startActivity(i);
                 Utils.goForwardAnimation(this);
-            } else if (type.equals(Basic.JSON_MENU_TYPE_EXIT)) {
+            } else if (type.equals(Constants.JSON_MENU_TYPE_EXIT)) {
                 finish();
-            } /*else if (type.equals(Basic.JSON_MENU_TYPE_LIVE_PLAYER)) {
+            } /*else if (type.equals(Constants.JSON_MENU_TYPE_LIVE_PLAYER)) {
 
 
 
@@ -380,7 +380,7 @@ public class MainActivity extends ActionBarActivity {
         }
 
 
-        SmartLog.log("link", Basic.MAIN_SERVER_JSON + "?page=archive&lang=" + Utils.lang + link);
+        SmartLog.log("link", Constants.MAIN_SERVER_JSON + "?page=archive&lang=" + Utils.lang + link);
 
         if(isFragment) {
             android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
@@ -406,7 +406,7 @@ public class MainActivity extends ActionBarActivity {
     public void launchLivePlayer() {
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
 
-        String url = Basic.MAIN_SERVER_JSON + "?page=live";
+        String url = Constants.MAIN_SERVER_JSON + "?page=live";
 
         StringRequest request = new StringRequest(
                 url,
@@ -415,7 +415,7 @@ public class MainActivity extends ActionBarActivity {
                     @Override
                     public void onResponse(String s) {
                         SmartLog.log("request", s);
-                        if(Basic.DEBUG) {
+                        if(Constants.DEBUG) {
                             youtubeVideoId = "NF1OdLMTDEc";
                             Toast.makeText(getApplicationContext(),
                                     "you are using debug version of the app, this is just a test video",
@@ -428,7 +428,7 @@ public class MainActivity extends ActionBarActivity {
                         }
                         if(youtubeVideoId != null) {
                             Intent i = new Intent(getApplicationContext(), LivePlayer.class);
-                            i.putExtra(Basic.YOUTUBE_VIDEO_ID, youtubeVideoId);
+                            i.putExtra(Constants.YOUTUBE_VIDEO_ID, youtubeVideoId);
                             startActivity(i);
                             //Utils.goForwardAnimation(getParent());
                         }

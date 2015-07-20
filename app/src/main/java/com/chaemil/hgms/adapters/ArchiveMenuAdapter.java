@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.chaemil.hgms.R;
 import com.chaemil.hgms.model.ArchiveMenu;
-import com.chaemil.hgms.utils.Basic;
+import com.chaemil.hgms.utils.Constants;
 import com.chaemil.hgms.utils.Utils;
 
 import java.util.List;
@@ -57,7 +57,7 @@ public class ArchiveMenuAdapter extends ArrayAdapter<ArchiveMenu> {
 
         if (menuItem != null) {
             menuItem.setText(Utils.getStringWithRegularCustomFont(getContext(),
-                    archiveMenu.getLabel(), Basic.FONT_REGULAR_UPRIGHT));
+                    archiveMenu.getLabel(), Constants.FONT_REGULAR_UPRIGHT));
         }
         if (type != null) {
             type.setText(archiveMenu.getType());

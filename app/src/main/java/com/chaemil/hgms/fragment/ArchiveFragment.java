@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.chaemil.hgms.activity.MainActivity;
 import com.chaemil.hgms.R;
 import com.chaemil.hgms.adapters.ArchiveAdapter;
-import com.chaemil.hgms.utils.Basic;
+import com.chaemil.hgms.utils.Constants;
 import com.chaemil.hgms.utils.Utils;
 
 import static com.chaemil.hgms.utils.IntentUtils.startPhotoalbumViewer;
@@ -39,8 +39,8 @@ public class ArchiveFragment extends Fragment {
         Bundle bundle = this.getArguments();
         String link = "";
         if (bundle != null) {
-            link = bundle.getString(Basic.BUNDLE_LINK);
-            title = bundle.getString(Basic.BUNDLE_TITLE);
+            link = bundle.getString(Constants.BUNDLE_LINK);
+            title = bundle.getString(Constants.BUNDLE_TITLE);
         }
 
         Utils.submitStatistics(getActivity().getApplicationContext());
@@ -55,7 +55,7 @@ public class ArchiveFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View v, int i, long l) {
                 TextView typeElement = (TextView) v.findViewById(R.id.type);
                 String type = typeElement.getText().toString();
-                if(type.equals(Basic.JSON_ARCHIVE_TYPE_VIDEO)) {
+                if(type.equals(Constants.JSON_ARCHIVE_TYPE_VIDEO)) {
                     TextView videoUrlElement = (TextView) v.findViewById(R.id.videoURL);
                     String videoURL = videoUrlElement.getText().toString();
                     TextView videoNameElement = (TextView) v.findViewById(R.id.videoName);
@@ -67,7 +67,7 @@ public class ArchiveFragment extends Fragment {
                     startVideoPlayer(getView(), videoURL, videoName, videoDate, videoViews);
                     Utils.goForwardAnimation(getActivity());
                 }
-                else if(type.equals(Basic.JSON_ARCHIVE_TYPE_PHOTOALBUM)) {
+                else if(type.equals(Constants.JSON_ARCHIVE_TYPE_PHOTOALBUM)) {
                     TextView albumIdElement = (TextView) v.findViewById(R.id.albumId);
                     String albumId = albumIdElement.getText().toString();
                     TextView albumNameElement = (TextView) v.findViewById(R.id.videoName);
@@ -82,7 +82,7 @@ public class ArchiveFragment extends Fragment {
 
 
         fetchArchive(getActivity().getApplicationContext(),
-                Basic.MAIN_SERVER_JSON+"?page=archive&lang="
+                Constants.MAIN_SERVER_JSON+"?page=archive&lang="
                         +Utils.lang+link,mArchiveAdapter,"archive");
 
 
@@ -100,7 +100,7 @@ public class ArchiveFragment extends Fragment {
         Bundle bundle = this.getArguments();
         String title = "";
         if (bundle != null) {
-            title = bundle.getString(Basic.BUNDLE_TITLE);
+            title = bundle.getString(Constants.BUNDLE_TITLE);
         }
         //getActivity().setTitle(title);
     }

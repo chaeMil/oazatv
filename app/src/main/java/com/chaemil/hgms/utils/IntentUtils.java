@@ -14,19 +14,19 @@ public class IntentUtils {
     public static void startVideoPlayer(View v, String videoURL, String videoName,
                                         String videoDate, String videoViews) {
         Intent a = new Intent(v.getContext(), VideoPlayer.class);
-        a.putExtra(Basic.VIDEO_LINK, videoURL);
-        a.putExtra(Basic.VIDEO_NAME, videoName);
-        a.putExtra(Basic.VIDEO_DATE, videoDate);
-        a.putExtra(Basic.VIDEO_VIEWS, videoViews);
+        a.putExtra(Constants.VIDEO_LINK, videoURL);
+        a.putExtra(Constants.VIDEO_NAME, videoName);
+        a.putExtra(Constants.VIDEO_DATE, videoDate);
+        a.putExtra(Constants.VIDEO_VIEWS, videoViews);
         v.getContext().startActivity(a);
     }
 
     public static void startPhotoalbumViewer(View v, String albumId,
                                              String albumName, String albumDate) {
         Intent a = new Intent(v.getContext(), PhotoalbumActivity.class);
-        a.putExtra(Basic.ALBUM_ID, albumId);
-        a.putExtra(Basic.ALBUM_NAME, albumName);
-        a.putExtra(Basic.ALBUM_DATE, albumDate);
+        a.putExtra(Constants.ALBUM_ID, albumId);
+        a.putExtra(Constants.ALBUM_NAME, albumName);
+        a.putExtra(Constants.ALBUM_DATE, albumDate);
         v.getContext().startActivity(a);
     }
 }

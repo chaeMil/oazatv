@@ -11,9 +11,8 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import com.chaemil.hgms.R;
-import com.chaemil.hgms.activity.SinglePhoto;
 import com.chaemil.hgms.adapters.PhotoalbumAdapter;
-import com.chaemil.hgms.utils.Basic;
+import com.chaemil.hgms.utils.Constants;
 import com.chaemil.hgms.utils.SmartLog;
 import com.chaemil.hgms.utils.Utils;
 
@@ -26,17 +25,17 @@ public class PhotoalbumActivity extends ActionBarActivity {
 
     private String getAlbumId() {
         Bundle bundle = getIntent().getExtras();
-        return bundle.getString(Basic.ALBUM_ID);
+        return bundle.getString(Constants.ALBUM_ID);
     }
 
     private String getAlbumName() {
         Bundle bundle = getIntent().getExtras();
-        return bundle.getString(Basic.ALBUM_NAME);
+        return bundle.getString(Constants.ALBUM_NAME);
     }
 
     private String getAlbumDate() {
         Bundle bundle = getIntent().getExtras();
-        return bundle.getString(Basic.ALBUM_DATE);
+        return bundle.getString(Constants.ALBUM_DATE);
     }
 
 
@@ -45,15 +44,15 @@ public class PhotoalbumActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.photoalbum);
 
-        setActionStatusBarTint(getWindow(),this,Basic.MAIN_ACTIVITY_STATUSBAR_COLOR,
-                Basic.MAIN_ACTIVITY_STATUSBAR_COLOR);
+        setActionStatusBarTint(getWindow(),this, Constants.MAIN_ACTIVITY_STATUSBAR_COLOR,
+                Constants.MAIN_ACTIVITY_STATUSBAR_COLOR);
 
         final String albumId = getAlbumId();
 
 
         Utils.submitStatistics(getApplicationContext());
 
-        SmartLog.log(Basic.ALBUM_ID, albumId);
+        SmartLog.log(Constants.ALBUM_ID, albumId);
 
         GridView photoThumbsGrid = (GridView) findViewById(R.id.photoThumbsGrid);
         PhotoalbumAdapter mPhotoalbumAdapter = new PhotoalbumAdapter(getApplicationContext(),
@@ -79,9 +78,9 @@ public class PhotoalbumActivity extends ActionBarActivity {
                 CharSequence photoUrl = photoUrlElement.getText();
                 //Intent intent = new Intent(getApplicationContext(), PhotoalbumSlideshow.class);
                 Intent intent = new Intent(getApplicationContext(), SinglePhoto.class);
-                intent.putExtra(Basic.PHOTO_ID,photoId);
-                intent.putExtra(Basic.ALBUM_ID,albumId);
-                intent.putExtra(Basic.PHOTO_URL,photoUrl);
+                intent.putExtra(Constants.PHOTO_ID,photoId);
+                intent.putExtra(Constants.ALBUM_ID,albumId);
+                intent.putExtra(Constants.PHOTO_URL,photoUrl);
                 startActivity(intent);
             }
         });
@@ -104,7 +103,7 @@ public class PhotoalbumActivity extends ActionBarActivity {
         Intent share = new Intent(android.content.Intent.ACTION_SEND);
         share.setType("text/plain");
         share.putExtra(Intent.EXTRA_SUBJECT, getAlbumName());
-        share.putExtra(Intent.EXTRA_TEXT, Basic.MAIN_SERVER_PHOTOALBUM_LINK_PREFIX + getAlbumId());
+        share.putExtra(Intent.EXTRA_TEXT, Constants.MAIN_SERVER_PHOTOALBUM_LINK_PREFIX + getAlbumId());
         startActivity(Intent.createChooser(share, getResources().getString(R.string.action_share)));
     }
 

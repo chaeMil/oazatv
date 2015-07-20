@@ -11,8 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chaemil.hgms.R;
-import com.chaemil.hgms.activity.MainActivity;
-import com.chaemil.hgms.utils.Basic;
+import com.chaemil.hgms.utils.Constants;
 import com.chaemil.hgms.utils.Utils;
 
 import at.markushi.ui.CircleButton;
@@ -48,12 +47,12 @@ public class FirstRun extends Activity {
         TextView logoText = (TextView) findViewById(R.id.logoText);
         logoText.setText(Utils.getStringWithRegularCustomFont(getApplicationContext(),
                 getResources().getString(R.string.app_name),
-                Basic.FONT_BOLD_UPRIGHT));
+                Constants.FONT_BOLD_UPRIGHT));
 
         TextView titleText1 = (TextView) findViewById(R.id.slideText1);
         titleText1.setText(Utils.getStringWithRegularCustomFont(getApplicationContext(),
                 getResources().getString(R.string.title_slide_1),
-                Basic.FONT_REGULAR_UPRIGHT));
+                Constants.FONT_REGULAR_UPRIGHT));
 
         CircleButton slide1ButtonNext = (CircleButton) findViewById(R.id.slide1ButtonNext);
         slide1ButtonNext.setOnClickListener(new View.OnClickListener() {
@@ -66,12 +65,12 @@ public class FirstRun extends Activity {
         TextView titleBigText2 = (TextView) findViewById(R.id.slideMainText2);
         titleBigText2.setText(Utils.getStringWithRegularCustomFont(getApplicationContext(),
                 getResources().getString(R.string.title_slide_2_navigation),
-                Basic.FONT_BOLD_UPRIGHT));
+                Constants.FONT_BOLD_UPRIGHT));
 
         TextView titleText2 = (TextView) findViewById(R.id.slideText2);
         titleText2.setText(Utils.getStringWithRegularCustomFont(getApplicationContext(),
                 getResources().getString(R.string.title_slide_2),
-                Basic.FONT_REGULAR_UPRIGHT));
+                Constants.FONT_REGULAR_UPRIGHT));
 
         CircleButton slide2ButtonPrev = (CircleButton) findViewById(R.id.slide2ButtonPrev);
         slide2ButtonPrev.setOnClickListener(new View.OnClickListener() {
@@ -92,12 +91,12 @@ public class FirstRun extends Activity {
         TextView titleBigText3 = (TextView) findViewById(R.id.slideMainText3);
         titleBigText3.setText(Utils.getStringWithRegularCustomFont(getApplicationContext(),
                 getResources().getString(R.string.title_slide_3_onthego),
-                Basic.FONT_BOLD_UPRIGHT));
+                Constants.FONT_BOLD_UPRIGHT));
 
         TextView titleText3 = (TextView) findViewById(R.id.slideText3);
         titleText3.setText(Utils.getStringWithRegularCustomFont(getApplicationContext(),
                 getResources().getString(R.string.title_slide_3),
-                Basic.FONT_REGULAR_UPRIGHT));
+                Constants.FONT_REGULAR_UPRIGHT));
 
         CircleButton slide3ButtonPrev = (CircleButton) findViewById(R.id.slide3ButtonPrev);
         slide3ButtonPrev.setOnClickListener(new View.OnClickListener() {
@@ -112,11 +111,11 @@ public class FirstRun extends Activity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                SharedPreferences settings = getSharedPreferences(Basic.MAIN_PREFS, 0);
+                SharedPreferences settings = getSharedPreferences(Constants.MAIN_PREFS, 0);
                 SharedPreferences.Editor editor = settings.edit();
-                editor.putBoolean(Basic.FIRST_RUN, false);
+                editor.putBoolean(Constants.FIRST_RUN, false);
                 editor.apply();
-                i.putExtra(Basic.FIRST_RUN,true);
+                i.putExtra(Constants.FIRST_RUN,true);
                 startActivity(i);
                 finish();
             }

@@ -29,7 +29,7 @@ import android.widget.TextView;
 
 import com.chaemil.hgms.R;
 import com.chaemil.hgms.db.AudioDBHelper;
-import com.chaemil.hgms.utils.Basic;
+import com.chaemil.hgms.utils.Constants;
 import com.chaemil.hgms.utils.MusicController;
 import com.chaemil.hgms.utils.NotificationPanel;
 import com.chaemil.hgms.utils.SmartLog;
@@ -93,22 +93,22 @@ public class AudioPlayer extends ActionBarActivity implements OnPreparedListener
 
     public String file() {
         Bundle bundle = getIntent().getExtras();
-        return bundle.getString(Basic.AUDIO_FILE);
+        return bundle.getString(Constants.AUDIO_FILE);
     }
 
     public String audioThumb() {
         Bundle bundle = getIntent().getExtras();
-        return bundle.getString(Basic.AUDIO_FILE_THUMB);
+        return bundle.getString(Constants.AUDIO_FILE_THUMB);
     }
 
     public String audioName() {
         Bundle bundle = getIntent().getExtras();
-        return bundle.getString(Basic.AUDIO_FILE_NAME);
+        return bundle.getString(Constants.AUDIO_FILE_NAME);
     }
 
     public String audioDate() {
         Bundle bundle = getIntent().getExtras();
-        return bundle.getString(Basic.AUDIO_FILE_DATE);
+        return bundle.getString(Constants.AUDIO_FILE_DATE);
     }
 
     public static void pause() {
@@ -200,16 +200,16 @@ public class AudioPlayer extends ActionBarActivity implements OnPreparedListener
             nPanel.notificationCancel();
         }
 
-        SmartLog.log(Basic.AUDIO_FILE_THUMB, audioThumb().substring(audioThumb().lastIndexOf("/") + 1));
-        SmartLog.log(Basic.AUDIO_FILE, file());
+        SmartLog.log(Constants.AUDIO_FILE_THUMB, audioThumb().substring(audioThumb().lastIndexOf("/") + 1));
+        SmartLog.log(Constants.AUDIO_FILE, file());
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         }
 
-        setActionStatusBarTint(getWindow(), this , Basic.AUDIOPLAYER_STATUSBAR_COLOR,
-                Basic.AUDIOPLAYER_ACTIONBAR_COLOR);
+        setActionStatusBarTint(getWindow(), this , Constants.AUDIOPLAYER_STATUSBAR_COLOR,
+                Constants.AUDIOPLAYER_ACTIONBAR_COLOR);
 
         audioName.setText(audioName());
         audioThumb.setImageURI(Uri.parse(audioThumb()));
