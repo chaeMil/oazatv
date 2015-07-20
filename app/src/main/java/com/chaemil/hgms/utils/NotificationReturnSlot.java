@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.chaemil.hgms.AudioPlayer;
+import com.chaemil.hgms.activity.AudioPlayer;
 
 /**
  * Created by chaemil on 8.12.14.

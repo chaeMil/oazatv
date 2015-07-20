@@ -1,4 +1,4 @@
-package com.chaemil.hgms;
+package com.chaemil.hgms.activity;
 
 import android.app.Activity;
 import android.app.NotificationManager;
@@ -23,10 +23,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.chaemil.hgms.App;
+import com.chaemil.hgms.R;
 import com.chaemil.hgms.db.AudioDBContract;
 import com.chaemil.hgms.db.AudioDBContract.DownloadedAudio;
 import com.chaemil.hgms.db.AudioDBHelper;
 import com.chaemil.hgms.utils.Basic;
+import com.chaemil.hgms.utils.SmartLog;
 import com.chaemil.hgms.utils.Utils;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
@@ -173,7 +176,7 @@ public class ListDownloadedAudio extends ActionBarActivity {
                                 // state
                                 mBuilder.setProgress(100, (int) percent, false);
                                 mNotifyManager.notify(NOTIFICATION_ID, mBuilder.build());
-                                Utils.log("percent", String.valueOf(percent));
+                                SmartLog.log("percent", String.valueOf(percent));
                                 try {
                                     // Sleep for 3 seconds
                                     Thread.sleep(3 * 1000);
@@ -246,14 +249,14 @@ public class ListDownloadedAudio extends ActionBarActivity {
                             }
 
 
-                            Utils.log("filepath", String.valueOf(result.getAbsoluteFile()));
+                            SmartLog.log("filepath", String.valueOf(result.getAbsoluteFile()));
 
                             if (!AudioDBHelper.audioFileExists(db,
                                     getAudioFileName(getIntent().getExtras(), true))) {
-                                Utils.log("audioFileExists", "false, saving new record");
+                                SmartLog.log("audioFileExists", "false, saving new record");
                                 saveAudioToDb();
                             } else {
-                                Utils.log("audioFileExists", "true, doing nothing");
+                                SmartLog.log("audioFileExists", "true, doing nothing");
                             }
 
                             mBuilder.setContentText(getResources().getString(R.string.download_audiofile_completed))
@@ -321,7 +324,7 @@ public class ListDownloadedAudio extends ActionBarActivity {
 
         r.run();
 
-        Utils.log("MyApp.isDownloading", String.valueOf(App.isDownloadingAudio));
+        SmartLog.log("MyApp.isDownloading", String.valueOf(App.isDownloadingAudio));
 
         if (App.isDownloadingAudio) {
             downloadUI.setVisibility(View.VISIBLE);
@@ -385,7 +388,7 @@ public class ListDownloadedAudio extends ActionBarActivity {
 
                 long fileSize = new File(Uri.parse(getExternalFilesDir(null) + "/")
                         + audioFile).length();
-                Utils.log("fileSize", String.valueOf(fileSize));
+                SmartLog.log("fileSize", String.valueOf(fileSize));
 
                 TextView fileSizeElement = (TextView) view.findViewById(R.id.videoViews);
                 fileSizeElement.setText(Utils.getStringWithRegularCustomFont(getApplicationContext(),

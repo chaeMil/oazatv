@@ -1,4 +1,4 @@
-package com.chaemil.hgms;
+package com.chaemil.hgms.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,6 +10,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.chaemil.hgms.R;
+import com.chaemil.hgms.activity.MainActivity;
 import com.chaemil.hgms.utils.Basic;
 import com.chaemil.hgms.utils.Utils;
 

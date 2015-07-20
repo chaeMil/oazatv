@@ -1,9 +1,10 @@
-package com.chaemil.hgms;
+package com.chaemil.hgms.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ImageView;
 
+import com.chaemil.hgms.R;
 import com.chaemil.hgms.utils.Basic;
 import com.squareup.picasso.Picasso;
 

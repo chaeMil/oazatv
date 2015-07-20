@@ -1,4 +1,4 @@
-package com.chaemil.hgms;
+package com.chaemil.hgms.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,8 +9,10 @@ import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
+import com.chaemil.hgms.activity.MainActivity;
+import com.chaemil.hgms.R;
 import com.chaemil.hgms.utils.Basic;
-import com.chaemil.hgms.utils.Utils;
+import com.chaemil.hgms.utils.SmartLog;
 
 public class WebViewFragment extends Fragment {
 
@@ -28,7 +30,7 @@ public class WebViewFragment extends Fragment {
             title = bundle.getString(Basic.BUNDLE_TITLE);
         }
 
-        Utils.log("WebViewFragmentLink", link);
+        SmartLog.log("WebViewFragmentLink", link);
 
         webview = (WebView) rootView.findViewById(R.id.webview);
         webview.setWebChromeClient(new WebChromeClient());

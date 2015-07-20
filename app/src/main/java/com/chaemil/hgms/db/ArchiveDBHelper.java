@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.chaemil.hgms.utils.Utils;
+import com.chaemil.hgms.utils.SmartLog;
 
 public class ArchiveDBHelper extends SQLiteOpenHelper {
 
@@ -58,9 +58,9 @@ public class ArchiveDBHelper extends SQLiteOpenHelper {
                 + ") values ((select _id from " + ArchiveDBContract.Archive.TABLE_NAME
                 + " where " + ArchiveDBContract.Archive.COLUMN_NAME_VIDEO_ID + " = "
                 + "'" + videoId + "'), '" + videoId + "', " + time + ");";
-        Utils.log("saveVideoTime",sql);
+        SmartLog.log("saveVideoTime", sql);
         db.execSQL(sql);
-        Utils.log("saveVideoTime", String.valueOf(time));
+        SmartLog.log("saveVideoTime", String.valueOf(time));
     }
 
     public static int loadVideoTime(SQLiteDatabase db, String fileName) {

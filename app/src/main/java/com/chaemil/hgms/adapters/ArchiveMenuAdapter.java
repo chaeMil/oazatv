@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.chaemil.hgms.R;
+import com.chaemil.hgms.model.ArchiveMenu;
 import com.chaemil.hgms.utils.Basic;
 import com.chaemil.hgms.utils.Utils;
 
@@ -16,16 +17,16 @@ import java.util.List;
 /**
  * Created by chaemil on 16.10.14.
  */
-public class ArchiveMenuAdapter extends ArrayAdapter<ArchiveMenuRecord> {
+public class ArchiveMenuAdapter extends ArrayAdapter<ArchiveMenu> {
 
     public ArchiveMenuAdapter(Context context) {
         super(context, R.layout.archive_menu_item);
     }
 
-    public void swapImageRecords(List<ArchiveMenuRecord> objects) {
+    public void swapImageRecords(List<ArchiveMenu> objects) {
         clear();
 
-        for(ArchiveMenuRecord object : objects) {
+        for(ArchiveMenu object : objects) {
             add(object);
         }
 
@@ -52,29 +53,29 @@ public class ArchiveMenuAdapter extends ArrayAdapter<ArchiveMenuRecord> {
         TextView content = (TextView) convertView.findViewById(R.id.content);
         TextView titleToShow = (TextView) convertView.findViewById(R.id.titleToShow);
 
-        ArchiveMenuRecord archiveMenuRecord = getItem(position);
+        ArchiveMenu archiveMenu = getItem(position);
 
         if (menuItem != null) {
             menuItem.setText(Utils.getStringWithRegularCustomFont(getContext(),
-                    archiveMenuRecord.getLabel(), Basic.FONT_REGULAR_UPRIGHT));
+                    archiveMenu.getLabel(), Basic.FONT_REGULAR_UPRIGHT));
         }
         if (type != null) {
-            type.setText(archiveMenuRecord.getType());
+            type.setText(archiveMenu.getType());
         }
 
         if (content != null) {
-            content.setText(archiveMenuRecord.getContent());
+            content.setText(archiveMenu.getContent());
         }
 
         if (titleToShow != null) {
-            titleToShow.setText(archiveMenuRecord.getTitleToShow());
+            titleToShow.setText(archiveMenu.getTitleToShow());
         }
 
         return convertView;
     }
 
     @Override
-    public int getPosition(ArchiveMenuRecord item) {
+    public int getPosition(ArchiveMenu item) {
         return super.getPosition(item);
     }
 }

@@ -1,4 +1,4 @@
-package com.chaemil.hgms;
+package com.chaemil.hgms.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,8 +10,11 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import com.chaemil.hgms.R;
+import com.chaemil.hgms.activity.SinglePhoto;
 import com.chaemil.hgms.adapters.PhotoalbumAdapter;
 import com.chaemil.hgms.utils.Basic;
+import com.chaemil.hgms.utils.SmartLog;
 import com.chaemil.hgms.utils.Utils;
 
 import static com.chaemil.hgms.utils.Utils.fetchPhotoalbum;
@@ -50,7 +53,7 @@ public class PhotoalbumActivity extends ActionBarActivity {
 
         Utils.submitStatistics(getApplicationContext());
 
-        Utils.log(Basic.ALBUM_ID, albumId);
+        SmartLog.log(Basic.ALBUM_ID, albumId);
 
         GridView photoThumbsGrid = (GridView) findViewById(R.id.photoThumbsGrid);
         PhotoalbumAdapter mPhotoalbumAdapter = new PhotoalbumAdapter(getApplicationContext(),
@@ -62,9 +65,9 @@ public class PhotoalbumActivity extends ActionBarActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        fetchPhotoalbum(getApplicationContext(),mPhotoalbumAdapter,albumId);
+        fetchPhotoalbum(getApplicationContext(), mPhotoalbumAdapter,albumId);
 
-        Utils.log("count", String.valueOf(mPhotoalbumAdapter.getCount()));
+        SmartLog.log("count", String.valueOf(mPhotoalbumAdapter.getCount()));
 
         photoThumbsGrid.setAdapter(mPhotoalbumAdapter);
         photoThumbsGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -84,9 +87,9 @@ public class PhotoalbumActivity extends ActionBarActivity {
         });
 
 
-        Utils.log("screenWidth", String.valueOf(getScreenWidth(getApplicationContext())));
-        Utils.log("screenWidth / "+String.valueOf(R.integer.gallery_columns),
-                String.valueOf(getScreenWidth(getApplicationContext())/R.integer.gallery_columns));
+        SmartLog.log("screenWidth", String.valueOf(getScreenWidth(getApplicationContext())));
+        SmartLog.log("screenWidth / " + String.valueOf(R.integer.gallery_columns),
+                String.valueOf(getScreenWidth(getApplicationContext()) / R.integer.gallery_columns));
     }
 
 

@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.chaemil.hgms.db.AudioDBContract.DownloadedAudio;
-import com.chaemil.hgms.utils.Utils;
+import com.chaemil.hgms.utils.SmartLog;
 
 
 public class AudioDBHelper extends SQLiteOpenHelper {
@@ -60,7 +60,7 @@ public class AudioDBHelper extends SQLiteOpenHelper {
                 " set " + DownloadedAudio.COLUMN_NAME_AUDIO_TIME + "=" +
                 time + " where " + DownloadedAudio.COLUMN_NAME_AUDIO_FILE +
                 " == '" + fileName + "';");
-        Utils.log("saveAudioTime", String.valueOf(time));
+        SmartLog.log("saveAudioTime", String.valueOf(time));
     }
 
     public static int loadAudioTime(SQLiteDatabase db, String fileName) {

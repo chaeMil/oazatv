@@ -1,4 +1,4 @@
-package com.chaemil.hgms;
+package com.chaemil.hgms.fragment;
 
 
 import android.content.res.Configuration;
@@ -13,16 +13,15 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.chaemil.hgms.R;
 import com.chaemil.hgms.adapters.ArchiveAdapter;
-import com.chaemil.hgms.adapters.home_page_adapters.NewVideosAdapter;
-import com.chaemil.hgms.adapters.home_page_adapters.PhotoalbumsAdapter;
 import com.chaemil.hgms.utils.Basic;
 import com.chaemil.hgms.utils.Utils;
 import com.chaemil.hgms.view.ExpandedListView;
 
-import static com.chaemil.hgms.MainActivity.setActionBarTitle;
-import static com.chaemil.hgms.utils.Basic.startPhotoalbumViewer;
-import static com.chaemil.hgms.utils.Basic.startVideoPlayer;
+import static com.chaemil.hgms.activity.MainActivity.setActionBarTitle;
+import static com.chaemil.hgms.utils.IntentUtils.startPhotoalbumViewer;
+import static com.chaemil.hgms.utils.IntentUtils.startVideoPlayer;
 import static com.chaemil.hgms.utils.Utils.fetchArchive;
 
 /**
@@ -30,16 +29,12 @@ import static com.chaemil.hgms.utils.Utils.fetchArchive;
  */
 public class HomeFragment extends Fragment {
 
-    public HomeFragment() {
-    }
-
-
     private ArchiveAdapter mFirstVideoDataAdapter;
     private ListView homeFirstVideo;
     private ExpandedListView newVideos;
     private ExpandedListView photoAlbums;
-    private NewVideosAdapter mNewVideosAdapter;
-    private PhotoalbumsAdapter mPhotoalbumsAdapter;
+    private ArchiveAdapter mNewVideosAdapter;
+    private ArchiveAdapter mPhotoalbumsAdapter;
     private TextView newVideosTitle;
     private TextView photoalbumsTitle;
 
@@ -121,7 +116,7 @@ public class HomeFragment extends Fragment {
 
         newVideos = (ExpandedListView) rootView.findViewById(R.id.newVideos);
         newVideos.setExpanded(true);
-        mNewVideosAdapter = new NewVideosAdapter(getActivity().getApplicationContext(),
+        mNewVideosAdapter = new ArchiveAdapter(getActivity().getApplicationContext(),
                 R.layout.home_block);
         newVideos.setAdapter(mNewVideosAdapter);
         fetchArchive(
@@ -148,7 +143,7 @@ public class HomeFragment extends Fragment {
 
         photoAlbums = (ExpandedListView) rootView.findViewById(R.id.photoAlbums);
         photoAlbums.setExpanded(true);
-        mPhotoalbumsAdapter = new PhotoalbumsAdapter(getActivity().getApplicationContext(),
+        mPhotoalbumsAdapter = new ArchiveAdapter(getActivity().getApplicationContext(),
                 R.layout.home_block);
         photoAlbums.setAdapter(mPhotoalbumsAdapter);
         fetchArchive(

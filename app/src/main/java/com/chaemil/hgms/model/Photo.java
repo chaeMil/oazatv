@@ -1,17 +1,17 @@
-package com.chaemil.hgms.adapters;
+package com.chaemil.hgms.model;
 
 /**
  * Created by chaemil on 27.10.14.
  */
-public class PhotoalbumRecord {
+public class Photo {
     public String thumb;
     public String photoLarge;
     public String photoBig;
     public String label;
     public String photoId;
 
-    public PhotoalbumRecord(String thumb, String photoLarge, String photoBig, String label,
-                            String photoId) {
+    public Photo(String thumb, String photoLarge, String photoBig, String label,
+                 String photoId) {
         this.thumb = thumb;
         this.photoLarge = photoLarge;
         this.photoBig = photoBig;

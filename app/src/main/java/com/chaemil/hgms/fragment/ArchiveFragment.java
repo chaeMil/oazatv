@@ -1,4 +1,4 @@
-package com.chaemil.hgms;
+package com.chaemil.hgms.fragment;
 
 
 import android.os.Bundle;
@@ -11,12 +11,14 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import com.chaemil.hgms.activity.MainActivity;
+import com.chaemil.hgms.R;
 import com.chaemil.hgms.adapters.ArchiveAdapter;
 import com.chaemil.hgms.utils.Basic;
 import com.chaemil.hgms.utils.Utils;
 
-import static com.chaemil.hgms.utils.Basic.startPhotoalbumViewer;
-import static com.chaemil.hgms.utils.Basic.startVideoPlayer;
+import static com.chaemil.hgms.utils.IntentUtils.startPhotoalbumViewer;
+import static com.chaemil.hgms.utils.IntentUtils.startVideoPlayer;
 import static com.chaemil.hgms.utils.Utils.fetchArchive;
 
 

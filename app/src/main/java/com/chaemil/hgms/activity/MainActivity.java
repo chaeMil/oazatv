@@ -1,4 +1,4 @@
-package com.chaemil.hgms;
+package com.chaemil.hgms.activity;
 
 
 
@@ -29,8 +29,14 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.chaemil.hgms.R;
 import com.chaemil.hgms.adapters.ArchiveMenuAdapter;
+import com.chaemil.hgms.fragment.ArchiveFragment;
+import com.chaemil.hgms.fragment.HomeFragment;
+import com.chaemil.hgms.fragment.OfflineFragment;
+import com.chaemil.hgms.fragment.WebViewFragment;
 import com.chaemil.hgms.utils.Basic;
+import com.chaemil.hgms.utils.SmartLog;
 import com.chaemil.hgms.utils.Utils;
 
 import at.markushi.ui.CircleButton;
@@ -253,7 +259,7 @@ public class MainActivity extends ActionBarActivity {
             link = Basic.MAIN_SERVER_JSON+"?page=archive&lang="+ Utils.lang+"&nazev="+query;
         }
 
-        Utils.log("submitSearch",link);
+        SmartLog.log("submitSearch", link);
 
         args.putString(Basic.BUNDLE_LINK, link);
 
@@ -374,7 +380,7 @@ public class MainActivity extends ActionBarActivity {
         }
 
 
-        Utils.log("link",Basic.MAIN_SERVER_JSON+"?page=archive&lang="+ Utils.lang+link);
+        SmartLog.log("link", Basic.MAIN_SERVER_JSON + "?page=archive&lang=" + Utils.lang + link);
 
         if(isFragment) {
             android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
@@ -408,7 +414,7 @@ public class MainActivity extends ActionBarActivity {
 
                     @Override
                     public void onResponse(String s) {
-                        Utils.log("request", s);
+                        SmartLog.log("request", s);
                         if(Basic.DEBUG) {
                             youtubeVideoId = "NF1OdLMTDEc";
                             Toast.makeText(getApplicationContext(),
@@ -438,7 +444,7 @@ public class MainActivity extends ActionBarActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-                        Utils.log("VolleyError.error", volleyError.toString());
+                        SmartLog.log("VolleyError.error", volleyError.toString());
                     }
                 }
         );

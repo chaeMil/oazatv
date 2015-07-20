@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <!-- "Fragment A" -->
-    <fragment class="com.chaemil.hgms.VideoViewFragment"
+    <fragment class="com.chaemil.hgms.fragment.VideoViewFragment"
         android:id="@+id/videoViewFrag"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

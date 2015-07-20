@@ -1,4 +1,4 @@
-package com.chaemil.hgms;
+package com.chaemil.hgms.fragment;
 
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -11,6 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.chaemil.hgms.activity.ListDownloadedAudio;
+import com.chaemil.hgms.activity.MainActivity;
+import com.chaemil.hgms.R;
 import com.chaemil.hgms.db.AudioDBHelper;
 import com.chaemil.hgms.utils.Utils;
 

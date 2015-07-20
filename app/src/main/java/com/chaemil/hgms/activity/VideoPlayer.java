@@ -1,4 +1,4 @@
-package com.chaemil.hgms;
+package com.chaemil.hgms.activity;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -31,8 +31,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.chaemil.hgms.App;
+import com.chaemil.hgms.R;
 import com.chaemil.hgms.db.ArchiveDBHelper;
+import com.chaemil.hgms.fragment.SimilarVideosFragment;
 import com.chaemil.hgms.utils.Basic;
+import com.chaemil.hgms.utils.SmartLog;
 import com.chaemil.hgms.utils.Utils;
 import com.wefika.flowlayout.FlowLayout;
 
@@ -99,7 +103,7 @@ public class VideoPlayer extends ActionBarActivity {
 
     private int loadVideoTimeFromDB(SQLiteDatabase db, String videoId) {
         if (ArchiveDBHelper.videoRecordExists(db,videoId)) {
-            Utils.log("loadVideoTimeFromDB",
+            SmartLog.log("loadVideoTimeFromDB",
                     String.valueOf(ArchiveDBHelper.loadVideoTime(db, videoId)));
             return ArchiveDBHelper.loadVideoTime(db,videoId);
 
@@ -207,7 +211,7 @@ public class VideoPlayer extends ActionBarActivity {
 
                         hideSystemUI((ActionBarActivity)getParent());
 
-                        Utils.log("screenOrientation", "tappedVideo");
+                        SmartLog.log("screenOrientation", "tappedVideo");
 
                     }
                 }, 1000);
@@ -367,7 +371,7 @@ public class VideoPlayer extends ActionBarActivity {
                     i.putExtra(Basic.VIDEO_LINK, getVideoUrl(extras));
                     i.putExtra(Basic.VIDEO_DATE, getVideoDate(extras));
                     i.putExtra(Basic.VIDEO_NAME, getVideoName(extras));
-                    Utils.log(Basic.VIDEO_NAME, getVideoName(extras));
+                    SmartLog.log(Basic.VIDEO_NAME, getVideoName(extras));
                     startActivity(i);
                 }
                 return true;

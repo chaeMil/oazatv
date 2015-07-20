@@ -16,7 +16,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -29,14 +28,14 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.chaemil.hgms.MainActivity;
+import com.chaemil.hgms.activity.MainActivity;
 import com.chaemil.hgms.R;
 import com.chaemil.hgms.adapters.ArchiveAdapter;
 import com.chaemil.hgms.adapters.ArchiveMenuAdapter;
-import com.chaemil.hgms.adapters.ArchiveMenuRecord;
-import com.chaemil.hgms.adapters.ArchiveRecord;
+import com.chaemil.hgms.model.ArchiveMenu;
+import com.chaemil.hgms.model.ArchiveItem;
 import com.chaemil.hgms.adapters.PhotoalbumAdapter;
-import com.chaemil.hgms.adapters.PhotoalbumRecord;
+import com.chaemil.hgms.model.Photo;
 import com.koushikdutta.ion.Ion;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.wefika.flowlayout.FlowLayout;
@@ -50,7 +49,7 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class Utils extends Activity {
+public class Utils {
 
     public static String lang = Locale.getDefault().getLanguage();
 
@@ -62,9 +61,9 @@ public class Utils extends Activity {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         try {
-                            List<ArchiveMenuRecord> archiveMenuRecords = parseMenu(jsonObject);
+                            List<ArchiveMenu> archiveMenus = parseMenu(jsonObject);
 
-                            adapter.swapImageRecords(archiveMenuRecords);
+                            adapter.swapImageRecords(archiveMenus);
 
                         }
                         catch(JSONException e) {
@@ -95,9 +94,9 @@ public class Utils extends Activity {
                         @Override
                         public void onResponse(JSONObject jsonObject) {
                             try {
-                                List<ArchiveRecord> archiveRecords = parseArchive(jsonObject, jsonArray);
+                                List<ArchiveItem> archiveItems = parseArchive(jsonObject, jsonArray);
 
-                                adapter.swapImageRecords(archiveRecords);
+                                adapter.swapImageRecords(archiveItems);
 
                             }
                             catch(JSONException e) {
@@ -129,9 +128,9 @@ public class Utils extends Activity {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         try {
-                            List<PhotoalbumRecord> photoalbumRecords = parsePhotoalbum(jsonObject);
+                            List<Photo> photos = parsePhotoalbum(jsonObject);
 
-                            adapter.swapImageRecords(photoalbumRecords);
+                            adapter.swapImageRecords(photos);
 
                         }
                         catch(JSONException e) {
@@ -153,8 +152,8 @@ public class Utils extends Activity {
         VolleyApplication.getInstance().getRequestQueue().add(request);
     }
 
-    static private List<ArchiveMenuRecord> parseMenu(JSONObject json) throws JSONException {
-        ArrayList<ArchiveMenuRecord> records = new ArrayList<ArchiveMenuRecord>();
+    static private List<ArchiveMenu> parseMenu(JSONObject json) throws JSONException {
+        ArrayList<ArchiveMenu> records = new ArrayList<ArchiveMenu>();
 
         JSONArray jsonImages = json.getJSONArray(Basic.JSON_ARRAY_MENU);
 
@@ -165,16 +164,16 @@ public class Utils extends Activity {
             String content = jsonImage.getString(Basic.JSON_MENU_CONTENT);
             String titleToShow = jsonImage.getString(Basic.JSON_MENU_TITLE_TO_SHOW);
 
-            ArchiveMenuRecord record = new ArchiveMenuRecord(type, content, label, titleToShow);
+            ArchiveMenu record = new ArchiveMenu(type, content, label, titleToShow);
             records.add(record);
         }
 
         return records;
     }
 
-    static private List<ArchiveRecord> parseArchive(JSONObject json, String jsonArray)
+    static private List<ArchiveItem> parseArchive(JSONObject json, String jsonArray)
             throws JSONException {
-        ArrayList<ArchiveRecord> records = new ArrayList<ArchiveRecord>();
+        ArrayList<ArchiveItem> records = new ArrayList<ArchiveItem>();
 
         JSONArray jsonImages = json.getJSONArray(jsonArray);
 
@@ -190,7 +189,7 @@ public class Utils extends Activity {
             String videoURL = jsonImage.getString(Basic.JSON_ARCHIVE_VIDEO_URL);
             String albumId = jsonImage.getString(Basic.JSON_ARCHIVE_ALBUM_ID);
 
-            ArchiveRecord record = new ArchiveRecord(type, title, date, playCount,
+            ArchiveItem record = new ArchiveItem(type, title, date, playCount,
                     thumb, thumbBlur, videoURL, albumId);
             records.add(record);
 
@@ -198,8 +197,8 @@ public class Utils extends Activity {
         return records;
     }
 
-    static private List<PhotoalbumRecord> parsePhotoalbum(JSONObject json) throws JSONException {
-        ArrayList<PhotoalbumRecord> records = new ArrayList<PhotoalbumRecord>();
+    static private List<Photo> parsePhotoalbum(JSONObject json) throws JSONException {
+        ArrayList<Photo> records = new ArrayList<Photo>();
 
         JSONArray jsonImages = json.getJSONArray(Basic.JSON_ARRAY_PHOTOALUMB);
 
@@ -211,7 +210,7 @@ public class Utils extends Activity {
             String label = jsonImage.getString(Basic.JSON_PHOTOALBUM_LABEL);
             String photoId = jsonImage.getString(Basic.JSON_PHOTOALBUM_PHOTO_ID);
 
-            PhotoalbumRecord record = new PhotoalbumRecord(thumb, photoLarge, photoBig,
+            Photo record = new Photo(thumb, photoLarge, photoBig,
                     label, photoId);
             records.add(record);
         }
@@ -387,8 +386,8 @@ public class Utils extends Activity {
             //status bar height
             int actionBarHeight = getActionBarHeight(a);
             int statusBarHeight = getStatusBarHeight(a);
-            Utils.log("statusBarHeight", Integer.toString(statusBarHeight));
-            Utils.log("actionBarHeight", Integer.toString(actionBarHeight));
+            SmartLog.log("statusBarHeight", Integer.toString(statusBarHeight));
+            SmartLog.log("actionBarHeight", Integer.toString(actionBarHeight));
             //action bar height
             //statusBar.getLayoutParams().height = actionBarHeight + statusBarHeight;
             statusBar.setBackgroundColor(color);
@@ -480,7 +479,7 @@ public class Utils extends Activity {
                     + "&imei=" + Build.SERIAL
                     + "&device=" + Build.MODEL.replace(" ", "%20")
                     + "&appVersion=" + c.getResources().getString(R.string.app_version);
-            Utils.log("submitStatistics", toSubmit);
+            SmartLog.log("submitStatistics", toSubmit);
             sendGet(toSubmit, c);
         }
     }
@@ -491,9 +490,4 @@ public class Utils extends Activity {
         return px;
     }
 
-    public static void log(String tag, String sql) {
-        if(Basic.DEBUG) {
-            Log.i(tag, sql);
-        }
-    }
 }

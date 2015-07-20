@@ -1,4 +1,4 @@
-package com.chaemil.hgms;
+package com.chaemil.hgms.activity;
 
 
 
@@ -27,10 +27,12 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
+import com.chaemil.hgms.R;
 import com.chaemil.hgms.db.AudioDBHelper;
 import com.chaemil.hgms.utils.Basic;
 import com.chaemil.hgms.utils.MusicController;
 import com.chaemil.hgms.utils.NotificationPanel;
+import com.chaemil.hgms.utils.SmartLog;
 import com.chaemil.hgms.utils.Utils;
 
 import java.io.File;
@@ -111,12 +113,12 @@ public class AudioPlayer extends ActionBarActivity implements OnPreparedListener
 
     public static void pause() {
         mPlayer.pause();
-        Utils.log("mPlayer", "pause");
+        SmartLog.log("mPlayer", "pause");
     }
 
     public static void play() {
         mPlayer.start();
-        Utils.log("mPlayer", "play");
+        SmartLog.log("mPlayer", "play");
     }
 
     public void saveAudioTime(SQLiteDatabase db, String fileName, int time) {
@@ -187,7 +189,7 @@ public class AudioPlayer extends ActionBarActivity implements OnPreparedListener
 
         AudioDBHelper helper = new AudioDBHelper(getApplicationContext());
         SQLiteDatabase db = helper.getWritableDatabase();
-        Utils.log("loadAudioTime", String.valueOf(loadAudioTime(db, file())));
+        SmartLog.log("loadAudioTime", String.valueOf(loadAudioTime(db, file())));
 
 
         mNoisyAudioStreamReceiver = new NoisyAudioStreamReceiver();
@@ -198,8 +200,8 @@ public class AudioPlayer extends ActionBarActivity implements OnPreparedListener
             nPanel.notificationCancel();
         }
 
-        Utils.log(Basic.AUDIO_FILE_THUMB, audioThumb().substring(audioThumb().lastIndexOf("/") + 1));
-        Utils.log(Basic.AUDIO_FILE, file());
+        SmartLog.log(Basic.AUDIO_FILE_THUMB, audioThumb().substring(audioThumb().lastIndexOf("/") + 1));
+        SmartLog.log(Basic.AUDIO_FILE, file());
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -225,7 +227,7 @@ public class AudioPlayer extends ActionBarActivity implements OnPreparedListener
         mPlayer.start();
         mPlayer.seekTo(loadAudioTime(db,file())-6000);
 
-        Utils.log("filePath", getExternalFilesDir(null) + "/" + file());
+        SmartLog.log("filePath", getExternalFilesDir(null) + "/" + file());
 
         mSeekBarPlayer.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
             @Override
@@ -347,7 +349,7 @@ public class AudioPlayer extends ActionBarActivity implements OnPreparedListener
             }
 
             try{
-                Utils.log("Value: ", String.valueOf(current * 100 / duration));
+                SmartLog.log("Value: ", String.valueOf(current * 100 / duration));
                 if(mSeekBarPlayer.getProgress() >= 100){
                     break;
                 }

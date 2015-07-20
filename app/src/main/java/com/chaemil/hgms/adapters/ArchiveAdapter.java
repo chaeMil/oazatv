@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chaemil.hgms.R;
+import com.chaemil.hgms.model.ArchiveItem;
 import com.chaemil.hgms.utils.Basic;
 import com.chaemil.hgms.utils.Utils;
 import com.squareup.picasso.Picasso;
@@ -19,7 +20,7 @@ import java.util.List;
 /**
  * Created by chaemil on 17.9.14.
  */
-public class ArchiveAdapter extends ArrayAdapter<ArchiveRecord> {
+public class ArchiveAdapter extends ArrayAdapter<ArchiveItem> {
     private int layout;
 
     public ArchiveAdapter(Context context, int layout) {
@@ -27,10 +28,10 @@ public class ArchiveAdapter extends ArrayAdapter<ArchiveRecord> {
         this.layout = layout;
     }
 
-    public void swapImageRecords(List<ArchiveRecord> objects) {
+    public void swapImageRecords(List<ArchiveItem> objects) {
         clear();
 
-        for(ArchiveRecord object : objects) {
+        for(ArchiveItem object : objects) {
             add(object);
         }
 
@@ -55,24 +56,12 @@ public class ArchiveAdapter extends ArrayAdapter<ArchiveRecord> {
         TextView albumId = (TextView) convertView.findViewById(R.id.albumId);
         TextView type = (TextView) convertView.findViewById(R.id.type);
 
-        ArchiveRecord rec = getItem(position);
+        ArchiveItem rec = getItem(position);
 
         if(convertView.findViewById(R.id.background) != null) {
             Picasso.with(getContext()).load(rec.getThumbBlur()).into(background);
-            /*Ion.with(background)
-                    /*.placeholder(R.drawable.placeholder_image)
-                    .error(R.drawable.error_image)
-                    .animateLoad(spinAnimation)
-                    .animateIn(fadeInAnimation)
-                    .load(rec.getThumbBlur());*/
         }
         Picasso.with(getContext()).load(rec.getThumb()).into(videoThumb);
-        /*Ion.with(videoThumb)
-                /*.placeholder(R.drawable.placeholder_image)
-                .error(R.drawable.error_image)
-                .animateLoad(spinAnimation)
-                .animateIn(fadeInAnimation)
-                .load(rec.getThumb());*/
 
         videoName.setText(Utils.getStringWithRegularCustomFont(getContext(),
                 rec.getTitle(), Basic.FONT_BOLD_UPRIGHT));
@@ -83,8 +72,6 @@ public class ArchiveAdapter extends ArrayAdapter<ArchiveRecord> {
                 rec.getVideoViews(),Basic.FONT_REGULAR_UPRIGHT));
         albumId.setText(rec.getAlbumId());
         type.setText(rec.getType());
-
-
 
         return convertView;
     }

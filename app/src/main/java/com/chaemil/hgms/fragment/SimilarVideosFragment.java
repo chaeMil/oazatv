@@ -1,4 +1,4 @@
-package com.chaemil.hgms;
+package com.chaemil.hgms.fragment;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -9,11 +9,13 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.chaemil.hgms.R;
 import com.chaemil.hgms.adapters.ArchiveAdapter;
 import com.chaemil.hgms.utils.Basic;
+import com.chaemil.hgms.utils.SmartLog;
 import com.chaemil.hgms.utils.Utils;
 
-import static com.chaemil.hgms.utils.Basic.startVideoPlayer;
+import static com.chaemil.hgms.utils.IntentUtils.startVideoPlayer;
 
 public class SimilarVideosFragment extends Fragment {
 
@@ -26,7 +28,7 @@ public class SimilarVideosFragment extends Fragment {
         Bundle extras = getArguments();
         String videoURL = extras.getString(Basic.VIDEO_LINK);
         if (extras != null) {
-            Utils.log("videoURLFrag",extras.getString(Basic.VIDEO_LINK));
+            SmartLog.log("videoURLFrag", extras.getString(Basic.VIDEO_LINK));
         }
         String videoID = videoURL.substring(videoURL.lastIndexOf("/") + 1, videoURL.lastIndexOf("."));
 
@@ -55,7 +57,7 @@ public class SimilarVideosFragment extends Fragment {
             }
         });
 
-        Utils.log("similarVideos", similarVideosJSON);
+        SmartLog.log("similarVideos", similarVideosJSON);
 
 
         return rootView;

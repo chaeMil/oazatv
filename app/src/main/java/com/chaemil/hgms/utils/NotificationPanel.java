@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.widget.RemoteViews;
 
-import com.chaemil.hgms.AudioPlayer;
+import com.chaemil.hgms.activity.AudioPlayer;
 import com.chaemil.hgms.R;
 
 /**

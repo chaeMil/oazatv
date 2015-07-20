@@ -1,16 +1,10 @@
 package com.chaemil.hgms.utils;
 
-import android.content.Intent;
-import android.view.View;
-
-import com.chaemil.hgms.PhotoalbumActivity;
-import com.chaemil.hgms.VideoPlayer;
-
 public class Basic {
 
     /* zapnout DEBUG, aplikace neodesílá data o zhlédnutí na server,
     loguje do konzole a živý přenos je pouze testovací video */
-    public static final Boolean DEBUG = false;
+    public static final Boolean DEBUG = true;
 
     //konstanty
     public static final String MAIN_SERVER = "http://oaza.tv/";
@@ -97,22 +91,4 @@ public class Basic {
     public static final String ABOUT_APP_URL = MAIN_SERVER + "?page=about-app&source=app";
 
 
-    public static void startVideoPlayer(View v, String videoURL, String videoName,
-                                        String videoDate, String videoViews) {
-        Intent a = new Intent(v.getContext(), VideoPlayer.class);
-        a.putExtra(VIDEO_LINK, videoURL);
-        a.putExtra(VIDEO_NAME, videoName);
-        a.putExtra(VIDEO_DATE, videoDate);
-        a.putExtra(VIDEO_VIEWS, videoViews);
-        v.getContext().startActivity(a);
-    }
-
-    public static void startPhotoalbumViewer(View v, String albumId,
-                                             String albumName, String albumDate) {
-        Intent a = new Intent(v.getContext(), PhotoalbumActivity.class);
-        a.putExtra(ALBUM_ID, albumId);
-        a.putExtra(ALBUM_NAME, albumName);
-        a.putExtra(ALBUM_DATE, albumDate);
-        v.getContext().startActivity(a);
-    }
 }

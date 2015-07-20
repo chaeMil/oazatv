@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chaemil.hgms.R;
+import com.chaemil.hgms.model.Photo;
 import com.koushikdutta.ion.Ion;
 
 import java.util.List;
@@ -20,7 +21,7 @@ import static com.chaemil.hgms.utils.Utils.getScreenWidth;
 /**
  * Created by chaemil on 13.11.14.
  */
-public class PhotoalbumAdapter extends ArrayAdapter<PhotoalbumRecord> {
+public class PhotoalbumAdapter extends ArrayAdapter<Photo> {
 
     private int layout;
 
@@ -29,10 +30,10 @@ public class PhotoalbumAdapter extends ArrayAdapter<PhotoalbumRecord> {
         this.layout = layout;
     }
 
-    public void swapImageRecords(List<PhotoalbumRecord> objects) {
+    public void swapImageRecords(List<Photo> objects) {
         clear();
 
-        for(PhotoalbumRecord object : objects) {
+        for(Photo object : objects) {
             add(object);
         }
 
@@ -45,7 +46,7 @@ public class PhotoalbumAdapter extends ArrayAdapter<PhotoalbumRecord> {
             convertView = LayoutInflater.from(getContext()).inflate(layout, parent, false);
         }
 
-        PhotoalbumRecord rec = getItem(position);
+        Photo rec = getItem(position);
         Resources res = getContext().getResources();
 
         ImageView thumb = null;

@@ -1,9 +1,9 @@
-package com.chaemil.hgms.adapters;
+package com.chaemil.hgms.model;
 
 /**
  * Created by chaemil on 17.9.14.
  */
-public class ArchiveRecord {
+public class ArchiveItem {
     public String thumb;
     public String title;
     public String videoDate;
@@ -13,7 +13,7 @@ public class ArchiveRecord {
     public String albumId;
     public String thumbBlur;
 
-    public ArchiveRecord(String type, String title, String videoDate, String videoViews, String thumb, String thumbBlur, String videoURL, String albumId) {
+    public ArchiveItem(String type, String title, String videoDate, String videoViews, String thumb, String thumbBlur, String videoURL, String albumId) {
         this.thumb = thumb;
         this.title = title;
         this.videoDate = videoDate;
