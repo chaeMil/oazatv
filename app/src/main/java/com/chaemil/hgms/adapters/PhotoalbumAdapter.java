@@ -1,5 +1,6 @@
 package com.chaemil.hgms.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.view.LayoutInflater;
@@ -11,8 +12,12 @@ import android.widget.TextView;
 
 import com.chaemil.hgms.R;
 import com.chaemil.hgms.model.Photo;
+import com.chaemil.hgms.view.SquareImageView;
 import com.koushikdutta.ion.Ion;
+import com.squareup.picasso.Picasso;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.chaemil.hgms.utils.Utils.getScreenHeight;
@@ -24,78 +29,56 @@ import static com.chaemil.hgms.utils.Utils.getScreenWidth;
 public class PhotoalbumAdapter extends ArrayAdapter<Photo> {
 
     private int layout;
+    private Activity activity;
+    private ArrayList<Photo> photos;
+    private int thumbWidth;
 
-    public PhotoalbumAdapter(Context context, int layout) {
+    public PhotoalbumAdapter(Context context, int layout, Activity activity, ArrayList<Photo> photos, int thumbWidth) {
         super(context, layout);
         this.layout = layout;
+        this.activity = activity;
+        this.photos = photos;
+        this.thumbWidth = thumbWidth;
     }
 
-    public void swapImageRecords(List<Photo> objects) {
-        clear();
+    public int getCount() {
+        return photos.size();
+    }
 
-        for(Photo object : objects) {
-            add(object);
-        }
+    public Photo getItem(int position) {
+        return photos.get(position);
+    }
 
-        notifyDataSetChanged();
+    public long getItemId(int position) {
+        return position;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if(convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(layout, parent, false);
+        ViewHolder holder;
+
+        if (convertView == null) {
+            LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.photo_thumb, parent, false);
+            holder = new ViewHolder();
+            holder.image = (SquareImageView) convertView.findViewById(R.id.thumb);
+
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
 
-        Photo rec = getItem(position);
-        Resources res = getContext().getResources();
+        Picasso.with(activity.getApplicationContext())
+                .load(photos.get(position).getThumb())
+                .resize(thumbWidth, thumbWidth)
+                .centerCrop()
+                .into(holder.image);
 
-        ImageView thumb = null;
-        ImageView photoLarge = null;
-        TextView label = null;
-        TextView photoId = null;
-        TextView photoUrl = null;
-
-        if(convertView.findViewById(R.id.thumb) != null) {
-            thumb = (ImageView) convertView.findViewById(R.id.thumb);
-            //Picasso.with(getContext()).load(rec.getThumb()).into(thumb);
-            Ion.with(thumb)
-                    /*.placeholder(R.drawable.placeholder_image)
-                    .error(R.drawable.error_image)
-                    .animateLoad(spinAnimation)
-                    .animateIn(fadeInAnimation)*/
-                    .load(rec.getThumb());
-            thumb.getLayoutParams().width = getScreenWidth(getContext())/res.getInteger(R.integer.gallery_columns);
-            thumb.getLayoutParams().height = getScreenWidth(getContext())/res.getInteger(R.integer.gallery_columns);
-        }
-
-        if(convertView.findViewById(R.id.photoLarge) != null) {
-            photoLarge = (ImageView) convertView.findViewById(R.id.photoLarge);
-            //Picasso.with(getContext()).load(rec.getPhotoBig()).into(photoLarge);
-            Ion.with(photoLarge)
-                    /*.placeholder(R.drawable.placeholder_image)
-                    .error(R.drawable.error_image)
-                    .animateLoad(spinAnimation)
-                    .animateIn(fadeInAnimation)*/
-                    .load(rec.getPhotoBig());
-            photoLarge.getLayoutParams().width = getScreenWidth(getContext());
-            photoLarge.getLayoutParams().height = getScreenHeight(getContext());
-        }
-
-        if(convertView.findViewById(R.id.label) != null) {
-            label = (TextView) convertView.findViewById(R.id.label);
-            label.setText(rec.getLabel());
-        }
-
-        if(convertView.findViewById(R.id.photoId) != null) {
-            photoId = (TextView) convertView.findViewById(R.id.photoId);
-            photoId.setText(rec.getPhotoId());
-        }
-
-        if(convertView.findViewById(R.id.photoUrl) != null) {
-            photoUrl = (TextView) convertView.findViewById(R.id.photoUrl);
-            photoUrl.setText(rec.getPhotoBig());
-        }
 
         return convertView;
+    }
+
+    static class ViewHolder {
+        SquareImageView image;
     }
 }

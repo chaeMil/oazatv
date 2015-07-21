@@ -7,12 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chaemil.hgms.R;
 import com.chaemil.hgms.model.ArchiveItem;
-import com.chaemil.hgms.utils.SmartLog;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -82,12 +80,25 @@ public class HomepageAdapter extends ArrayAdapter<ArchiveItem> {
 
         holder.title.setText(getItem(position).getTitle());
         holder.playCount.setText(getItem(position).getVideoViews());
-        holder.date.setText(getItem(position).getVideoDate());
-        Picasso.with(context).load(getItem(position).getThumb()).resize(320, 180).into(holder.thumb);
+        holder.date.setText(getItem(position).getDate());
+        Picasso.with(context)
+                .load(getItem(position).getThumb())
+                .resize(320, 180)
+                .centerCrop()
+                .into(holder.thumb);
+
         if (position == 0) {
-            Picasso.with(context).load(getItem(position).getThumb()).into(holder.thumb);
+            Picasso.with(context)
+                    .load(getItem(position).getThumb())
+                    .resize(800, 480)
+                    .centerCrop()
+                    .into(holder.thumb);
             if (holder.thumbBlur != null) {
-                Picasso.with(context).load(getItem(position).getThumbBlur()).resize(320, 180).into(holder.thumbBlur);
+                Picasso.with(context)
+                        .load(getItem(position).getThumbBlur())
+                        .resize(320, 180)
+                        .centerCrop()
+                        .into(holder.thumbBlur);
             }
         }
 

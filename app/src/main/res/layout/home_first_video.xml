@@ -78,7 +78,7 @@
                         style="@style/firstVideoDetails"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_above="@id/videoDate"
+                        android:layout_above="@id/date"
                         tools:text="240 zhlédnutí"
                         android:gravity="center_horizontal" />
 

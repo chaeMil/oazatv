@@ -9,6 +9,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.chaemil.hgms.model.RequestType;
 import com.chaemil.hgms.utils.Constants;
 import com.chaemil.hgms.utils.SmartLog;
+import com.chaemil.hgms.utils.Utils;
 
 import org.json.JSONObject;
 
@@ -46,6 +47,19 @@ public class RequestFactory {
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 createMyReqSuccessListener(listener, RequestType.VIDEO_TAGS),
+                createMyReqErrorListener(listener));
+
+        return request;
+    }
+
+    public static Request getPhotos(RequestFactoryListener listener, String photoalbumId) {
+        String url = Constants.MAIN_SERVER_JSON_PHOTOALBUM_PHOTOS + photoalbumId +
+                Constants.JSON_LANG + Utils.lang;
+
+        SmartLog.log("getPhotos()", "url: " + url);
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                createMyReqSuccessListener(listener, RequestType.PHOTOALBUM),
                 createMyReqErrorListener(listener));
 
         return request;

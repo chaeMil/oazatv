@@ -24,7 +24,7 @@ public class ArchiveItem implements Parcelable {
     private boolean bigLayout;
     private String thumb;
     private String title;
-    private String videoDate;
+    private String date;
     private String videoURL;
     private String videoViews;
     private String type;
@@ -37,7 +37,7 @@ public class ArchiveItem implements Parcelable {
     public ArchiveItem(Parcel source) {
         this.thumb = source.readString();
         this.title = source.readString();
-        this.videoDate = source.readString();
+        this.date = source.readString();
         this.videoURL = source.readString();
         this.videoViews = source.readString();
         this.type = source.readString();
@@ -45,11 +45,11 @@ public class ArchiveItem implements Parcelable {
         this.thumbBlur = source.readString();
     }
 
-    public ArchiveItem(boolean bigLayout, String thumb, String title, String videoDate, String videoURL, String videoViews, String type, String albumId, String thumbBlur) {
+    public ArchiveItem(boolean bigLayout, String thumb, String title, String date, String videoURL, String videoViews, String type, String albumId, String thumbBlur) {
         this.bigLayout = bigLayout;
         this.thumb = thumb;
         this.title = title;
-        this.videoDate = videoDate;
+        this.date = date;
         this.videoURL = videoURL;
         this.videoViews = videoViews;
         this.type = type;
@@ -81,12 +81,12 @@ public class ArchiveItem implements Parcelable {
         this.title = title;
     }
 
-    public String getVideoDate() {
-        return videoDate;
+    public String getDate() {
+        return date;
     }
 
-    public void setVideoDate(String videoDate) {
-        this.videoDate = videoDate;
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getVideoURL() {
@@ -142,7 +142,7 @@ public class ArchiveItem implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(thumb);
         dest.writeString(title);
-        dest.writeString(videoDate);
+        dest.writeString(date);
         dest.writeString(videoURL);
         dest.writeString(videoViews);
         dest.writeString(type);

@@ -126,7 +126,7 @@ public class VideoPlayer extends ActionBarActivity implements RequestFactoryList
 
     private void setupUI() {
         videoViewsElement.setText(archiveItem.getVideoViews());
-        videoDateElement.setText(archiveItem.getVideoDate());
+        videoDateElement.setText(archiveItem.getDate());
         mediaController = new MediaController(this);
         mVideoView.setMediaController(mediaController);
         mVideoView.setVideoURI(video);
@@ -245,7 +245,7 @@ public class VideoPlayer extends ActionBarActivity implements RequestFactoryList
                     Intent i = new Intent(this,ListDownloadedAudio.class);
                     i.putExtra("download",true);
                     i.putExtra(Constants.VIDEO_LINK, archiveItem.getVideoURL());
-                    i.putExtra(Constants.VIDEO_DATE, archiveItem.getVideoDate());
+                    i.putExtra(Constants.VIDEO_DATE, archiveItem.getDate());
                     i.putExtra(Constants.VIDEO_NAME, archiveItem.getTitle());
                     startActivity(i);
                 }

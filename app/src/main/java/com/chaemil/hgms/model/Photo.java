@@ -4,11 +4,13 @@ package com.chaemil.hgms.model;
  * Created by chaemil on 27.10.14.
  */
 public class Photo {
-    public String thumb;
-    public String photoLarge;
-    public String photoBig;
-    public String label;
-    public String photoId;
+    private String thumb;
+    private String photoLarge;
+    private String photoBig;
+    private String label;
+    private String photoId;
+
+    public Photo() {}
 
     public Photo(String thumb, String photoLarge, String photoBig, String label,
                  String photoId) {
@@ -39,4 +41,23 @@ public class Photo {
         return photoId;
     }
 
+    public void setThumb(String thumb) {
+        this.thumb = thumb;
+    }
+
+    public void setPhotoLarge(String photoLarge) {
+        this.photoLarge = photoLarge;
+    }
+
+    public void setPhotoBig(String photoBig) {
+        this.photoBig = photoBig;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    public void setPhotoId(String photoId) {
+        this.photoId = photoId;
+    }
 }

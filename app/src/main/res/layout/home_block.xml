@@ -49,7 +49,7 @@
                 tools:text="240 zhlédnutí"
                 android:id="@+id/views"
                 style="@style/videoProperties"
-                android:layout_above="@+id/videoDate"
+                android:layout_above="@+id/date"
                 android:gravity="center_vertical"/>
 
 

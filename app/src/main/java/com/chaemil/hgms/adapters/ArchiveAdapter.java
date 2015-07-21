@@ -66,7 +66,7 @@ public class ArchiveAdapter extends ArrayAdapter<ArchiveItem> {
         videoName.setText(Utils.getStringWithRegularCustomFont(getContext(),
                 rec.getTitle(), Constants.FONT_BOLD_UPRIGHT));
         videoDate.setText(Utils.getStringWithRegularCustomFont(getContext(),
-                rec.getVideoDate(), Constants.FONT_REGULAR_UPRIGHT));
+                rec.getDate(), Constants.FONT_REGULAR_UPRIGHT));
         videoURL.setText(rec.getVideoUrl());
         videoViews.setText(Utils.getStringWithRegularCustomFont(getContext(),
                 rec.getVideoViews(), Constants.FONT_REGULAR_UPRIGHT));

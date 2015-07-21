@@ -1,93 +1,91 @@
 package com.chaemil.hgms.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.AttributeSet;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.VolleyError;
 import com.chaemil.hgms.R;
 import com.chaemil.hgms.adapters.PhotoalbumAdapter;
+import com.chaemil.hgms.factory.RequestFactory;
+import com.chaemil.hgms.factory.RequestFactoryListener;
+import com.chaemil.hgms.factory.ResponseFactory;
+import com.chaemil.hgms.model.ArchiveItem;
+import com.chaemil.hgms.model.Photo;
+import com.chaemil.hgms.model.RequestType;
+import com.chaemil.hgms.service.MyRequestService;
 import com.chaemil.hgms.utils.Constants;
 import com.chaemil.hgms.utils.SmartLog;
 import com.chaemil.hgms.utils.Utils;
 
-import static com.chaemil.hgms.utils.Utils.getScreenWidth;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 import static com.chaemil.hgms.utils.Utils.setActionStatusBarTint;
 
 
-public class PhotoalbumActivity extends ActionBarActivity {
+public class PhotoalbumActivity extends ActionBarActivity implements RequestFactoryListener {
 
-    private String getAlbumId() {
-        Bundle bundle = getIntent().getExtras();
-        return bundle.getString(Constants.ALBUM_ID);
-    }
-
-    private String getAlbumName() {
-        Bundle bundle = getIntent().getExtras();
-        return bundle.getString(Constants.ALBUM_NAME);
-    }
-
-    private String getAlbumDate() {
-        Bundle bundle = getIntent().getExtras();
-        return bundle.getString(Constants.ALBUM_DATE);
-    }
-
+    private GridView photoThumbsGrid;
+    private PhotoalbumAdapter mPhotoalbumAdapter;
+    private ArchiveItem archiveItem;
+    private ArrayList<Photo> photosArray;
+    private int thumbWidth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.photoalbum);
 
-        setActionStatusBarTint(getWindow(),this, Constants.MAIN_ACTIVITY_STATUSBAR_COLOR,
-                Constants.MAIN_ACTIVITY_STATUSBAR_COLOR);
-
-        final String albumId = getAlbumId();
-
+        archiveItem = getIntent().getExtras().getParcelable(ArchiveItem.ARCHIVE_ITEM);
 
         Utils.submitStatistics(getApplicationContext());
 
-        SmartLog.log(Constants.ALBUM_ID, albumId);
+        getUI();
+        setupUI();
+        getData();
 
-        GridView photoThumbsGrid = (GridView) findViewById(R.id.photoThumbsGrid);
-        PhotoalbumAdapter mPhotoalbumAdapter = new PhotoalbumAdapter(getApplicationContext(),
-                R.layout.photo_thumb);
+    }
 
-        if(getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(getAlbumName());
-            getSupportActionBar().setSubtitle(getAlbumDate());
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
+    private void getData() {
+        Request photosRequest = RequestFactory.getPhotos(this, archiveItem.getAlbumId());
+        MyRequestService.getRequestQueue().add(photosRequest);
+    }
 
-        SmartLog.log("count", String.valueOf(mPhotoalbumAdapter.getCount()));
+    private void getUI() {
+        photoThumbsGrid = (GridView) findViewById(R.id.photoThumbsGrid);
+    }
 
-        photoThumbsGrid.setAdapter(mPhotoalbumAdapter);
+    private void setupUI() {
         photoThumbsGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View v, int i, long l) {
-                TextView photoIdElement =  (TextView) v.findViewById(R.id.photoId);
-                CharSequence photoId = photoIdElement.getText();
-                TextView photoUrlElement = (TextView) v.findViewById(R.id.photoUrl);
-                CharSequence photoUrl = photoUrlElement.getText();
-                //Intent intent = new Intent(getApplicationContext(), PhotoalbumSlideshow.class);
-                Intent intent = new Intent(getApplicationContext(), SinglePhoto.class);
-                intent.putExtra(Constants.PHOTO_ID,photoId);
-                intent.putExtra(Constants.ALBUM_ID,albumId);
-                intent.putExtra(Constants.PHOTO_URL,photoUrl);
-                startActivity(intent);
+
             }
         });
 
+        setActionStatusBarTint(getWindow(), this, Constants.MAIN_ACTIVITY_STATUSBAR_COLOR,
+                Constants.MAIN_ACTIVITY_STATUSBAR_COLOR);
 
-        SmartLog.log("screenWidth", String.valueOf(getScreenWidth(getApplicationContext())));
-        SmartLog.log("screenWidth / " + String.valueOf(R.integer.gallery_columns),
-                String.valueOf(getScreenWidth(getApplicationContext()) / R.integer.gallery_columns));
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(archiveItem.getTitle());
+            getSupportActionBar().setSubtitle(archiveItem.getDate());
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -96,11 +94,25 @@ public class PhotoalbumActivity extends ActionBarActivity {
         return true;
     }
 
+    private int getThumbWidth() {
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
+
+        if (width < height) {
+            return width / 3;
+        } else {
+            return height / 4;
+        }
+    }
+
     public void shareLink() {
         Intent share = new Intent(android.content.Intent.ACTION_SEND);
         share.setType("text/plain");
-        share.putExtra(Intent.EXTRA_SUBJECT, getAlbumName());
-        share.putExtra(Intent.EXTRA_TEXT, Constants.MAIN_SERVER_PHOTOALBUM_LINK_PREFIX + getAlbumId());
+        share.putExtra(Intent.EXTRA_SUBJECT, archiveItem.getTitle());
+        share.putExtra(Intent.EXTRA_TEXT, Constants.MAIN_SERVER_PHOTOALBUM_LINK_PREFIX + archiveItem.getAlbumId());
         startActivity(Intent.createChooser(share, getResources().getString(R.string.action_share)));
     }
 
@@ -129,5 +141,25 @@ public class PhotoalbumActivity extends ActionBarActivity {
     public void onBackPressed() {
         super.onBackPressed();
         Utils.goBackwardAnimation(this);
+    }
+
+    @Override
+    public void onSuccessResponse(JSONObject response, RequestType requestType) {
+        SmartLog.log("PhotoalbumActivity response", String.valueOf(response));
+
+        switch (requestType) {
+            case PHOTOALBUM:
+                photosArray = ResponseFactory.parsePhotos(response);
+                mPhotoalbumAdapter = new PhotoalbumAdapter(this, R.layout.photo_thumb, this, photosArray, getThumbWidth());
+                photoThumbsGrid.setAdapter(mPhotoalbumAdapter);
+
+        }
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError exception) {
+        Toast.makeText(this, getString(R.string.something_went_wrong),
+                Toast.LENGTH_SHORT).show();
+        SmartLog.log("errorResponse", String.valueOf(exception));
     }
 }

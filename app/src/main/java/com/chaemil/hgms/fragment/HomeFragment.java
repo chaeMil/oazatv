@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.chaemil.hgms.R;
+import com.chaemil.hgms.activity.PhotoalbumActivity;
 import com.chaemil.hgms.activity.VideoPlayer;
 import com.chaemil.hgms.adapters.HomepageAdapter;
 import com.chaemil.hgms.factory.RequestFactory;
@@ -85,10 +86,15 @@ public class HomeFragment extends Fragment implements RequestFactoryListener {
                     Intent videoPlayer = new Intent(getActivity(), VideoPlayer.class);
                     videoPlayer.putExtra(ArchiveItem.ARCHIVE_ITEM, homePageData.get(position));
 
-                    SmartLog.log("position", String.valueOf(position));
-                    SmartLog.log("videoUrl", homePageData.get(position).getVideoURL());
-
                     startActivity(videoPlayer);
+                    Utils.goForwardAnimation(getActivity());
+                }
+
+                if (homePageData.get(position).getType().equals(ArchiveItem.TYPE_ALBUM)) {
+                    Intent photoAlbum = new Intent(getActivity(), PhotoalbumActivity.class);
+                    photoAlbum.putExtra(ArchiveItem.ARCHIVE_ITEM, homePageData.get(position));
+
+                    startActivity(photoAlbum);
                     Utils.goForwardAnimation(getActivity());
                 }
             }

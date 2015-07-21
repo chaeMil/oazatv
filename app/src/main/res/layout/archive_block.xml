@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="neděle 14.září 2014"
-                android:id="@+id/videoDate"
+                android:id="@+id/date"
                 android:fontFamily="sans-serif-light"
                 android:textSize="12sp"
                 android:layout_weight="1"/>
@@ -54,7 +54,7 @@
                 android:id="@+id/videoViews"
                 android:fontFamily="sans-serif-light"
                 android:textSize="12sp"
-                android:layout_above="@+id/videoDate"
+                android:layout_above="@+id/date"
                 android:gravity="right"
                 android:layout_weight="1"/>
 

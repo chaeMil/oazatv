@@ -57,12 +57,6 @@
             android:launchMode="singleInstance" >
         </activity>
         <activity
-            android:name=".activity.PhotoalbumSlideshow"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/title_activity_photoalbum_slideshow"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
-        </activity>
-        <activity
             android:name=".activity.AudioPlayer"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"

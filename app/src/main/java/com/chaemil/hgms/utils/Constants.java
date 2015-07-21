@@ -15,6 +15,8 @@ public class Constants {
     public static final String MAIN_SERVER_JSON_MENU = MAIN_SERVER_JSON + "?page=menu";
     public static final String MAIN_SERVER_JSON_HOMEPAGE = MAIN_SERVER_JSON + "?page=home";
     public static final String MAIN_SERVER_JSON_VIDEO_TAGS = MAIN_SERVER_JSON + "?page=videoTags&video=";
+    public static final String MAIN_SERVER_JSON_PHOTOALBUM_PHOTOS = MAIN_SERVER_JSON+"?page=photoalbum&albumId=";
+    public static final String JSON_LANG = "&lang=";
 
     public static final String VIDEO_LINK = "videoLink";
     public static final String VIDEO_NAME = "videoName";

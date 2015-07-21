@@ -3,7 +3,9 @@ package com.chaemil.hgms.factory;
 import com.chaemil.hgms.model.ArchiveItem;
 import com.chaemil.hgms.model.ArchiveMenu;
 import com.chaemil.hgms.model.HomePage;
+import com.chaemil.hgms.model.Photo;
 import com.chaemil.hgms.utils.Constants;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,7 +52,7 @@ public class ResponseFactory {
         try {
             archiveItem.setType(jsonObject.getString(ArchiveItem.TYPE));
             archiveItem.setTitle(jsonObject.getString(ArchiveItem.TITLE));
-            archiveItem.setVideoDate(jsonObject.getString(ArchiveItem.DATE));
+            archiveItem.setDate(jsonObject.getString(ArchiveItem.DATE));
             archiveItem.setVideoViews(jsonObject.getString(ArchiveItem.VIDEO_VIEWS));
             archiveItem.setThumb(jsonObject.getString(ArchiveItem.THUMB));
             archiveItem.setThumbBlur(jsonObject.getString(ArchiveItem.THUMB_BLUR));
@@ -102,5 +104,30 @@ public class ResponseFactory {
         }
 
         return tags;
+    }
+
+    public static ArrayList<Photo> parsePhotos(JSONObject jsonObject) {
+        ArrayList<Photo> photos = new ArrayList<>();
+
+        try {
+            JSONArray jsonPhotosArray = jsonObject.getJSONArray(Constants.JSON_ARRAY_PHOTOALUMB);
+
+            for(int i = 0; i < jsonPhotosArray.length(); i++) {
+                JSONObject jsonPhoto = jsonPhotosArray.getJSONObject(i);
+                Photo photo = new Photo();
+
+                photo.setPhotoBig(jsonPhoto.getString(Constants.JSON_PHOTOALBUM_PHOTO_BIG));
+                photo.setPhotoLarge(jsonPhoto.getString(Constants.JSON_PHOTOALBUM_PHOTO_LARGE));
+                photo.setPhotoId(jsonPhoto.getString(Constants.JSON_PHOTOALBUM_PHOTO_ID));
+                photo.setLabel(jsonPhoto.getString(Constants.JSON_PHOTOALBUM_LABEL));
+                photo.setThumb(jsonPhoto.getString(Constants.JSON_PHOTOALBUM_THUMB));
+
+                photos.add(photo);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return photos;
     }
 }
