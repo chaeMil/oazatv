@@ -1,11 +1,8 @@
 package com.chaemil.hgms.factory;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.chaemil.hgms.model.ArchiveItem;
 import com.chaemil.hgms.model.ArchiveMenu;
 import com.chaemil.hgms.model.HomePage;
-import com.chaemil.hgms.model.RequestType;
 import com.chaemil.hgms.utils.Constants;
 
 import org.json.JSONArray;
@@ -13,7 +10,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ResponseFactory {
 
@@ -88,5 +84,21 @@ public class ResponseFactory {
         }
 
         return menu;
+    }
+
+    public static ArrayList<String> parseVideoTags(JSONObject jsonObject) {
+        ArrayList<String> tags = new ArrayList<>();
+
+        try {
+            for (int i = 0; i < jsonObject.length(); i++) {
+                JSONObject jsonTag = jsonObject.getJSONArray(Constants.JSON_ARRAY_VIDEO_TAGS).getJSONObject(i);
+                String tag = jsonTag.getString(Constants.JSON_VIDEO_TAGS_TAG);
+                tags.add(tag);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return tags;
     }
 }
