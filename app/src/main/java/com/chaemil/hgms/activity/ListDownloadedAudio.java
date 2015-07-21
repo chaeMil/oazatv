@@ -376,12 +376,12 @@ public class ListDownloadedAudio extends ActionBarActivity {
                 final String audioFile = cursor.getString(cursor.getColumnIndex(
                         DownloadedAudio.COLUMN_NAME_AUDIO_FILE));
 
-                TextView audioFileNameElement = (TextView) view.findViewById(R.id.videoName);
+                TextView audioFileNameElement = (TextView) view.findViewById(R.id.title);
                 audioFileNameElement.setText(Utils.
                         getStringWithRegularCustomFont(getApplicationContext(),
                         audioFileName, Constants.FONT_BOLD_UPRIGHT));
 
-                TextView dateElement = (TextView) view.findViewById(R.id.videoDate);
+                TextView dateElement = (TextView) view.findViewById(R.id.date);
                 dateElement.setText(Utils.getStringWithRegularCustomFont(getApplicationContext(),
                         audioDate, Constants.FONT_BOLD_UPRIGHT));
 
@@ -390,7 +390,7 @@ public class ListDownloadedAudio extends ActionBarActivity {
                         + audioFile).length();
                 SmartLog.log("fileSize", String.valueOf(fileSize));
 
-                TextView fileSizeElement = (TextView) view.findViewById(R.id.videoViews);
+                TextView fileSizeElement = (TextView) view.findViewById(R.id.views);
                 fileSizeElement.setText(Utils.getStringWithRegularCustomFont(getApplicationContext(),
                         String.valueOf(fileSize / 1024 / 1024) + " Mb", Constants.FONT_REGULAR_UPRIGHT));
 
