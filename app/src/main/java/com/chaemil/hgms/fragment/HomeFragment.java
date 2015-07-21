@@ -1,6 +1,7 @@
 package com.chaemil.hgms.fragment;
 
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -16,6 +18,7 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.chaemil.hgms.R;
+import com.chaemil.hgms.activity.VideoPlayer;
 import com.chaemil.hgms.adapters.HomepageAdapter;
 import com.chaemil.hgms.factory.RequestFactory;
 import com.chaemil.hgms.factory.RequestFactoryListener;
@@ -74,6 +77,21 @@ public class HomeFragment extends Fragment implements RequestFactoryListener {
     private void setupUI() {
         homeList.setDivider(new ColorDrawable(getResources().getColor(R.color.white)));
         homeList.setDividerHeight(8);
+        homeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (homePageData.get(position).getType().equals(ArchiveItem.TYPE_VIDEO)) {
+                    Intent videoPlayer = new Intent(getActivity(), VideoPlayer.class);
+                    videoPlayer.putExtra(ArchiveItem.ARCHIVE_ITEM, homePageData.get(position));
+
+                    SmartLog.log("position", String.valueOf(position));
+                    SmartLog.log("videoUrl", homePageData.get(position).getVideoURL());
+
+                    Utils.goForwardAnimation(getActivity());
+                    startActivity(videoPlayer);
+                }
+            }
+        });
     }
 
     @Override

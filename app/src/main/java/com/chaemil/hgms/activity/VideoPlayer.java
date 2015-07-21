@@ -35,12 +35,12 @@ import com.chaemil.hgms.App;
 import com.chaemil.hgms.R;
 import com.chaemil.hgms.db.ArchiveDBHelper;
 import com.chaemil.hgms.fragment.SimilarVideosFragment;
+import com.chaemil.hgms.model.ArchiveItem;
 import com.chaemil.hgms.utils.Constants;
 import com.chaemil.hgms.utils.SmartLog;
 import com.chaemil.hgms.utils.Utils;
 import com.wefika.flowlayout.FlowLayout;
 
-import static com.chaemil.hgms.utils.Utils.displayVideoTags;
 import static com.chaemil.hgms.utils.Utils.getScreenWidth;
 import static com.chaemil.hgms.utils.Utils.hideSystemUI;
 import static com.chaemil.hgms.utils.Utils.showSystemUI;
@@ -53,32 +53,16 @@ public class VideoPlayer extends ActionBarActivity {
     private LinearLayout videoInfo;
     private MediaController mediaController;
     private ImageButton fullscreenButton;
+    private ArchiveItem archiveItem;
+    private NoisyAudioStreamReceiver noisyAudioReceiver;
 
-    private String getVideoId(Bundle b) {
-        String s = b.getString(Constants.BUNDLE_VIDEO_LINK);
-        return s.substring(s.lastIndexOf("/") + 1, s.lastIndexOf("."));
-    }
-
-    private String getVideoName(Bundle b) {
-        return b.getString(Constants.VIDEO_NAME);
+    private ArchiveItem getArchiveItem(Bundle b) {
+        return b.getParcelable(ArchiveItem.ARCHIVE_ITEM);
     }
 
     private void pause() {
         mVideoView.pause();
     }
-
-    private String getVideoUrl(Bundle b) {
-        return b.getString(Constants.VIDEO_LINK);
-    }
-
-    private String getVideoDate(Bundle b) {
-        return b.getString(Constants.VIDEO_DATE);
-    }
-
-    private String getVideoViews(Bundle b) {
-        return b.getString(Constants.VIDEO_VIEWS);
-    }
-
     private class NoisyAudioStreamReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -93,11 +77,10 @@ public class VideoPlayer extends ActionBarActivity {
 
 
     private void shareLink() {
-        Bundle bundle = getIntent().getExtras();
         Intent share = new Intent(android.content.Intent.ACTION_SEND);
         share.setType("text/plain");
-        share.putExtra(Intent.EXTRA_SUBJECT, getVideoName(bundle));
-        share.putExtra(Intent.EXTRA_TEXT, Constants.MAIN_SERVER_VIDEO_LINK_PREFIX + getVideoId(bundle));
+        share.putExtra(Intent.EXTRA_SUBJECT, archiveItem.getTitle());
+        share.putExtra(Intent.EXTRA_TEXT, archiveItem.getVideoURL());
         startActivity(Intent.createChooser(share, getString(R.string.action_share)));
     }
 
@@ -122,6 +105,8 @@ public class VideoPlayer extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.video_player);
 
+        archiveItem = getArchiveItem(getIntent().getExtras());
+
         if(getSupportActionBar() != null) {
             getSupportActionBar().setBackgroundDrawable(
                     new ColorDrawable(Color.parseColor("#000000")));
@@ -130,25 +115,16 @@ public class VideoPlayer extends ActionBarActivity {
         ArchiveDBHelper helper = new ArchiveDBHelper(getApplicationContext());
         final SQLiteDatabase db = helper.getReadableDatabase();
 
-
-        //if (!LibsChecker.checkVitamioLibs(this))
-        //    return;
-
-        registerReceiver(new NoisyAudioStreamReceiver(), headphonesListener);
-
-        Bundle extras = getIntent().getExtras();
-        final String videoID = getVideoId(extras);
-        String videoName = getVideoName(extras);
-        String videoViews = getVideoViews(extras);
-        String videoDate = getVideoDate(extras);
-        String videoURL = getVideoUrl(extras);
+        noisyAudioReceiver = new NoisyAudioStreamReceiver();
 
         if(getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(videoName);
+            getSupportActionBar().setTitle(archiveItem.getTitle());
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        String idToSubmitViews = getVideoUrl(getIntent().getExtras());
+        SmartLog.log("archiveItem.getVideoUrl()", archiveItem.getVideoURL());
+
+        String idToSubmitViews = archiveItem.getVideoURL();
         idToSubmitViews = idToSubmitViews
                 .substring(idToSubmitViews.lastIndexOf("/")+1,idToSubmitViews.lastIndexOf("."));
 
@@ -159,14 +135,14 @@ public class VideoPlayer extends ActionBarActivity {
 
 
         TextView videoViewsElement = (TextView) findViewById(R.id.videoViews);
-        videoViewsElement.setText(videoViews);
+        videoViewsElement.setText(archiveItem.getVideoViews());
         TextView videoDateElement = (TextView) findViewById(R.id.videoDate);
-        videoDateElement.setText(videoDate);
+        videoDateElement.setText(archiveItem.getVideoDate());
         videoInfo = (LinearLayout) findViewById(R.id.videoInfo);
 
         FlowLayout videoTags = (FlowLayout) findViewById(R.id.videoTags);
 
-        displayVideoTags(getApplicationContext(), this, videoID, videoTags);
+        //displayVideoTags(getApplicationContext(), this, archiveItem.getVideoDBID(), videoTags);
 
         mVideoView = (VideoView) findViewById(R.id.videoView);
         mediaController = new MediaController(this);
@@ -179,9 +155,9 @@ public class VideoPlayer extends ActionBarActivity {
         // Lollipop video hack
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
         if (currentapiVersion <= Build.VERSION_CODES.KITKAT){
-            video = Uri.parse(videoURL);
+            video = Uri.parse(archiveItem.getVideoURL());
         } else{
-            video = Uri.parse(videoURL.replace(Constants.EXTENSION_WEBM, Constants.EXTENSION_MP4));
+            video = Uri.parse(archiveItem.getVideoURL().replace(Constants.EXTENSION_WEBM, Constants.EXTENSION_MP4));
         }
 
         //Uri video = Uri.parse("http://oaza.tv/root/db/2014-11-23-lxaAhP.webm");
@@ -192,7 +168,7 @@ public class VideoPlayer extends ActionBarActivity {
         mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mediaPlayer) {
-                mVideoView.seekTo(loadVideoTimeFromDB(db, videoID));
+                mVideoView.seekTo(loadVideoTimeFromDB(db, archiveItem.getVideoDBID()));
                 mVideoView.start();
             }
         });
@@ -227,7 +203,7 @@ public class VideoPlayer extends ActionBarActivity {
             fragment = new SimilarVideosFragment();
 
             Bundle args = new Bundle();
-            args.putString(Constants.VIDEO_LINK, getVideoUrl(extras));
+            args.putString(Constants.VIDEO_LINK, archiveItem.getVideoURL());
 
             fragment.setArguments(args);
 
@@ -312,11 +288,13 @@ public class VideoPlayer extends ActionBarActivity {
         ArchiveDBHelper helper = new ArchiveDBHelper(getApplicationContext());
         SQLiteDatabase db = helper.getReadableDatabase();
         mVideoView.start();
-        mVideoView.seekTo(loadVideoTimeFromDB(db, getVideoId(getIntent().getExtras())));
-        if(loadVideoTimeFromDB(db,getVideoId(getIntent().getExtras())) != 0) {
+        mVideoView.seekTo(loadVideoTimeFromDB(db, archiveItem.getVideoDBID()));
+        if(loadVideoTimeFromDB(db, archiveItem.getVideoDBID()) != 0) {
             Toast.makeText(getApplicationContext(),
                     getString(R.string.resuming_playback),Toast.LENGTH_LONG).show();
         }
+
+        registerReceiver(noisyAudioReceiver,headphonesListener);
     }
 
     @Override
@@ -324,12 +302,14 @@ public class VideoPlayer extends ActionBarActivity {
         PowerManager pm =(PowerManager) getSystemService(Context.POWER_SERVICE);
         ArchiveDBHelper helper = new ArchiveDBHelper(getApplicationContext());
         SQLiteDatabase db = helper.getReadableDatabase();
-        saveVideoTimeToDB(db, getVideoId(getIntent().getExtras()), mVideoView.getCurrentPosition());
+        saveVideoTimeToDB(db, archiveItem.getVideoDBID(), mVideoView.getCurrentPosition());
         if (pm.isScreenOn()) {
             mVideoView.suspend();
         } else {
             mVideoView.pause();
         }
+        unregisterReceiver(noisyAudioReceiver);
+
         super.onPause();
     }
 
@@ -365,13 +345,11 @@ public class VideoPlayer extends ActionBarActivity {
                             Toast.LENGTH_LONG).show();
                 }
                 else {
-                    Bundle extras = getIntent().getExtras();
                     Intent i = new Intent(this,ListDownloadedAudio.class);
                     i.putExtra("download",true);
-                    i.putExtra(Constants.VIDEO_LINK, getVideoUrl(extras));
-                    i.putExtra(Constants.VIDEO_DATE, getVideoDate(extras));
-                    i.putExtra(Constants.VIDEO_NAME, getVideoName(extras));
-                    SmartLog.log(Constants.VIDEO_NAME, getVideoName(extras));
+                    i.putExtra(Constants.VIDEO_LINK, archiveItem.getVideoURL());
+                    i.putExtra(Constants.VIDEO_DATE, archiveItem.getVideoDate());
+                    i.putExtra(Constants.VIDEO_NAME, archiveItem.getTitle());
                     startActivity(i);
                 }
                 return true;

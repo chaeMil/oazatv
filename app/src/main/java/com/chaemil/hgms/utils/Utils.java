@@ -53,7 +53,7 @@ public class Utils {
 
     public static String lang = Locale.getDefault().getLanguage();
 
-    public static void displayVideoTags(final Context c, final Activity a,
+    /*public static void displayVideoTags(final Context c, final Activity a,
                                         String videoId, final FlowLayout layout) {
         JsonObjectRequest request = new JsonObjectRequest(
                 Constants.MAIN_SERVER_JSON+"?page=videoTags&video="+videoId+"&lang="+ Utils.lang,
@@ -115,7 +115,7 @@ public class Utils {
                 });
 
         VolleyApplication.getInstance().getRequestQueue().add(request);
-    }
+    }*/
 
     public static int getScreenWidth(Context c) {
         WindowManager wm = (WindowManager) c

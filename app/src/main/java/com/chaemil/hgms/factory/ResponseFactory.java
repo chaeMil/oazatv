@@ -59,6 +59,7 @@ public class ResponseFactory {
             archiveItem.setThumb(jsonObject.getString(ArchiveItem.THUMB));
             archiveItem.setThumbBlur(jsonObject.getString(ArchiveItem.THUMB_BLUR));
             archiveItem.setAlbumId(jsonObject.getString(ArchiveItem.ALBUM_ID));
+            archiveItem.setVideoURL(jsonObject.getString(ArchiveItem.VIDEO_URL));
         } catch (JSONException e) {
             e.printStackTrace();
         }
