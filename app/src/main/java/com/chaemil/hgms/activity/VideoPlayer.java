@@ -288,21 +288,20 @@ public class VideoPlayer extends ActionBarActivity implements RequestFactoryList
                     LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
                     View view  = inflater.inflate(R.layout.tag, videoTags, false);
 
-                    TextView tagElement = (TextView) view.findViewById(R.id.tag);
+                    final TextView tagElement = (TextView) view.findViewById(R.id.tag);
                     tagElement.setText("#" + videoTagsArray.get(i));
 
-                    /*tagTextElement.setOnClickListener(new View.OnClickListener() {
+                    tagElement.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Intent i = new Intent(c.getApplicationContext(),
+                            Intent i = new Intent(getApplicationContext(),
                                     MainActivity.class);
-                            i.putExtra(Constants.BUNDLE_TAG, tagText);
+                            i.putExtra(Constants.BUNDLE_TAG, tagElement.getText().toString().replace("#", ""));
                             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            c.getApplicationContext().startActivity(i);
-                            //a.finish();
-                            Utils.goBackwardAnimation(a);
+                            getApplicationContext().startActivity(i);
+                            Utils.goBackwardAnimation(VideoPlayer.this);
                         }
-                    });*/
+                    });
 
                     videoTags.addView(view);
                 }

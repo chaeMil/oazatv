@@ -16,7 +16,7 @@
 
     <style name="tag">
         <item name="android:textColor">#ff2581d6</item>
-        <item name="android:textSize">15sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:layout_margin">2dp</item>
     </style>
 
