@@ -182,14 +182,14 @@ public class VideoPlayer extends ActionBarActivity {
             @Override
             public void onClick(View view) {
 
-                showSystemUI((ActionBarActivity)getParent());
+                showSystemUI((ActionBarActivity) getParent());
 
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
 
-                        hideSystemUI((ActionBarActivity)getParent());
+                        hideSystemUI((ActionBarActivity) getParent());
 
                         SmartLog.log("screenOrientation", "tappedVideo");
 
