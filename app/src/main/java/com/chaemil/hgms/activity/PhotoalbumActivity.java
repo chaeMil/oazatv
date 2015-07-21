@@ -139,6 +139,8 @@ public class PhotoalbumActivity extends ActionBarActivity implements RequestFact
     @Override
     public void onBackPressed() {
         if (photosViewPager.getVisibility() == View.VISIBLE) {
+            int currentPhoto = photosViewPager.getCurrentItem();
+            photoThumbsGrid.smoothScrollToPosition(currentPhoto);
             photosViewPager.setVisibility(View.GONE);
         } else {
             super.onBackPressed();
