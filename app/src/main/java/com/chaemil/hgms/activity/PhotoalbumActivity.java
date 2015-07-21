@@ -91,6 +91,7 @@ public class PhotoalbumActivity extends ActionBarActivity implements RequestFact
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.primary));
         }
+
         photoThumbsGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View v, int i, long l) {
@@ -210,8 +211,14 @@ public class PhotoalbumActivity extends ActionBarActivity implements RequestFact
 
             if (photosViewPager.getVisibility() == View.VISIBLE) {
                 getSupportActionBar().hide();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    getWindow().setStatusBarColor(getResources().getColor(R.color.black));
+                }
             } else {
                 getSupportActionBar().show();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    getWindow().setStatusBarColor(getResources().getColor(R.color.primary));
+                }
             }
         }
     }
