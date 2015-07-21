@@ -12,6 +12,7 @@ import com.chaemil.hgms.R;
 import com.chaemil.hgms.model.ArchiveItem;
 import com.chaemil.hgms.model.ArchiveMenu;
 import com.chaemil.hgms.utils.Constants;
+import com.chaemil.hgms.utils.SmartLog;
 import com.chaemil.hgms.utils.Utils;
 
 import java.util.ArrayList;
@@ -74,6 +75,8 @@ public class ArchiveMenuAdapter extends ArrayAdapter<ArchiveMenu> {
         } else {
             holder = (Holder) convertView.getTag();
         }
+
+        SmartLog.log("label", getItem(position).getLabel());
 
         if (holder.title != null) {
             holder.title.setText(getItem(position).getLabel());

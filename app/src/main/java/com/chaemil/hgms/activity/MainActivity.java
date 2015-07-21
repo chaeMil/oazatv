@@ -135,8 +135,6 @@ public class MainActivity extends ActionBarActivity implements RequestFactoryLis
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,
                 mDrawerLayout,
@@ -347,23 +345,6 @@ public class MainActivity extends ActionBarActivity implements RequestFactoryLis
         Toast.makeText(this, getString(R.string.something_went_wrong),
                 Toast.LENGTH_SHORT).show();
         SmartLog.log("errorResponse", String.valueOf(exception));
-    }
-
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView parent, View view, int position, long id) {
-            if (position != 0) {
-                TextView titleElement = (TextView) view.findViewById(R.id.titleToShow);
-                String title = titleElement.getText().toString();
-                TextView typeElement = (TextView) view.findViewById(R.id.type);
-                String type = typeElement.getText().toString();
-                TextView linkElement = (TextView) view.findViewById(R.id.content);
-                String link = linkElement.getText().toString();
-                selectItem(position, type, link, title);
-            } else {
-
-            }
-        }
     }
 
     /** Swaps fragments in the main content view */
