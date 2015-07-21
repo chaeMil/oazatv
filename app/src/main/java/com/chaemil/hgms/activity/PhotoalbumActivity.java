@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -30,13 +32,12 @@ import com.chaemil.hgms.service.MyRequestService;
 import com.chaemil.hgms.utils.Constants;
 import com.chaemil.hgms.utils.SmartLog;
 import com.chaemil.hgms.utils.Utils;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-
-import static com.chaemil.hgms.utils.Utils.setActionStatusBarTint;
-
 
 public class PhotoalbumActivity extends ActionBarActivity implements RequestFactoryListener {
 
@@ -62,6 +63,19 @@ public class PhotoalbumActivity extends ActionBarActivity implements RequestFact
 
     }
 
+    private void resetImmersiveFullscreen() {
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (photosViewPager.getVisibility() == View.VISIBLE) {
+                    setImmersiveFullscreen(true);
+                }
+                handler.postDelayed(this, 2000);
+            }
+        }, 2000);
+    }
+
     private void getData() {
         Request photosRequest = RequestFactory.getPhotos(this, archiveItem.getAlbumId());
         MyRequestService.getRequestQueue().add(photosRequest);
@@ -82,8 +96,21 @@ public class PhotoalbumActivity extends ActionBarActivity implements RequestFact
             public void onItemClick(AdapterView<?> adapterView, View v, int i, long l) {
                 photosViewPager.setCurrentItem(i);
                 photosViewPager.setVisibility(View.VISIBLE);
+                setImmersiveFullscreen(true);
             }
         });
+
+        photosViewPager.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() != MotionEvent.ACTION_SCROLL) {
+                    setImmersiveFullscreen(false);
+                }
+                return false;
+            }
+        });
+
+        resetImmersiveFullscreen();
     }
 
     @Override
@@ -141,12 +168,54 @@ public class PhotoalbumActivity extends ActionBarActivity implements RequestFact
         if (photosViewPager.getVisibility() == View.VISIBLE) {
             int currentPhoto = photosViewPager.getCurrentItem();
             photoThumbsGrid.smoothScrollToPosition(currentPhoto);
+
+            if (photoThumbsGrid.getChildAt(currentPhoto) != null) {
+                YoYo.with(Techniques.Pulse).duration(500).playOn(photoThumbsGrid.getChildAt(currentPhoto));
+            }
+
             photosViewPager.setVisibility(View.GONE);
+            setImmersiveFullscreen(false);
         } else {
             super.onBackPressed();
             Utils.goBackwardAnimation(this);
         }
     }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (photosViewPager.getVisibility() == View.VISIBLE) {
+            if (hasFocus) {
+                setImmersiveFullscreen(true);
+            }
+        } else {
+            setImmersiveFullscreen(false);
+        }
+    }
+
+    private void setImmersiveFullscreen(boolean enable) {
+        if (enable) {
+            getWindow().getDecorView().setSystemUiVisibility(
+                            View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                                    | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                                    | View.SYSTEM_UI_FLAG_IMMERSIVE);
+        } else {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+
+            if (photosViewPager.getVisibility() == View.VISIBLE) {
+                getSupportActionBar().hide();
+            } else {
+                getSupportActionBar().show();
+            }
+        }
+    }
+
 
     @Override
     public void onSuccessResponse(JSONObject response, RequestType requestType) {

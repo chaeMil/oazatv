@@ -10,6 +10,7 @@
         tools:context="com.chaemil.hgms.activity.PhotoalbumActivity"
         android:id="@+id/photoThumbsGrid"
         android:numColumns="@integer/gallery_columns"
+        android:fitsSystemWindows="true"
         android:gravity="center">
     </GridView>
 
