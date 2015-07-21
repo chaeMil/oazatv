@@ -59,7 +59,7 @@ public class PhotoalbumAdapter extends ArrayAdapter<Photo> {
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.photo_thumb, parent, false);
+            convertView = inflater.inflate(layout, parent, false);
             holder = new ViewHolder();
             holder.image = (SquareImageView) convertView.findViewById(R.id.thumb);
 
@@ -73,7 +73,6 @@ public class PhotoalbumAdapter extends ArrayAdapter<Photo> {
                 .resize(thumbWidth, thumbWidth)
                 .centerCrop()
                 .into(holder.image);
-
 
         return convertView;
     }

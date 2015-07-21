@@ -1,10 +1,23 @@
-<GridView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.chaemil.hgms.activity.PhotoalbumActivity"
-    android:id="@+id/photoThumbsGrid"
-    android:numColumns="@integer/gallery_columns"
-    android:fitsSystemWindows="true"
-    android:gravity="center">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-</GridView>
+    <GridView
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        tools:context="com.chaemil.hgms.activity.PhotoalbumActivity"
+        android:id="@+id/photoThumbsGrid"
+        android:numColumns="@integer/gallery_columns"
+        android:gravity="center">
+    </GridView>
+
+    <android.support.v4.view.ViewPager
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/viewPager"
+        android:visibility="gone">
+    </android.support.v4.view.ViewPager>
+
+</RelativeLayout>

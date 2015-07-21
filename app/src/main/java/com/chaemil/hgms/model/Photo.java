@@ -1,9 +1,13 @@
 package com.chaemil.hgms.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by chaemil on 27.10.14.
  */
-public class Photo {
+public class Photo implements Parcelable {
+    public static final String PHOTO = "com.chaemil.hgms.model.Photo";
     private String thumb;
     private String photoLarge;
     private String photoBig;
@@ -11,6 +15,14 @@ public class Photo {
     private String photoId;
 
     public Photo() {}
+
+    public Photo(Parcel source) {
+        this.thumb = source.readString();
+        this.photoLarge = source.readString();
+        this.photoBig = source.readString();
+        this.label = source.readString();
+        this.photoId = source.readString();
+    }
 
     public Photo(String thumb, String photoLarge, String photoBig, String label,
                  String photoId) {
@@ -60,4 +72,29 @@ public class Photo {
     public void setPhotoId(String photoId) {
         this.photoId = photoId;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(thumb);
+        dest.writeString(photoLarge);
+        dest.writeString(photoBig);
+        dest.writeString(label);
+        dest.writeString(photoId);
+    }
+
+    public static final Parcelable.Creator<Photo> CREATOR
+            = new Parcelable.Creator<Photo>() {
+        public Photo createFromParcel(Parcel in) {
+            return new Photo(in);
+        }
+
+        public Photo[] newArray(int size) {
+            return new Photo[size];
+        }
+    };
 }

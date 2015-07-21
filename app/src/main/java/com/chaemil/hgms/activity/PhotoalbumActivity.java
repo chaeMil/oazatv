@@ -1,24 +1,25 @@
 package com.chaemil.hgms.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
-import android.util.AttributeSet;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.chaemil.hgms.R;
 import com.chaemil.hgms.adapters.PhotoalbumAdapter;
+import com.chaemil.hgms.adapters.PhotosViewPagerAdapter;
 import com.chaemil.hgms.factory.RequestFactory;
 import com.chaemil.hgms.factory.RequestFactoryListener;
 import com.chaemil.hgms.factory.ResponseFactory;
@@ -43,7 +44,8 @@ public class PhotoalbumActivity extends ActionBarActivity implements RequestFact
     private PhotoalbumAdapter mPhotoalbumAdapter;
     private ArchiveItem archiveItem;
     private ArrayList<Photo> photosArray;
-    private int thumbWidth;
+    private ViewPager photosViewPager;
+    private PhotosViewPagerAdapter mPhotosViewPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,24 +69,21 @@ public class PhotoalbumActivity extends ActionBarActivity implements RequestFact
 
     private void getUI() {
         photoThumbsGrid = (GridView) findViewById(R.id.photoThumbsGrid);
+        photosViewPager = (ViewPager) findViewById(R.id.viewPager);
     }
 
     private void setupUI() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getWindow().setStatusBarColor(getResources().getColor(R.color.primary));
+        }
         photoThumbsGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View v, int i, long l) {
-
+                photosViewPager.setCurrentItem(i);
+                photosViewPager.setVisibility(View.VISIBLE);
             }
         });
-
-        setActionStatusBarTint(getWindow(), this, Constants.MAIN_ACTIVITY_STATUSBAR_COLOR,
-                Constants.MAIN_ACTIVITY_STATUSBAR_COLOR);
-
-        if(getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(archiveItem.getTitle());
-            getSupportActionBar().setSubtitle(archiveItem.getDate());
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
     }
 
     @Override
@@ -139,8 +138,12 @@ public class PhotoalbumActivity extends ActionBarActivity implements RequestFact
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        Utils.goBackwardAnimation(this);
+        if (photosViewPager.getVisibility() == View.VISIBLE) {
+            photosViewPager.setVisibility(View.GONE);
+        } else {
+            super.onBackPressed();
+            Utils.goBackwardAnimation(this);
+        }
     }
 
     @Override
@@ -152,7 +155,8 @@ public class PhotoalbumActivity extends ActionBarActivity implements RequestFact
                 photosArray = ResponseFactory.parsePhotos(response);
                 mPhotoalbumAdapter = new PhotoalbumAdapter(this, R.layout.photo_thumb, this, photosArray, getThumbWidth());
                 photoThumbsGrid.setAdapter(mPhotoalbumAdapter);
-
+                mPhotosViewPagerAdapter = new PhotosViewPagerAdapter(getSupportFragmentManager(), photosArray);
+                photosViewPager.setAdapter(mPhotosViewPagerAdapter);
         }
     }
 
