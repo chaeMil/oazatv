@@ -27,6 +27,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -55,6 +56,7 @@ public class VideoPlayer extends ActionBarActivity {
     private ImageButton fullscreenButton;
     private ArchiveItem archiveItem;
     private NoisyAudioStreamReceiver noisyAudioReceiver;
+    private ProgressBar progressBar;
 
     private ArchiveItem getArchiveItem(Bundle b) {
         return b.getParcelable(ArchiveItem.ARCHIVE_ITEM);
@@ -129,7 +131,7 @@ public class VideoPlayer extends ActionBarActivity {
                 .substring(idToSubmitViews.lastIndexOf("/")+1,idToSubmitViews.lastIndexOf("."));
 
         //submit video view
-        Utils.sendGet(Constants.MAIN_SERVER+"?page=vp-stats&source=app&video="+idToSubmitViews,
+        Utils.sendGet(Constants.MAIN_SERVER + "?page=vp-stats&source=app&video=" + idToSubmitViews,
                 getApplicationContext());
         Utils.submitStatistics(getApplicationContext());
 
@@ -139,12 +141,14 @@ public class VideoPlayer extends ActionBarActivity {
         TextView videoDateElement = (TextView) findViewById(R.id.videoDate);
         videoDateElement.setText(archiveItem.getVideoDate());
         videoInfo = (LinearLayout) findViewById(R.id.videoInfo);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         FlowLayout videoTags = (FlowLayout) findViewById(R.id.videoTags);
 
         //displayVideoTags(getApplicationContext(), this, archiveItem.getVideoDBID(), videoTags);
 
         mVideoView = (VideoView) findViewById(R.id.videoView);
+
         mediaController = new MediaController(this);
 
         fullscreenButton = (ImageButton) findViewById(R.id.fullscreenButton);
@@ -170,9 +174,9 @@ public class VideoPlayer extends ActionBarActivity {
             public void onPrepared(MediaPlayer mediaPlayer) {
                 mVideoView.seekTo(loadVideoTimeFromDB(db, archiveItem.getVideoDBID()));
                 mVideoView.start();
+                progressBar.setVisibility(View.GONE);
             }
         });
-
 
         mVideoView.setOnClickListener(new View.OnClickListener() {
             @Override

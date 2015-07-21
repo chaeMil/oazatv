@@ -1,8 +1,6 @@
 package com.chaemil.hgms.fragment;
 
-
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -45,6 +44,7 @@ public class HomeFragment extends Fragment implements RequestFactoryListener {
     private ListView homeList;
     private ArrayList<ArchiveItem> homePageData;
     private HomepageAdapter homePageAdapter;
+    private ProgressBar progressBar;
 
 
     @Override
@@ -72,6 +72,7 @@ public class HomeFragment extends Fragment implements RequestFactoryListener {
 
     private void getUI(View rootView) {
         homeList = (ListView) rootView.findViewById(R.id.homeList);
+        progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
     }
 
     private void setupUI() {
@@ -118,6 +119,7 @@ public class HomeFragment extends Fragment implements RequestFactoryListener {
                 homePageData = ResponseFactory.parseHomePage(response);
                 homePageAdapter = new HomepageAdapter(getActivity(), homePageData, 0);
                 homeList.setAdapter(homePageAdapter);
+                progressBar.setVisibility(View.GONE);
                 break;
         }
     }
