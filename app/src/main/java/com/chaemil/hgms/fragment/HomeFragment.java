@@ -87,8 +87,8 @@ public class HomeFragment extends Fragment implements RequestFactoryListener {
                     SmartLog.log("position", String.valueOf(position));
                     SmartLog.log("videoUrl", homePageData.get(position).getVideoURL());
 
-                    Utils.goForwardAnimation(getActivity());
                     startActivity(videoPlayer);
+                    Utils.goForwardAnimation(getActivity());
                 }
             }
         });
