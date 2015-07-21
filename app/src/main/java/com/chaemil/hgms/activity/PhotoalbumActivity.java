@@ -92,6 +92,10 @@ public class PhotoalbumActivity extends ActionBarActivity implements RequestFact
             getWindow().setStatusBarColor(getResources().getColor(R.color.primary));
         }
 
+        getSupportActionBar().setTitle(archiveItem.getTitle());
+        getSupportActionBar().setSubtitle(archiveItem.getDate());
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         photoThumbsGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View v, int i, long l) {
