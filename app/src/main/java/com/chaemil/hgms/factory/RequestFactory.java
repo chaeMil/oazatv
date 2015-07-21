@@ -39,6 +39,18 @@ public class RequestFactory {
         return request;
     }
 
+    public static Request getVideoTags(RequestFactoryListener listener, String videoId) {
+        String url = Constants.MAIN_SERVER_JSON_VIDEO_TAGS + videoId;
+
+        SmartLog.log("getVideoTags()", "url: " + url);
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                createMyReqSuccessListener(listener, RequestType.VIDEO_TAGS),
+                createMyReqErrorListener(listener));
+
+        return request;
+    }
+
     /*public static void fetchArchive(final Context c, String url,
                                     final ArchiveAdapter adapter, final String jsonArray) {
         JsonObjectRequest request = new JsonObjectRequest(
