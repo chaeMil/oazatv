@@ -53,6 +53,70 @@ public class Utils {
 
     public static String lang = Locale.getDefault().getLanguage();
 
+    /*public static void displayVideoTags(final Context c, final Activity a,
+                                        String videoId, final FlowLayout layout) {
+        JsonObjectRequest request = new JsonObjectRequest(
+                Constants.MAIN_SERVER_JSON+"?page=videoTags&video="+videoId+"&lang="+ Utils.lang,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject jsonObject) {
+                        try {
+                            JSONArray jsonImages = jsonObject
+                                    .getJSONArray(Constants.JSON_ARRAY_VIDEO_TAGS);
+
+                            for(int i =0; i < jsonImages.length(); i++) {
+                                JSONObject jsonImage = jsonImages.getJSONObject(i);
+                                String tag = jsonImage.getString(Constants.JSON_VIDEO_TAGS_TAG);
+                                final String tagText = jsonImage
+                                        .getString(Constants.JSON_VIDEO_TAGS_TAG_TEXT);
+
+                                LayoutInflater inflater = LayoutInflater.from(c);
+                                View view  = inflater.inflate(R.layout.tag, layout, false);
+
+                                TextView tagElement = (TextView) view.findViewById(R.id.tag);
+                                tagElement.setText(tag);
+
+                                TextView tagTextElement = (TextView) view.findViewById(R.id.tagText);
+                                tagTextElement.setText(Utils
+                                        .getStringWithRegularCustomFont(c,
+                                                tagText, Constants.FONT_BOLD_UPRIGHT));
+
+                                tagTextElement.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Intent i = new Intent(c.getApplicationContext(),
+                                                MainActivity.class);
+                                        i.putExtra(Constants.BUNDLE_TAG,tagText);
+                                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        c.getApplicationContext().startActivity(i);
+                                        //a.finish();
+                                        Utils.goBackwardAnimation(a);
+                                    }
+                                });
+
+                                layout.addView(view);
+                            }
+                        }
+                        catch(JSONException e) {
+                            Toast.makeText(c.getApplicationContext(), "Unable to parse data: "
+                                    + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+
+                        Toast.makeText(c.getApplicationContext(),
+                                c.getResources().getString(R.string.connection_problem),
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+
+        VolleyApplication.getInstance().getRequestQueue().add(request);
+    }*/
+
     public static int getScreenWidth(Context c) {
         WindowManager wm = (WindowManager) c
                 .getSystemService(Context.WINDOW_SERVICE);

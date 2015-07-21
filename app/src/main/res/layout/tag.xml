@@ -6,16 +6,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:id="@+id/tag">
-    </TextView>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         style="@style/tag"
         android:text="#tag"
-        android:id="@+id/tagText">
+        android:id="@+id/tag">
     </TextView>
 
 </LinearLayout>

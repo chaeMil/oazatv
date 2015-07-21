@@ -90,8 +90,10 @@ public class ResponseFactory {
         ArrayList<String> tags = new ArrayList<>();
 
         try {
-            for (int i = 0; i < jsonObject.length(); i++) {
-                JSONObject jsonTag = jsonObject.getJSONArray(Constants.JSON_ARRAY_VIDEO_TAGS).getJSONObject(i);
+            JSONArray jsonTagsArray = jsonObject.getJSONArray(Constants.JSON_ARRAY_VIDEO_TAGS);
+
+            for (int i = 0; i < jsonTagsArray.length(); i++) {
+                JSONObject jsonTag = jsonTagsArray.getJSONObject(i);
                 String tag = jsonTag.getString(Constants.JSON_VIDEO_TAGS_TAG);
                 tags.add(tag);
             }

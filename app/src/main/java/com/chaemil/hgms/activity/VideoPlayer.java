@@ -1,12 +1,10 @@
 package com.chaemil.hgms.activity;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -20,6 +18,7 @@ import android.os.Handler;
 import android.os.PowerManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,22 +31,32 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.android.volley.Request;
+import com.android.volley.VolleyError;
 import com.chaemil.hgms.App;
 import com.chaemil.hgms.R;
 import com.chaemil.hgms.db.ArchiveDBHelper;
-import com.chaemil.hgms.fragment.SimilarVideosFragment;
+import com.chaemil.hgms.factory.RequestFactory;
+import com.chaemil.hgms.factory.RequestFactoryListener;
+import com.chaemil.hgms.factory.ResponseFactory;
 import com.chaemil.hgms.model.ArchiveItem;
+import com.chaemil.hgms.model.RequestType;
+import com.chaemil.hgms.service.MyRequestService;
 import com.chaemil.hgms.utils.Constants;
 import com.chaemil.hgms.utils.SmartLog;
 import com.chaemil.hgms.utils.Utils;
 import com.wefika.flowlayout.FlowLayout;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import static com.chaemil.hgms.utils.Utils.getScreenWidth;
 import static com.chaemil.hgms.utils.Utils.hideSystemUI;
 import static com.chaemil.hgms.utils.Utils.showSystemUI;
 
 
-public class VideoPlayer extends ActionBarActivity {
+public class VideoPlayer extends ActionBarActivity implements RequestFactoryListener {
 
     private VideoView mVideoView;
     private Fragment fragment;
@@ -57,50 +66,16 @@ public class VideoPlayer extends ActionBarActivity {
     private ArchiveItem archiveItem;
     private NoisyAudioStreamReceiver noisyAudioReceiver;
     private ProgressBar progressBar;
-
-    private ArchiveItem getArchiveItem(Bundle b) {
-        return b.getParcelable(ArchiveItem.ARCHIVE_ITEM);
-    }
-
-    private void pause() {
-        mVideoView.pause();
-    }
-    private class NoisyAudioStreamReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (AudioManager.ACTION_AUDIO_BECOMING_NOISY.equals(intent.getAction())) {
-                pause();
-            }
-        }
-    }
-
     private IntentFilter headphonesListener = new IntentFilter(AudioManager
             .ACTION_AUDIO_BECOMING_NOISY);
-
-
-    private void shareLink() {
-        Intent share = new Intent(android.content.Intent.ACTION_SEND);
-        share.setType("text/plain");
-        share.putExtra(Intent.EXTRA_SUBJECT, archiveItem.getTitle());
-        share.putExtra(Intent.EXTRA_TEXT, archiveItem.getVideoURL());
-        startActivity(Intent.createChooser(share, getString(R.string.action_share)));
-    }
-
-    private int loadVideoTimeFromDB(SQLiteDatabase db, String videoId) {
-        if (ArchiveDBHelper.videoRecordExists(db,videoId)) {
-            SmartLog.log("loadVideoTimeFromDB",
-                    String.valueOf(ArchiveDBHelper.loadVideoTime(db, videoId)));
-            return ArchiveDBHelper.loadVideoTime(db,videoId);
-
-        }
-        else {
-            return 0;
-        }
-    }
-
-    private void saveVideoTimeToDB(SQLiteDatabase db, String videoId, int videoTime) {
-        ArchiveDBHelper.saveVideoTime(db,videoId,videoTime);
-    }
+    private TextView videoViewsElement;
+    private TextView videoDateElement;
+    private String idToSubmitViews;
+    private Uri video;
+    private FlowLayout videoTags;
+    private ArchiveDBHelper helper;
+    private SQLiteDatabase db;
+    private ArrayList<String> videoTagsArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,53 +83,18 @@ public class VideoPlayer extends ActionBarActivity {
         setContentView(R.layout.video_player);
 
         archiveItem = getArchiveItem(getIntent().getExtras());
-
-        if(getSupportActionBar() != null) {
-            getSupportActionBar().setBackgroundDrawable(
-                    new ColorDrawable(Color.parseColor("#000000")));
-        }
-
-        ArchiveDBHelper helper = new ArchiveDBHelper(getApplicationContext());
-        final SQLiteDatabase db = helper.getReadableDatabase();
-
         noisyAudioReceiver = new NoisyAudioStreamReceiver();
-
-        if(getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(archiveItem.getTitle());
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-
-        SmartLog.log("archiveItem.getVideoUrl()", archiveItem.getVideoURL());
-
-        String idToSubmitViews = archiveItem.getVideoURL();
+        idToSubmitViews = archiveItem.getVideoURL();
         idToSubmitViews = idToSubmitViews
-                .substring(idToSubmitViews.lastIndexOf("/")+1,idToSubmitViews.lastIndexOf("."));
+                .substring(idToSubmitViews.lastIndexOf("/") + 1, idToSubmitViews.lastIndexOf("."));
 
-        //submit video view
+        helper = new ArchiveDBHelper(getApplicationContext());
+        db = helper.getReadableDatabase();
+
         Utils.sendGet(Constants.MAIN_SERVER + "?page=vp-stats&source=app&video=" + idToSubmitViews,
                 getApplicationContext());
         Utils.submitStatistics(getApplicationContext());
 
-
-        TextView videoViewsElement = (TextView) findViewById(R.id.videoViews);
-        videoViewsElement.setText(archiveItem.getVideoViews());
-        TextView videoDateElement = (TextView) findViewById(R.id.videoDate);
-        videoDateElement.setText(archiveItem.getVideoDate());
-        videoInfo = (LinearLayout) findViewById(R.id.videoInfo);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
-
-        FlowLayout videoTags = (FlowLayout) findViewById(R.id.videoTags);
-
-        //displayVideoTags(getApplicationContext(), this, archiveItem.getVideoDBID(), videoTags);
-
-        mVideoView = (VideoView) findViewById(R.id.videoView);
-
-        mediaController = new MediaController(this);
-
-        fullscreenButton = (ImageButton) findViewById(R.id.fullscreenButton);
-
-
-        Uri video;
 
         // Lollipop video hack
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
@@ -164,11 +104,32 @@ public class VideoPlayer extends ActionBarActivity {
             video = Uri.parse(archiveItem.getVideoURL().replace(Constants.EXTENSION_WEBM, Constants.EXTENSION_MP4));
         }
 
-        //Uri video = Uri.parse("http://oaza.tv/root/db/2014-11-23-lxaAhP.webm");
+        getUI();
+        setupUI();
+        getData();
+    }
+
+    private void getData() {
+        Request tagsRequest = RequestFactory.getVideoTags(this, archiveItem.getVideoDBID());
+        MyRequestService.getRequestQueue().add(tagsRequest);
+    }
+
+    private void getUI() {
+        videoViewsElement = (TextView) findViewById(R.id.videoViews);
+        videoDateElement = (TextView) findViewById(R.id.videoDate);
+        videoInfo = (LinearLayout) findViewById(R.id.videoInfo);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        videoTags = (FlowLayout) findViewById(R.id.videoTags);
+        mVideoView = (VideoView) findViewById(R.id.videoView);
+        fullscreenButton = (ImageButton) findViewById(R.id.fullscreenButton);
+    }
+
+    private void setupUI() {
+        videoViewsElement.setText(archiveItem.getVideoViews());
+        videoDateElement.setText(archiveItem.getVideoDate());
+        mediaController = new MediaController(this);
         mVideoView.setMediaController(mediaController);
         mVideoView.setVideoURI(video);
-
-
         mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mediaPlayer) {
@@ -198,82 +159,14 @@ public class VideoPlayer extends ActionBarActivity {
             }
         });
 
-        //tabletový rozhraní
-        if (findViewById(R.id.rightFrag) != null) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
-
-            FragmentManager fragmentManager = getFragmentManager();
-
-            fragment = new SimilarVideosFragment();
-
-            Bundle args = new Bundle();
-            args.putString(Constants.VIDEO_LINK, archiveItem.getVideoURL());
-
-            fragment.setArguments(args);
-
-            //TODO tablet fullscreen video
-            /*fullscreenButton.setVisibility(View.VISIBLE);
-            fullscreenButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    FrameLayout rightFrag = (FrameLayout) findViewById(R.id.rightFrag);
-                    rightFrag.setVisibility(View.GONE);
-                    videoInfo.setVisibility(View.GONE);
-                    DisplayMetrics metrics = new DisplayMetrics(); getWindowManager()
-                            .getDefaultDisplay().getMetrics(metrics);
-                    FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)
-                            mVideoView.getLayoutParams();
-                    params.width =  metrics.widthPixels;
-                    params.height = metrics.heightPixels;
-                    params.leftMargin = 0;
-                    mVideoView.pause();
-                    videoTime = mVideoView.getCurrentPosition();
-                    mVideoView.setLayoutParams(params);
-                    mVideoView.invalidate();
-                    mVideoView.resume();
-                    mVideoView.seekTo(videoTime);
-                    View root = mVideoView.getRootView();
-                    root.setBackgroundColor(getResources().getColor(android.R.color.black));
-                    fullscreenButton.setImageDrawable(getResources()
-                            .getDrawable(R.drawable.ic_media_fullscreen_shrink));
-                }
-            });*/
-
-            fragmentManager.beginTransaction()
-                    .replace(R.id.rightFrag, fragment)
-                    .addToBackStack(null)
-                    .commit();
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setBackgroundDrawable(
+                    new ColorDrawable(Color.parseColor("#000000")));
         }
 
-        screenOrientation();
-
-    }
-
-    public void screenOrientation()
-    {
-        if (findViewById(R.id.rightFrag) == null) {
-            Display getOrient = getWindowManager().getDefaultDisplay();
-            if (getOrient.getWidth() == getOrient.getHeight()) {
-            } else {
-                if (getOrient.getWidth() < getOrient.getHeight()) {
-                    showSystemUI(this);
-                    videoInfo.setVisibility(View.VISIBLE);
-                    mVideoView.getLayoutParams().width = getScreenWidth(getApplicationContext());
-                    View root = mVideoView.getRootView();
-                    root.setBackgroundColor(getResources().getColor(android.R.color.white));
-                } else {
-                    hideSystemUI(this);
-                    videoInfo.setVisibility(View.GONE);
-                    mVideoView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-                    mVideoView.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
-                    View root = mVideoView.getRootView();
-                    root.setBackgroundColor(getResources().getColor(android.R.color.black));
-                }
-            }
-        } else {
-            mVideoView.getLayoutParams().width = (int) (Utils
-                    .getScreenWidth(getApplicationContext()) * 0.68);
-            mVideoView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(archiveItem.getTitle());
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }
 
@@ -295,10 +188,10 @@ public class VideoPlayer extends ActionBarActivity {
         mVideoView.seekTo(loadVideoTimeFromDB(db, archiveItem.getVideoDBID()));
         if(loadVideoTimeFromDB(db, archiveItem.getVideoDBID()) != 0) {
             Toast.makeText(getApplicationContext(),
-                    getString(R.string.resuming_playback),Toast.LENGTH_LONG).show();
+                    getString(R.string.resuming_playback), Toast.LENGTH_LONG).show();
         }
 
-        registerReceiver(noisyAudioReceiver,headphonesListener);
+        registerReceiver(noisyAudioReceiver, headphonesListener);
     }
 
     @Override
@@ -370,5 +263,117 @@ public class VideoPlayer extends ActionBarActivity {
         super.onBackPressed();
         Utils.goBackwardAnimation(this);
         finish();
+    }
+
+    private ArchiveItem getArchiveItem(Bundle b) {
+        return b.getParcelable(ArchiveItem.ARCHIVE_ITEM);
+    }
+
+    private void pause() {
+        mVideoView.pause();
+    }
+
+    @Override
+    public void onSuccessResponse(JSONObject response, RequestType requestType) {
+        SmartLog.log("VideoPlayer response", String.valueOf(response));
+
+        switch (requestType) {
+            case VIDEO_TAGS:
+                videoTagsArray = ResponseFactory.parseVideoTags(response);
+
+                SmartLog.log("videoTagsArray length", String.valueOf(videoTagsArray.size()));
+
+                for(int i = 0; i < videoTagsArray.size(); i++) {
+
+                    LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
+                    View view  = inflater.inflate(R.layout.tag, videoTags, false);
+
+                    TextView tagElement = (TextView) view.findViewById(R.id.tag);
+                    tagElement.setText("#" + videoTagsArray.get(i));
+
+                    /*tagTextElement.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent i = new Intent(c.getApplicationContext(),
+                                    MainActivity.class);
+                            i.putExtra(Constants.BUNDLE_TAG, tagText);
+                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            c.getApplicationContext().startActivity(i);
+                            //a.finish();
+                            Utils.goBackwardAnimation(a);
+                        }
+                    });*/
+
+                    videoTags.addView(view);
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError exception) {
+        Toast.makeText(this, getString(R.string.something_went_wrong),
+                Toast.LENGTH_SHORT).show();
+        SmartLog.log("errorResponse", String.valueOf(exception));
+    }
+
+    private class NoisyAudioStreamReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (AudioManager.ACTION_AUDIO_BECOMING_NOISY.equals(intent.getAction())) {
+                pause();
+            }
+        }
+    }
+
+    public void screenOrientation() {
+        if (findViewById(R.id.rightFrag) == null) {
+            Display getOrient = getWindowManager().getDefaultDisplay();
+            if (getOrient.getWidth() == getOrient.getHeight()) {
+            } else {
+                if (getOrient.getWidth() < getOrient.getHeight()) {
+                    showSystemUI(this);
+                    videoInfo.setVisibility(View.VISIBLE);
+                    mVideoView.getLayoutParams().width = getScreenWidth(getApplicationContext());
+                    View root = mVideoView.getRootView();
+                    root.setBackgroundColor(getResources().getColor(android.R.color.white));
+                } else {
+                    hideSystemUI(this);
+                    videoInfo.setVisibility(View.GONE);
+                    mVideoView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+                    mVideoView.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+                    View root = mVideoView.getRootView();
+                    root.setBackgroundColor(getResources().getColor(android.R.color.black));
+                }
+            }
+        } else {
+            mVideoView.getLayoutParams().width = (int) (Utils
+                    .getScreenWidth(getApplicationContext()) * 0.68);
+            mVideoView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        }
+    }
+
+    private void shareLink() {
+        Intent share = new Intent(android.content.Intent.ACTION_SEND);
+        share.setType("text/plain");
+        share.putExtra(Intent.EXTRA_SUBJECT, archiveItem.getTitle());
+        share.putExtra(Intent.EXTRA_TEXT, archiveItem.getVideoURL());
+        startActivity(Intent.createChooser(share, getString(R.string.action_share)));
+    }
+
+    private int loadVideoTimeFromDB(SQLiteDatabase db, String videoId) {
+        if (ArchiveDBHelper.videoRecordExists(db,videoId)) {
+            SmartLog.log("loadVideoTimeFromDB",
+                    String.valueOf(ArchiveDBHelper.loadVideoTime(db, videoId)));
+            return ArchiveDBHelper.loadVideoTime(db,videoId);
+
+        }
+        else {
+            return 0;
+        }
+    }
+
+    private void saveVideoTimeToDB(SQLiteDatabase db, String videoId, int videoTime) {
+        ArchiveDBHelper.saveVideoTime(db, videoId, videoTime);
     }
 }
