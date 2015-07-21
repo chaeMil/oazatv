@@ -25,7 +25,7 @@ dependencies {
     //compile 'me.neavo:vitamio:4.2.2'
     compile 'com.android.support:support-v4:21.0.0'
     compile 'com.mcxiaoke.volley:library:1.0.6@aar'
-    compile 'com.squareup.picasso:picasso:2.3.4'
+    compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.wefika:flowlayout:0.3.4'
     compile 'com.koushikdutta.ion:ion:2.+'
     compile 'com.google.apis:google-api-services-youtube:v3-rev120-1.19.0'
