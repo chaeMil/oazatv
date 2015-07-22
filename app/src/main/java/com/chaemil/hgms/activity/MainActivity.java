@@ -336,6 +336,15 @@ public class MainActivity extends ActionBarActivity implements RequestFactoryLis
                 menuItems = ResponseFactory.parseMenu(response);
                 menuItemsAdapter = new ArchiveMenuAdapter(this, menuItems);
                 mDrawerList.setAdapter(menuItemsAdapter);
+                mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        selectItem(position,
+                                menuItems.get(position).getType(),
+                                menuItems.get(position).getContent(),
+                                menuItems.get(position).getLabel());
+                    }
+                });
                 break;
         }
     }
@@ -357,7 +366,6 @@ public class MainActivity extends ActionBarActivity implements RequestFactoryLis
         args.putString(Constants.BUNDLE_TITLE, title);
 
 
-
         // Insert the fragment by replacing any existing fragment
 
         boolean isFragment = false;
@@ -367,8 +375,6 @@ public class MainActivity extends ActionBarActivity implements RequestFactoryLis
             isFragment = true;
         }
         else {
-            setActionStatusBarTint(getWindow(),this, Constants.MAIN_ACTIVITY_STATUSBAR_COLOR,
-                    Constants.MAIN_ACTIVITY_STATUSBAR_COLOR);
             if (type.equals(Constants.JSON_MENU_TYPE_HOME_LINK)) {
                 fragment = new HomeFragment();
                 isFragment = true;

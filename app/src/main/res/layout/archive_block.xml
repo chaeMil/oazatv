@@ -27,7 +27,7 @@
             android:layout_width="fill_parent"
             android:layout_height="20sp"
             tools:text="title"
-            android:id="@+id/videoName"
+            android:id="@+id/title"
             android:fontFamily="sans-serif-light"
             android:textSize="15sp"
             android:ellipsize="none"
