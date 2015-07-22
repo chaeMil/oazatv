@@ -148,7 +148,6 @@ public class AudioPlayer extends ActionBarActivity implements OnPreparedListener
         AudioDBHelper helper = new AudioDBHelper(getApplicationContext());
         SQLiteDatabase db = helper.getWritableDatabase();
         saveAudioTime(db,file(),mPlayer.getCurrentPosition());
-        Utils.goBackwardAnimation(this);
         nPanel = new NotificationPanel(this, audioName());
     }
 
@@ -422,7 +421,6 @@ public class AudioPlayer extends ActionBarActivity implements OnPreparedListener
         switch (item.getItemId()) {
             case android.R.id.home:
                 exitPlayer();
-                Utils.goBackwardAnimation(this);
                 return true;
             /*case R.id.show_video:
                 goToVideo();

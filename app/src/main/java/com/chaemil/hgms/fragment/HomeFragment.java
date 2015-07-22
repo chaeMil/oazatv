@@ -87,7 +87,6 @@ public class HomeFragment extends Fragment implements RequestFactoryListener {
                     videoPlayer.putExtra(ArchiveItem.ARCHIVE_ITEM, homePageData.get(position));
 
                     startActivity(videoPlayer);
-                    Utils.goForwardAnimation(getActivity());
                 }
 
                 if (homePageData.get(position).getType().equals(ArchiveItem.TYPE_ALBUM)) {
@@ -95,7 +94,6 @@ public class HomeFragment extends Fragment implements RequestFactoryListener {
                     photoAlbum.putExtra(ArchiveItem.ARCHIVE_ITEM, homePageData.get(position));
 
                     startActivity(photoAlbum);
-                    Utils.goForwardAnimation(getActivity());
                 }
             }
         });

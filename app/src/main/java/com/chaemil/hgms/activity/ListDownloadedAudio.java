@@ -426,10 +426,8 @@ public class ListDownloadedAudio extends ActionBarActivity {
         if(App.isDownloadingAudio) {
             moveTaskToBack(true);
             startActivity(audioPlayer);
-            Utils.goForwardAnimation(activity);
         } else {
             startActivity(audioPlayer);
-            Utils.goForwardAnimation(activity);
             finish();
         }
     }
@@ -437,7 +435,6 @@ public class ListDownloadedAudio extends ActionBarActivity {
     public void goBack() {
         if (!App.isDownloadingAudio) {
             finish();
-            Utils.goBackwardAnimation(this);
 
         } else {
             moveTaskToBack(true);

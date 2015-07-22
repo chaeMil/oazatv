@@ -158,7 +158,6 @@ public class PhotoalbumActivity extends ActionBarActivity implements RequestFact
         switch (id) {
             case android.R.id.home:
                 finish();
-                Utils.goBackwardAnimation(this);
                 return true;
             case R.id.action_share_link:
                 shareLink();
@@ -182,7 +181,6 @@ public class PhotoalbumActivity extends ActionBarActivity implements RequestFact
             setImmersiveFullscreen(false);
         } else {
             super.onBackPressed();
-            Utils.goBackwardAnimation(this);
         }
     }
 

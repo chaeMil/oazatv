@@ -169,7 +169,6 @@ public class MainActivity extends ActionBarActivity implements RequestFactoryLis
                         public void onClick(View view) {
                             Intent i = new Intent(MainActivity.this, ListDownloadedAudio.class);
                             startActivity(i);
-                            Utils.goForwardAnimation(MainActivity.this);
                         }
                     });
                 }
@@ -311,7 +310,6 @@ public class MainActivity extends ActionBarActivity implements RequestFactoryLis
             case R.id.downloadedAudio:
                 Intent i = new Intent(this, ListDownloadedAudio.class);
                 startActivity(i);
-                Utils.goForwardAnimation(this);
             return true;
             case android.R.id.home:
                 if(!mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
@@ -396,7 +394,6 @@ public class MainActivity extends ActionBarActivity implements RequestFactoryLis
                 case Constants.JSON_MENU_TYPE_DOWNLOADED_AUDIO:
                     Intent i = new Intent(this, ListDownloadedAudio.class);
                     startActivity(i);
-                    Utils.goForwardAnimation(this);
                     break;
                 case Constants.JSON_MENU_TYPE_EXIT:
                     finish();

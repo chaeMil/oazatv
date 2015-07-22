@@ -185,7 +185,6 @@ public class LivePlayer extends YouTubeFailureRecoveryActivity implements
         switch(id) {
             case android.R.id.home:
                 finish();
-                Utils.goBackwardAnimation(this);
                 return true;
             case R.id.action_share_link:
                 shareLink();
@@ -208,6 +207,5 @@ public class LivePlayer extends YouTubeFailureRecoveryActivity implements
     @Override
     public void onBackPressed() {
         finish();
-        Utils.goBackwardAnimation(this);
     }
 }

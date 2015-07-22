@@ -233,7 +233,6 @@ public class VideoPlayer extends ActionBarActivity implements RequestFactoryList
         switch(id) {
             case android.R.id.home:
                 finish();
-                Utils.goBackwardAnimation(this);
                 return true;
             case R.id.action_download_audio:
                 if (isDownloadingAudio()) {
@@ -261,7 +260,6 @@ public class VideoPlayer extends ActionBarActivity implements RequestFactoryList
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Utils.goBackwardAnimation(this);
         finish();
     }
 
@@ -299,7 +297,6 @@ public class VideoPlayer extends ActionBarActivity implements RequestFactoryList
                             i.putExtra(Constants.BUNDLE_TAG, tagElement.getText().toString());
                             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             getApplicationContext().startActivity(i);
-                            Utils.goBackwardAnimation(VideoPlayer.this);
                         }
                     });
 
@@ -356,7 +353,7 @@ public class VideoPlayer extends ActionBarActivity implements RequestFactoryList
         Intent share = new Intent(android.content.Intent.ACTION_SEND);
         share.setType("text/plain");
         share.putExtra(Intent.EXTRA_SUBJECT, archiveItem.getTitle());
-        share.putExtra(Intent.EXTRA_TEXT, archiveItem.getVideoURL());
+        share.putExtra(Intent.EXTRA_TEXT, Constants.MAIN_SERVER_VIDEO_LINK_PREFIX + archiveItem.getVideoDBID());
         startActivity(Intent.createChooser(share, getString(R.string.action_share)));
     }
 
