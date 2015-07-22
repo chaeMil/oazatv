@@ -1,8 +1,5 @@
 package com.chaemil.hgms.activity;
 
-
-
-
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -214,10 +211,6 @@ public class AudioPlayer extends ActionBarActivity implements OnPreparedListener
         audioThumb.setImageURI(Uri.parse(audioThumb()));
         audioDate.setText(audioDate());
 
-        /*controller.setMediaPlayer(this);
-        controller.setAnchorView(findViewById(R.id.song_list));
-        controller.setEnabled(true);*/
-
         setController();
 
         mPlayer = new MediaPlayer();
@@ -286,28 +279,6 @@ public class AudioPlayer extends ActionBarActivity implements OnPreparedListener
                 mPlayer.seekTo(mPlayer.getCurrentPosition()-20000);
             }
         });
-    }
-
-    public void goToVideo() {
-        /*new AlertDialog.Builder(this)
-                .setIcon(android.R.drawable.ic_dialog_info)
-                .setTitle(getString(R.string.showOnlineVideo)+"?")
-                .setMessage(getString(R.string.showOnlineVideoLong))
-                .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        exitPlayer();
-                        finish();
-                        Intent VideoLaunch = new Intent(OfflinePlayer.this, VideoLaunch.class);
-                        VideoLaunch.putExtra("videoLink", file().substring(file().lastIndexOf("/")));
-                        OfflinePlayer.this.startActivity(VideoLaunch);
-                        overridePendingTransition(R.anim.slide_in_right, R.anim.fade_out);
-                    }
-
-                })
-                .setNegativeButton(getString(R.string.no), null)
-                .show();*/
     }
 
     private Runnable onEverySecond = new Runnable() {
