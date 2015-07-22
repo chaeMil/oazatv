@@ -296,7 +296,7 @@ public class VideoPlayer extends ActionBarActivity implements RequestFactoryList
                         public void onClick(View view) {
                             Intent i = new Intent(getApplicationContext(),
                                     MainActivity.class);
-                            i.putExtra(Constants.BUNDLE_TAG, tagElement.getText().toString().replace("#", ""));
+                            i.putExtra(Constants.BUNDLE_TAG, tagElement.getText().toString());
                             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             getApplicationContext().startActivity(i);
                             Utils.goBackwardAnimation(VideoPlayer.this);
