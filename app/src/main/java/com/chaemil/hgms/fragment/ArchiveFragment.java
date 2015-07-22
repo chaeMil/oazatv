@@ -3,6 +3,7 @@ package com.chaemil.hgms.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,16 +39,15 @@ public class ArchiveFragment extends Fragment implements RequestFactoryListener 
     private ArrayList<ArchiveItem> archiveData;
     private ArchiveAdapter archiveAdapter;
     private ProgressBar progressBar;
-
-    public ArchiveFragment() {
-    }
-
     private GridView archiveGrid;
+    private FragmentActivity context;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_archive, container, false);
+
+        context = getActivity();
 
         Bundle bundle = this.getArguments();
         link = "";
@@ -86,7 +86,7 @@ public class ArchiveFragment extends Fragment implements RequestFactoryListener 
         switch (requestType) {
             case ARCHIVE:
                 archiveData = ResponseFactory.parseArchive(response);
-                archiveAdapter = new ArchiveAdapter(getActivity(), R.layout.archive_block, archiveData);
+                archiveAdapter = new ArchiveAdapter(context, R.layout.archive_block, archiveData);
                 archiveGrid.setAdapter(archiveAdapter);
                 progressBar.setVisibility(View.GONE);
         }

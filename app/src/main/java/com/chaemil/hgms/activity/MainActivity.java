@@ -265,11 +265,10 @@ public class MainActivity extends ActionBarActivity implements RequestFactoryLis
         String link;
 
         if (query.startsWith("#")) {
-            link = Constants.MAIN_SERVER_JSON+"?page=archive&lang="+ Utils.lang+"&tagy="+query
-                    .replace("#","");
+            link = "&lang=" + Utils.lang + "&tagy=" + query.replace("#","");
         }
         else {
-            link = Constants.MAIN_SERVER_JSON+"?page=archive&lang="+ Utils.lang+"&nazev="+query;
+            link = "&lang=" + Utils.lang + "&nazev=" + query;
         }
 
         SmartLog.log("submitSearch", link);
