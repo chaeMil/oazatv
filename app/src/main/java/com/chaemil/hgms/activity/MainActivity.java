@@ -356,6 +356,7 @@ public class MainActivity extends ActionBarActivity implements RequestFactoryLis
     private void selectItem(int position, String type, String link, String title) {
         // Create a new fragment and specify the planet to show based on position
 
+        getSupportActionBar().show();
 
         Bundle args = new Bundle();
         args.putString(Constants.BUNDLE_LINK, link);
