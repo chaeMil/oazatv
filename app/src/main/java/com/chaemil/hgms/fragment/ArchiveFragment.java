@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ProgressBar;
@@ -45,6 +46,8 @@ public class ArchiveFragment extends Fragment implements RequestFactoryListener 
     private ProgressBar progressBar;
     private GridView archiveGrid;
     private FragmentActivity context;
+    private int myLastVisiblePos;
+    private android.support.v7.app.ActionBar actionBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,6 +78,7 @@ public class ArchiveFragment extends Fragment implements RequestFactoryListener 
     }
 
     private void setupUI() {
+        actionBar = ((MainActivity) getActivity()).getSupportActionBar();
         MainActivity.setActionBarTitle((ActionBarActivity) getActivity(), title);
         archiveGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -92,6 +96,25 @@ public class ArchiveFragment extends Fragment implements RequestFactoryListener 
 
                     startActivity(photoAlbum);
                 }
+            }
+        });
+
+        archiveGrid.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                int currentFirstVisPos = view.getFirstVisiblePosition();
+                if(currentFirstVisPos > myLastVisiblePos) {
+                    actionBar.hide();
+                }
+                if(currentFirstVisPos < myLastVisiblePos) {
+                    actionBar.show();
+                }
+                myLastVisiblePos = currentFirstVisPos;
             }
         });
     }

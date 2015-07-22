@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -31,7 +32,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.chaemil.hgms.R;
 import com.chaemil.hgms.adapters.ArchiveMenuAdapter;
-import com.chaemil.hgms.adapters.HomepageAdapter;
 import com.chaemil.hgms.factory.RequestFactory;
 import com.chaemil.hgms.factory.RequestFactoryListener;
 import com.chaemil.hgms.factory.ResponseFactory;
@@ -51,7 +51,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import at.markushi.ui.CircleButton;
-import static com.chaemil.hgms.utils.Utils.setActionStatusBarTint;
 
 public class MainActivity extends ActionBarActivity implements RequestFactoryListener {
 

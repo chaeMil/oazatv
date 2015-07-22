@@ -77,7 +77,7 @@ public class ArchiveAdapter extends ArrayAdapter<ArchiveItem> {
             Picasso.with(context)
                     .load(archive.get(position).getThumb())
                     .centerCrop()
-                    .resize(800, 800)
+                    .resize(800, 450)
                     .into(holder.image);
         }
         holder.title.setText(archive.get(position).getTitle());

@@ -1,7 +1,6 @@
 package com.chaemil.hgms.fragment;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +8,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.chaemil.hgms.R;
+import com.chaemil.hgms.activity.MainActivity;
 import com.chaemil.hgms.activity.PhotoalbumActivity;
 import com.chaemil.hgms.activity.VideoPlayer;
 import com.chaemil.hgms.adapters.HomepageAdapter;
@@ -47,7 +48,8 @@ public class HomeFragment extends Fragment implements RequestFactoryListener {
     private ArrayList<ArchiveItem> homePageData;
     private HomepageAdapter homePageAdapter;
     private ProgressBar progressBar;
-
+    private int myLastVisiblePos;
+    private android.support.v7.app.ActionBar actionBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -78,6 +80,7 @@ public class HomeFragment extends Fragment implements RequestFactoryListener {
     }
 
     private void setupUI() {
+        actionBar = ((MainActivity) getActivity()).getSupportActionBar();
         homeList.setDivider(new ColorDrawable(getResources().getColor(R.color.white)));
         homeList.setDividerHeight(8);
         homeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -96,6 +99,27 @@ public class HomeFragment extends Fragment implements RequestFactoryListener {
 
                     startActivity(photoAlbum);
                 }
+            }
+        });
+
+        myLastVisiblePos = homeList.getFirstVisiblePosition();
+
+        homeList.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                int currentFirstVisPos = view.getFirstVisiblePosition();
+                if(currentFirstVisPos > myLastVisiblePos) {
+                    actionBar.hide();
+                }
+                if(currentFirstVisPos < myLastVisiblePos) {
+                    actionBar.show();
+                }
+                myLastVisiblePos = currentFirstVisPos;
             }
         });
     }
