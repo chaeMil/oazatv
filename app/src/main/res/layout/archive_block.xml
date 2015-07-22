@@ -26,7 +26,7 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="20sp"
-            tools:text="videoName"
+            tools:text="title"
             android:id="@+id/videoName"
             android:fontFamily="sans-serif-light"
             android:textSize="15sp"
@@ -51,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="240 zhlédnutí"
-                android:id="@+id/videoViews"
+                android:id="@+id/views"
                 android:fontFamily="sans-serif-light"
                 android:textSize="12sp"
                 android:layout_above="@+id/date"
@@ -59,27 +59,6 @@
                 android:layout_weight="1"/>
 
         </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="type"
-            android:visibility="gone"
-            android:id="@+id/type"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="albumId"
-            android:visibility="gone"
-            android:id="@+id/albumId"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="videoURL"
-            android:visibility="gone"
-            android:id="@+id/videoURL"/>
 
     </LinearLayout>
 

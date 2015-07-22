@@ -8,8 +8,8 @@ android {
         applicationId "com.chaemil.hgms"
         minSdkVersion 14
         targetSdkVersion 19
-        versionName "1.2"
-        versionCode 2015011101
+        versionName "1.3"
+        versionCode 2015072201
     }
     buildTypes {
         release {

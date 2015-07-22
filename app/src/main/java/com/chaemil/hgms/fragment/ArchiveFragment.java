@@ -7,28 +7,42 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.TextView;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
-import com.chaemil.hgms.activity.MainActivity;
+import com.android.volley.Request;
+import com.android.volley.VolleyError;
 import com.chaemil.hgms.R;
+import com.chaemil.hgms.activity.MainActivity;
 import com.chaemil.hgms.adapters.ArchiveAdapter;
+import com.chaemil.hgms.factory.RequestFactory;
+import com.chaemil.hgms.factory.RequestFactoryListener;
+import com.chaemil.hgms.factory.ResponseFactory;
+import com.chaemil.hgms.model.ArchiveItem;
+import com.chaemil.hgms.model.RequestType;
+import com.chaemil.hgms.service.MyRequestService;
 import com.chaemil.hgms.utils.Constants;
+import com.chaemil.hgms.utils.SmartLog;
 import com.chaemil.hgms.utils.Utils;
 
-import static com.chaemil.hgms.utils.IntentUtils.startPhotoalbumViewer;
-import static com.chaemil.hgms.utils.IntentUtils.startVideoPlayer;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 
-public class ArchiveFragment extends Fragment {
+public class ArchiveFragment extends Fragment implements RequestFactoryListener {
 
     private String title;
+    private String link;
+    private ArrayList<ArchiveItem> archiveData;
+    private ArchiveAdapter archiveAdapter;
+    private ProgressBar progressBar;
+
     public ArchiveFragment() {
     }
 
     private GridView archiveGrid;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,7 +50,7 @@ public class ArchiveFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_archive, container, false);
 
         Bundle bundle = this.getArguments();
-        String link = "";
+        link = "";
         if (bundle != null) {
             link = bundle.getString(Constants.BUNDLE_LINK);
             title = bundle.getString(Constants.BUNDLE_TITLE);
@@ -44,59 +58,44 @@ public class ArchiveFragment extends Fragment {
 
         Utils.submitStatistics(getActivity().getApplicationContext());
 
-        ArchiveAdapter mArchiveAdapter = new ArchiveAdapter(getActivity(),R.layout.archive_block);
+        getUI(rootView);
+        setupUI();
+        getData();
 
-        archiveGrid = (GridView) rootView.findViewById(R.id.archiveGrid);
-
-        archiveGrid.setAdapter(mArchiveAdapter);
-        archiveGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View v, int i, long l) {
-                TextView typeElement = (TextView) v.findViewById(R.id.type);
-                String type = typeElement.getText().toString();
-                if(type.equals(Constants.JSON_ARCHIVE_TYPE_VIDEO)) {
-                    TextView videoUrlElement = (TextView) v.findViewById(R.id.videoURL);
-                    String videoURL = videoUrlElement.getText().toString();
-                    TextView videoNameElement = (TextView) v.findViewById(R.id.videoName);
-                    String videoName = videoNameElement.getText().toString();
-                    TextView videoDateElement = (TextView) v.findViewById(R.id.videoDate);
-                    String videoDate = videoDateElement.getText().toString();
-                    TextView videoViewsElement = (TextView) v.findViewById(R.id.videoViews);
-                    String videoViews = videoViewsElement.getText().toString();
-                    startVideoPlayer(getView(), videoURL, videoName, videoDate, videoViews);
-                    Utils.goForwardAnimation(getActivity());
-                }
-                else if(type.equals(Constants.JSON_ARCHIVE_TYPE_PHOTOALBUM)) {
-                    TextView albumIdElement = (TextView) v.findViewById(R.id.albumId);
-                    String albumId = albumIdElement.getText().toString();
-                    TextView albumNameElement = (TextView) v.findViewById(R.id.videoName);
-                    String albumName = albumNameElement.getText().toString();
-                    TextView albumDateElement = (TextView) v.findViewById(R.id.videoDate);
-                    String albumDate = albumDateElement.getText().toString();
-                    startPhotoalbumViewer(getView(), albumId, albumName, albumDate);
-                    Utils.goForwardAnimation(getActivity());
-                }
-            }
-        });
-
-
-        MainActivity.setActionBarTitle((ActionBarActivity) getActivity(), title);
         return rootView;
+    }
 
+    private void getData() {
+        Request archiveRequest = RequestFactory.getArchive(this, link);
+        MyRequestService.getRequestQueue().add(archiveRequest);
+    }
 
+    private void setupUI() {
+        MainActivity.setActionBarTitle((ActionBarActivity) getActivity(), title);
+    }
+
+    private void getUI(View rootView) {
+        archiveGrid = (GridView) rootView.findViewById(R.id.archiveGrid);
+        progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        // Set title
-        Bundle bundle = this.getArguments();
-        String title = "";
-        if (bundle != null) {
-            title = bundle.getString(Constants.BUNDLE_TITLE);
+    public void onSuccessResponse(JSONObject response, RequestType requestType) {
+        SmartLog.log("ArchiveFragment response", String.valueOf(response));
+
+        switch (requestType) {
+            case ARCHIVE:
+                archiveData = ResponseFactory.parseArchive(response);
+                archiveAdapter = new ArchiveAdapter(getActivity(), R.layout.archive_block, archiveData);
+                archiveGrid.setAdapter(archiveAdapter);
+                progressBar.setVisibility(View.GONE);
         }
-        //getActivity().setTitle(title);
     }
 
-
+    @Override
+    public void onErrorResponse(VolleyError exception) {
+        Toast.makeText(getActivity(), getString(R.string.something_went_wrong),
+                Toast.LENGTH_SHORT).show();
+        SmartLog.log("errorResponse", String.valueOf(exception));
+    }
 }

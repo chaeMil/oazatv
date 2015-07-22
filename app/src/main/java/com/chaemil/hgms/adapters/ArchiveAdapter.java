@@ -11,68 +11,78 @@ import android.widget.TextView;
 
 import com.chaemil.hgms.R;
 import com.chaemil.hgms.model.ArchiveItem;
+import com.chaemil.hgms.model.Photo;
 import com.chaemil.hgms.utils.Constants;
 import com.chaemil.hgms.utils.Utils;
+import com.chaemil.hgms.view.SquareImageView;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by chaemil on 17.9.14.
  */
 public class ArchiveAdapter extends ArrayAdapter<ArchiveItem> {
+    private final ArrayList<ArchiveItem> archive;
     private int layout;
+    private Context context;
 
-    public ArchiveAdapter(Context context, int layout) {
+    public ArchiveAdapter(Context context, int layout, ArrayList<ArchiveItem> archive) {
         super(context, layout);
         this.layout = layout;
+        this.archive = archive;
+        this.context = context;
     }
 
-    public void swapImageRecords(List<ArchiveItem> objects) {
-        clear();
+    public int getCount() {
+        return archive.size();
+    }
 
-        for(ArchiveItem object : objects) {
-            add(object);
-        }
+    public ArchiveItem getItem(int position) {
+        return archive.get(position);
+    }
 
-        notifyDataSetChanged();
+    public long getItemId(int position) {
+        return position;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent){
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder holder;
 
-        if(convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(layout, parent, false);
+        if (convertView == null) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(layout, parent, false);
+            holder = new ViewHolder();
+            holder.image = (ImageView) convertView.findViewById(R.id.thumb);
+            holder.views = (TextView) convertView.findViewById(R.id.views);
+            holder.title = (TextView) convertView.findViewById(R.id.title);
+            holder.date = (TextView) convertView.findViewById(R.id.date);
+
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
-        ImageView background = null;
-        /*if(convertView.findViewById(R.id.background) != null) {
-            background = (ImageView) convertView.findViewById(R.id.background);
-        }
-        ImageView videoThumb = (ImageView) convertView.findViewById(R.id.thumb);
-        final TextView videoName = (TextView) convertView.findViewById(R.id.videoName);
-        TextView videoDate = (TextView) convertView.findViewById(R.id.videoDate);
-        TextView videoURL = (TextView) convertView.findViewById(R.id.videoURL);
-        TextView videoViews = (TextView) convertView.findViewById(R.id.videoViews);
-        TextView albumId = (TextView) convertView.findViewById(R.id.albumId);
-        TextView type = (TextView) convertView.findViewById(R.id.type);
 
-        ArchiveItem rec = getItem(position);
-
-        if(convertView.findViewById(R.id.background) != null) {
-            Picasso.with(getContext()).load(rec.getThumbBlur()).into(background);
-        }
-        Picasso.with(getContext()).load(rec.getThumb()).into(videoThumb);
-
-        videoName.setText(Utils.getStringWithRegularCustomFont(getContext(),
-                rec.getTitle(), Constants.FONT_BOLD_UPRIGHT));
-        videoDate.setText(Utils.getStringWithRegularCustomFont(getContext(),
-                rec.getDate(), Constants.FONT_REGULAR_UPRIGHT));
-        videoURL.setText(rec.getVideoUrl());
-        videoViews.setText(Utils.getStringWithRegularCustomFont(getContext(),
-                rec.getVideoViews(), Constants.FONT_REGULAR_UPRIGHT));
-        albumId.setText(rec.getAlbumId());
-        type.setText(rec.getType());*/
+        Picasso.with(context)
+                .load(archive.get(position).getThumb())
+                .resize(800, 480)
+                .centerCrop()
+                .into(holder.image);
+        holder.title.setText(archive.get(position).getTitle());
+        holder.date.setText(archive.get(position).getDate());
+        holder.views.setText(archive.get(position).getVideoViews());
 
         return convertView;
+    }
+
+    static class ViewHolder {
+        ImageView image;
+        TextView views;
+        TextView title;
+        TextView date;
     }
 }
