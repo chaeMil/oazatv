@@ -375,31 +375,34 @@ public class MainActivity extends ActionBarActivity implements RequestFactoryLis
             isFragment = true;
         }
         else {
-            if (type.equals(Constants.JSON_MENU_TYPE_HOME_LINK)) {
-                fragment = new HomeFragment();
-                isFragment = true;
-            } else if (type.equals(Constants.JSON_MENU_TYPE_ARCHIVE_LINK)) {
-                fragment = new ArchiveFragment();
-                isFragment = true;
-            } else if (type.equals(Constants.JSON_MENU_TYPE_REPORT_BUG)) {
-                fragment = new WebViewFragment();
-                args.putString(Constants.BUNDLE_LINK, Constants.REPORT_BUG_URL);
-                isFragment = true;
-            } else if (type.equals(Constants.JSON_MENU_TYPE_ABOUT_APP)) {
-                fragment = new WebViewFragment();
-                args.putString(Constants.BUNDLE_LINK, Constants.ABOUT_APP_URL);
-                isFragment = true;
-            } else if (type.equals(Constants.JSON_MENU_TYPE_DOWNLOADED_AUDIO)) {
-                Intent i = new Intent(this, ListDownloadedAudio.class);
-                startActivity(i);
-                Utils.goForwardAnimation(this);
-            } else if (type.equals(Constants.JSON_MENU_TYPE_EXIT)) {
-                finish();
-            } /*else if (type.equals(Constants.JSON_MENU_TYPE_LIVE_PLAYER)) {
-
-
-
-            }*/
+            switch (type) {
+                case Constants.JSON_MENU_TYPE_HOME_LINK:
+                    fragment = new HomeFragment();
+                    isFragment = true;
+                    break;
+                case Constants.JSON_MENU_TYPE_ARCHIVE_LINK:
+                    fragment = new ArchiveFragment();
+                    isFragment = true;
+                    break;
+                case Constants.JSON_MENU_TYPE_REPORT_BUG:
+                    fragment = new WebViewFragment();
+                    args.putString(Constants.BUNDLE_LINK, Constants.REPORT_BUG_URL);
+                    isFragment = true;
+                    break;
+                case Constants.JSON_MENU_TYPE_ABOUT_APP:
+                    fragment = new WebViewFragment();
+                    args.putString(Constants.BUNDLE_LINK, Constants.ABOUT_APP_URL);
+                    isFragment = true;
+                    break;
+                case Constants.JSON_MENU_TYPE_DOWNLOADED_AUDIO:
+                    Intent i = new Intent(this, ListDownloadedAudio.class);
+                    startActivity(i);
+                    Utils.goForwardAnimation(this);
+                    break;
+                case Constants.JSON_MENU_TYPE_EXIT:
+                    finish();
+                    break;
+            }
         }
 
 
