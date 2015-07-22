@@ -479,6 +479,7 @@ public class MainActivity extends ActionBarActivity implements RequestFactoryLis
         if(mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
             mDrawerLayout.closeDrawer(Gravity.LEFT);
         } else {
+            getSupportActionBar().show();
             super.onBackPressed();
         }
     }
