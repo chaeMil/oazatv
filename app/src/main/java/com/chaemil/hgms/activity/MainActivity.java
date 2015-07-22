@@ -149,8 +149,9 @@ public class MainActivity extends ActionBarActivity implements RequestFactoryLis
                 //getActionBar().setTitle(mDrawerTitle);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
 
-                CircleButton liveBroadcastButton = (CircleButton)
-                        findViewById(R.id.liveBroadcastButton);
+                getSupportActionBar().show();
+
+                CircleButton liveBroadcastButton = (CircleButton) findViewById(R.id.liveBroadcastButton);
                 if (liveBroadcastButton != null) {
                     liveBroadcastButton.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -160,8 +161,7 @@ public class MainActivity extends ActionBarActivity implements RequestFactoryLis
                     });
                 }
 
-                CircleButton downloadedAudioButton = (CircleButton)
-                        findViewById(R.id.downloadedAudioButton);
+                CircleButton downloadedAudioButton = (CircleButton) findViewById(R.id.downloadedAudioButton);
                 if (downloadedAudioButton != null) {
                     downloadedAudioButton.setOnClickListener(new View.OnClickListener() {
                         @Override
