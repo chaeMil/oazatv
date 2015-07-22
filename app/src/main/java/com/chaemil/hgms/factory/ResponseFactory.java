@@ -130,4 +130,23 @@ public class ResponseFactory {
 
         return photos;
     }
+
+    public static ArrayList<ArchiveItem> parseArchive(JSONObject jsonObject) {
+        ArrayList<ArchiveItem> archive = new ArrayList<>();
+
+        try {
+            JSONArray jsonArchiveArray = jsonObject.getJSONArray(Constants.JSON_ARCHIVE);
+
+            for(int i = 0; i < jsonArchiveArray.length(); i++) {
+                JSONObject jsonItem = jsonArchiveArray.getJSONObject(i);
+                ArchiveItem archiveItem = parseArchiveItem(jsonItem);
+
+                archive.add(archiveItem);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return archive;
+    }
 }

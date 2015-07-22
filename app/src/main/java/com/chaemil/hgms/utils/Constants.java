@@ -16,6 +16,7 @@ public class Constants {
     public static final String MAIN_SERVER_JSON_HOMEPAGE = MAIN_SERVER_JSON + "?page=home";
     public static final String MAIN_SERVER_JSON_VIDEO_TAGS = MAIN_SERVER_JSON + "?page=videoTags&video=";
     public static final String MAIN_SERVER_JSON_PHOTOALBUM_PHOTOS = MAIN_SERVER_JSON+"?page=photoalbum&albumId=";
+    public static final String MAIN_SERVER_JSON_ARCHIVE = MAIN_SERVER_JSON + "?page=archive";
     public static final String JSON_LANG = "&lang=";
 
     public static final String VIDEO_LINK = "videoLink";
@@ -44,6 +45,7 @@ public class Constants {
     public static final String JSON_MENU_TYPE_REPORT_BUG = "reportBug";
     public static final String JSON_MENU_TYPE_ABOUT_APP = "aboutApp";
 
+    public static final String JSON_ARCHIVE = "archive";
     public static final String JSON_ARCHIVE_TITLE = "title";
     public static final String JSON_ARCHIVE_DATE = "date";
     public static final String JSON_ARCHIVE_TYPE = "type";
@@ -94,6 +96,4 @@ public class Constants {
 
     public static final String REPORT_BUG_URL = MAIN_SERVER + "?page=bug-report&source=app";
     public static final String ABOUT_APP_URL = MAIN_SERVER + "?page=about-app&source=app";
-
-
 }

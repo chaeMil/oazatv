@@ -65,72 +65,17 @@ public class RequestFactory {
         return request;
     }
 
-    /*public static void fetchArchive(final Context c, String url,
-                                    final ArchiveAdapter adapter, final String jsonArray) {
-        JsonObjectRequest request = new JsonObjectRequest(
-                url,
-                null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject jsonObject) {
-                        try {
-                            List<ArchiveItem> archiveItems = parseArchive(jsonObject, jsonArray);
+    public static Request getArchive(RequestFactoryListener listener, String query) {
+        String url = Constants.MAIN_SERVER_JSON_ARCHIVE + query;
 
-                            adapter.swapImageRecords(archiveItems);
+        SmartLog.log("getArchive()", "url: " + url);
 
-                        }
-                        catch(JSONException e) {
-                            Toast.makeText(c.getApplicationContext(),
-                                    "Unable to parse data: " + e.getMessage(),
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                createMyReqSuccessListener(listener, RequestType.ARCHIVE),
+                createMyReqErrorListener(listener));
 
-                        Toast.makeText(c.getApplicationContext(),
-                                c.getResources().getString(R.string.connection_problem),
-                                Toast.LENGTH_LONG).show();
-                    }
-                });
-
-        VolleyApplication.getInstance().getRequestQueue().add(request);
+        return request;
     }
-
-    public static void fetchPhotoalbum(final Context c, final PhotoalbumAdapter adapter,
-                                       String albumId) {
-        JsonObjectRequest request = new JsonObjectRequest(
-                Constants.MAIN_SERVER_JSON+"?page=photoalbum&albumId="+albumId+"&lang="+Utils.lang,
-                null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject jsonObject) {
-                        try {
-                            List<Photo> photos = parsePhotoalbum(jsonObject);
-
-                            adapter.swapImageRecords(photos);
-
-                        }
-                        catch(JSONException e) {
-                            Toast.makeText(c.getApplicationContext(), "Unable to parse data: "
-                                    + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-
-                        Toast.makeText(c.getApplicationContext(),
-                                c.getResources().getString(R.string.connection_problem),
-                                Toast.LENGTH_LONG).show();
-                    }
-                });
-
-        VolleyApplication.getInstance().getRequestQueue().add(request);
-    }*/
 
     private static Response.Listener<JSONObject> createMyReqSuccessListener(
             final RequestFactoryListener listener, final RequestType requestType) {
