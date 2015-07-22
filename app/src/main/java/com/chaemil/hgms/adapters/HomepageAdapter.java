@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.chaemil.hgms.R;
 import com.chaemil.hgms.model.ArchiveItem;
+import com.chaemil.hgms.view.ThumbImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -69,7 +70,7 @@ public class HomepageAdapter extends ArrayAdapter<ArchiveItem> {
 
             holder.title = (TextView) convertView.findViewById(R.id.title);
             holder.date = (TextView) convertView.findViewById(R.id.date);
-            holder.thumb = (ImageView) convertView.findViewById(R.id.thumb);
+            holder.thumb = (ThumbImageView) convertView.findViewById(R.id.thumb);
             holder.thumbBlur = (ImageView) convertView.findViewById(R.id.thumbBlur);
             holder.playCount = (TextView) convertView.findViewById(R.id.views);
 
@@ -109,7 +110,7 @@ public class HomepageAdapter extends ArrayAdapter<ArchiveItem> {
         TextView title;
         TextView date;
         TextView playCount;
-        ImageView thumb;
+        ThumbImageView thumb;
         ImageView thumbBlur;
     }
 }

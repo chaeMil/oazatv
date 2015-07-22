@@ -6,9 +6,9 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
+    <com.chaemil.hgms.view.ThumbImageView
         android:layout_width="160dp"
-        android:layout_height="90dp"
+        android:layout_height="0dp"
         android:scaleType="centerCrop"
         tools:src="@drawable/ic_launcher"
         android:id="@+id/thumb"

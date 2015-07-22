@@ -13,31 +13,24 @@
         android:scaleType="centerCrop" />
 
     <RelativeLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:padding="4.0dip"
         android:layout_gravity="center_horizontal">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp">
+            android:layout_margin="16dp">
 
-            <ImageView
+            <com.chaemil.hgms.view.ThumbImageView
                 android:id="@id/thumb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="false"
-                android:layout_centerInParent="true"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
                 android:adjustViewBounds="true"
                 android:background="#ffe5e5e5"
-                android:maxWidth="450.0dip"
-                android:minHeight="250.0dip"
-                android:minWidth="150.0dip"
                 android:scaleType="centerCrop" />
 
             <LinearLayout
@@ -45,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:background="#2e000000"
                 android:orientation="vertical"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="16dp">
 
                 <TextView
                     android:id="@+id/title"

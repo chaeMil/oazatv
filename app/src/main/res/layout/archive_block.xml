@@ -9,9 +9,9 @@
     android:theme="@android:style/Widget.PopupWindow"
     android:background="@drawable/drop_shadow">
 
-    <ImageView
+    <com.chaemil.hgms.view.ThumbImageView
         android:layout_width="fill_parent"
-        android:layout_height="180dp"
+        android:layout_height="0dp"
         android:scaleType="centerCrop"
         tools:src="@drawable/ic_launcher"
         android:id="@+id/thumb"

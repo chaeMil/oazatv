@@ -15,6 +15,7 @@ import com.chaemil.hgms.model.Photo;
 import com.chaemil.hgms.utils.Constants;
 import com.chaemil.hgms.utils.Utils;
 import com.chaemil.hgms.view.SquareImageView;
+import com.chaemil.hgms.view.ThumbImageView;
 import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
@@ -57,7 +58,7 @@ public class ArchiveAdapter extends ArrayAdapter<ArchiveItem> {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(layout, parent, false);
             holder = new ViewHolder();
-            holder.image = (ImageView) convertView.findViewById(R.id.thumb);
+            holder.image = (ThumbImageView) convertView.findViewById(R.id.thumb);
             holder.views = (TextView) convertView.findViewById(R.id.views);
             holder.title = (TextView) convertView.findViewById(R.id.title);
             holder.date = (TextView) convertView.findViewById(R.id.date);
@@ -80,7 +81,7 @@ public class ArchiveAdapter extends ArrayAdapter<ArchiveItem> {
     }
 
     static class ViewHolder {
-        ImageView image;
+        ThumbImageView image;
         TextView views;
         TextView title;
         TextView date;

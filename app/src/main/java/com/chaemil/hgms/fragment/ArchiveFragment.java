@@ -1,6 +1,7 @@
 package com.chaemil.hgms.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -8,6 +9,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -16,6 +18,8 @@ import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.chaemil.hgms.R;
 import com.chaemil.hgms.activity.MainActivity;
+import com.chaemil.hgms.activity.PhotoalbumActivity;
+import com.chaemil.hgms.activity.VideoPlayer;
 import com.chaemil.hgms.adapters.ArchiveAdapter;
 import com.chaemil.hgms.factory.RequestFactory;
 import com.chaemil.hgms.factory.RequestFactoryListener;
@@ -72,6 +76,24 @@ public class ArchiveFragment extends Fragment implements RequestFactoryListener 
 
     private void setupUI() {
         MainActivity.setActionBarTitle((ActionBarActivity) getActivity(), title);
+        archiveGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (archiveData.get(position).getType().equals(ArchiveItem.TYPE_VIDEO)) {
+                    Intent videoPlayer = new Intent(getActivity(), VideoPlayer.class);
+                    videoPlayer.putExtra(ArchiveItem.ARCHIVE_ITEM, archiveData.get(position));
+
+                    startActivity(videoPlayer);
+                }
+
+                if (archiveData.get(position).getType().equals(ArchiveItem.TYPE_ALBUM)) {
+                    Intent photoAlbum = new Intent(getActivity(), PhotoalbumActivity.class);
+                    photoAlbum.putExtra(ArchiveItem.ARCHIVE_ITEM, archiveData.get(position));
+
+                    startActivity(photoAlbum);
+                }
+            }
+        });
     }
 
     private void getUI(View rootView) {
