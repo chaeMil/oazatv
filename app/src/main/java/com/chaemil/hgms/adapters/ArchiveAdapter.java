@@ -68,11 +68,18 @@ public class ArchiveAdapter extends ArrayAdapter<ArchiveItem> {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Picasso.with(context)
-                .load(archive.get(position).getThumb())
-                .resize(800, 480)
-                .centerCrop()
-                .into(holder.image);
+        if (getItem(position).getType().equals(ArchiveItem.TYPE_VIDEO)) {
+            Picasso.with(context)
+                    .load(archive.get(position).getThumb())
+                    .fit()
+                    .into(holder.image);
+        } else {
+            Picasso.with(context)
+                    .load(archive.get(position).getThumb())
+                    .centerCrop()
+                    .resize(800, 800)
+                    .into(holder.image);
+        }
         holder.title.setText(archive.get(position).getTitle());
         holder.date.setText(archive.get(position).getDate());
         holder.views.setText(archive.get(position).getVideoViews());
