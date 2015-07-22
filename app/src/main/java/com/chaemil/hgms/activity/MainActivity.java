@@ -339,7 +339,7 @@ public class MainActivity extends ActionBarActivity implements RequestFactoryLis
                         selectItem(position,
                                 menuItems.get(position).getType(),
                                 menuItems.get(position).getContent(),
-                                menuItems.get(position).getLabel());
+                                menuItems.get(position).getTitleToShow());
                     }
                 });
                 break;
