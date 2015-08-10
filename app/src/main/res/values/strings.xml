@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string translateble="false" name="app_name">Oáza.tv</string>
-    <string translateble="false" name="app_version">1.3</string>
+    <string translateble="false" name="app_name" translatable="false">Oáza.tv</string>
+    <string translateble="false" name="app_version" translatable="false">1.3</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="mainPage">Hlavní strana</string>
